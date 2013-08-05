@@ -1,11 +1,11 @@
 Type=Exe
-Reference=*\G{0E59F1D2-1FBE-11D0-8FF2-00A0D10038BC}#1.0#0#..\..\..\..\..\..\Windows\system32\msscript.ocx#Microsoft Script Control 1.0
+Reference=*\G{0E59F1D2-1FBE-11D0-8FF2-00A0D10038BC}#1.0#0#..\..\..\..\..\..\Windows\SysWOW64\msscript.ocx#Microsoft Script Control 1.0
 Object={665BF2B8-F41F-4EF4-A8D0-303FBFFC475E}#2.0#0; cmcs21.ocx
-Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\..\Windows\system32\stdole2.tlb#OLE Automation
-Reference=*\G{A266F5D8-8C2D-46D9-A369-81AE1271F31E}#1.0#0#..\..\..\..\..\..\Windows\system32\COMSocketServer.dll#JetByte Socket Server 1.0 Type Library
-Object={248DD890-BB45-11CF-9ABC-0080C7E7B78D}#1.0#0; mswinsck.ocx
+Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\..\Windows\SysWOW64\stdole2.tlb#OLE Automation
+Reference=*\G{A266F5D8-8C2D-46D9-A369-81AE1271F31E}#1.0#0#..\..\..\..\..\..\Windows\SysWow64\COMSocketServer.dll#JetByte Socket Server 1.0 Type Library
+Object={248DD890-BB45-11CF-9ABC-0080C7E7B78D}#1.0#0; Mswinsck.ocx
 Object={BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0; tabctl32.ocx
-Object={831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0; MSCOMCTL.OCX
+Object={831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0; MSCOMCT3N.OCX
 Form=Source\frmServer.frm
 Module=modDatabase; Source\modDatabase.bas
 Module=modTypes; Source\modTypes.bas

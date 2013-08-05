@@ -619,8 +619,8 @@ Sub LoadClasses()
         ClassData(i).y = Val(GetVar(filename, "CLASS", "Y"))
         ClassData(i).Locked = Val(GetVar(filename, "CLASS", "Locked"))
         ClassData(i).Gender = Val(GetVar(filename, "CLASS", "Gender"))
-        ClassData(i).Gender1 = GetVar(filename, "CLASS", "Gender1", "Gender1")
-        ClassData(i).Gender2 = GetVar(filename, "CLASS", "Gender2", "Gender2")
+        ClassData(i).Gender1 = GetVar(filename, "CLASS", "Gender1")
+        ClassData(i).Gender2 = GetVar(filename, "CLASS", "Gender2")
     Next i
     Exit Sub
 

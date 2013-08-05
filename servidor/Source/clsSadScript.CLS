@@ -26,6 +26,7 @@ Private sSubs()                 As String
 Private sFunctions()            As String
 Public p_colSubs                As Collection
 Public p_colFuncs               As Collection
+Public p_colClasses               As Collection
 
 ' Reads code into memory and initalizes global settings.
 Public Function ReadInCode(sFile As String, sModTitle As String, msc As ScriptControl)
@@ -92,12 +93,14 @@ Public Function ReadInCode(sFile As String, sModTitle As String, msc As ScriptCo
     ReDim Preserve sAllCode(UBound(sAllCode) - 1)
 
     ' Split string into collection.
+    GetClasses sAllCode
     GetSubs sAllCode
     GetFunctions sAllCode
 
     ' Put collection into the script control.
     msc.Modules.Add sModTitle
     AddGlobalsToCode msc, sModTitle
+    AddClassesToCode msc, sModTitle
     AddSubsToCode msc, sModTitle
     AddFuncsToCode msc, sModTitle
 End Function
@@ -154,6 +157,49 @@ Private Sub AddGlobalsToCode(mscControl As ScriptControl, sModName As String)
         mscControl.Modules(sModName).AddCode sGlobals(iCount)
     Next
 End Sub
+
+Private Function GetClasses(sCode() As String)
+    Dim iCount As Integer
+    Dim iTemp As Integer
+    Dim sTitle As String
+    Dim sClass As String
+    
+    Set p_colClasses = New Collection
+
+    For iCount = 0 To UBound(sCode)
+        sClass = vbNullString
+
+        If LCase$(Left$(sCode(iCount), 6)) = "class " Then
+            For iTemp = 7 To Len(sCode(iCount))
+                If Mid$(sCode(iCount), iTemp, 1) = "" Then
+                    sTitle = Mid$(sCode(iCount), 7, iTemp - 7)
+                    Exit For
+                End If
+            Next
+
+            Do Until LCase$(sCode(iCount)) = "end class"
+                sClass = sClass & sCode(iCount) & vbNewLine
+                iCount = iCount + 1
+            Loop
+
+            sClass = sClass & sCode(iCount)
+            On Error Resume Next
+            
+            p_colClasses.Add sClass, sTitle
+            Err.Clear
+        End If
+    Next
+End Function
+
+Private Function AddClassesToCode(mscControl As ScriptControl, sModName As String)
+    Dim iCount As Integer
+
+    On Error Resume Next
+
+    For iCount = 1 To p_colClasses.Count
+        mscControl.Modules(sModName).AddCode p_colClasses(iCount)
+    Next
+End Function
 
 Private Function GetSubs(sCode() As String)
     Dim iCount As Integer
