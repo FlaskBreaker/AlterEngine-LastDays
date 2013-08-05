@@ -1,0 +1,577 @@
+' AlterEngine Reborn v1.8 - Main
+' Main basado en Eclipse Source v2.7 - Todos los derechos reservados
+' Touch of Death Productions & AlterEngine Team
+' www.AlterEngine.net
+
+' Variables Globales
+Public GameName
+Public MAX_MAPS
+Public MOTD
+
+' Constantes de Color
+Public Const BLACK = 0
+Public Const BLUE = 1
+Public Const GREEN = 2
+Public Const CYAN = 3
+Public Const RED = 4
+Public Const MAGENTA = 5
+Public Const BROWN = 6
+Public Const GREY = 7
+Public Const DARKGREY = 8
+Public Const BRIGHTBLUE = 9
+Public Const BRIGHTGREEN = 10
+Public Const BRIGHTCYAN = 11
+Public Const BRIGHTRED = 12
+Public Const PINK = 13
+Public Const YELLOW = 14
+Public Const WHITE = 15
+
+' Constantes de Admin
+Public Const ADMIN_MONITER = 1
+Public Const ADMIN_MAPPER = 2
+Public Const ADMIN_DEVELOPER = 3
+Public Const ADMIN_CREATOR = 4
+
+
+' Aquí lo que se ejecuta cuando el servidor se inicia.
+Sub OnServerLoad()
+	GameName = GetVar("Configuracion.ini", "CONFIG", "GameName")
+	MAX_MAPS = GetVar("Configuracion.ini", "MAX", "MAX_MAPS")
+	MOTD = GetVar("MOTD.ini", "MOTD", "Msg")
+End Sub
+
+' Aquí lo que se ejecuta cuando se recargan los scripts.
+Sub OnScriptReload()
+	GameName = GetVar("Configuracion.ini", "CONFIG", "GameName")
+	MAX_MAPS = GetVar("Configuracion.ini", "MAX", "MAX_MAPS")
+	MOTD = GetVar("MOTD.ini", "MOTD", "Msg")
+End Sub
+
+' Ejecuta el MOTD
+Sub ChangeMOTD()
+	MOTD = GetVar("MOTD.ini", "MOTD", "Msg")
+End Sub
+
+' Aquí lo que se ejecuta al crear un nuevo personaje.
+Sub OnNewChar(Index, CharNum)
+
+End Sub
+
+' Se ejecuta cada segundo, dependiendo del tiempo del servidor.
+Sub TimedEvent(Hours, Minutes, Seconds)
+	If Minutes = 0 Then
+		If Seconds = 0 Then
+			Call AdminMsg("Crea tus propios MMORPG 2D con AlterEngine - www.alterengine.net", YELLOW)
+		End If
+	End If
+End Sub
+
+' Aquí lo que se ejecuta cuando el jugador presiona la tecla CONTROL
+Sub OnAttack(Index, Damage)
+	Dim Target
+
+	If Int(Damage) > 0 Then
+		If Int(GetPlayerTarget(Index)) > 0 Then
+			Target = GetPlayerTarget(Index)
+			Call DamagePlayer(Index, Target, Damage)
+		Else
+			Target = GetPlayerTargetNpc(Index)
+			Call DamageNPC(Index, Target, Damage)
+		End If
+	End If
+	
+End Sub
+
+Sub OnArrowHit(Index, Damage)
+	Dim Target
+
+	If Int(Damage) > 0 Then
+		If Int(GetPlayerTarget(Index)) > 0 Then
+			Target = GetPlayerTarget(Index)
+			Call DamagePlayer(Index, Target, Damage)
+		Else
+			Target = GetPlayerTargetNpc(Index)
+			Call DamageNPC(Index, Target, Damage)
+		End If
+	End If
+End Sub
+
+Sub PlayerHit(Index, NPCNum, Damage)
+	If Damage > 0 Then
+		Call NPCAttack(NPCNum, Index, Damage)
+	End If
+End Sub
+
+' Aquí se ejecuta cuando el cliente presiona diferentes teclas.
+Sub HotScript(Index, KeyID)
+	Select Case KeyID
+		' Tecla PaginaArriba
+		Case 1
+
+		' Tecla Suprimir
+		Case 2
+
+		' Tecla Fin
+		Case 3
+
+		' Tecla PaginaAbajo
+		Case 4
+	End Select
+End Sub
+
+' Se ejecuta cuando un custom menu es clickeado.
+Sub MenuScripts(Index, Clicked_Index, Menu_Type)
+	Dim MenuTitle
+	Dim FieldMessage
+
+	MenuTitle = GetPlayerMenuClickTitle(Index)
+	FieldMessage = GetPlayerMenuClickMsg(Index)
+
+	Select Case Menu_Type
+		Case 1
+
+		Case 2
+
+		Case 3
+
+
+If menu_title = "21" Then
+If Clicked_Index = 1 Then
+Call CustomMenuClose(index)
+End If
+End If
+	End Select
+End Sub
+
+' Aquí lo que se ejecuta cuando el jugador entra al juego.
+Sub JoinGame(Index)
+	If GetPlayerAccess(Index) = 0 Then
+		Call GlobalMsg(GetPlayerName(Index) & " ha entrado en " & GameName & "!", GREY)
+	Else
+		Call GlobalMsg("El Administrador " & GetPlayerName(Index) & " ha entrado en " & GameName & "!", YELLOW)
+	End If
+
+	Call PlayerMsg(Index, "Bienvenido a " & GameName & "!", WHITE)
+
+	If LenB(MOTD) <> 0 Then
+		Call PlayerMsg(Index, "MOTD: " & MOTD, BRIGHTCYAN)
+	End If
+
+	Call SendWhosOnline(Index)
+End Sub
+
+
+' Aquí lo que se ejecuta cuando el jugador sale del juego.
+Sub LeftGame(Index)
+	If GetPlayerAccess(Index) = 0 Then
+		Call GlobalMsg(GetPlayerName(Index) & " ha salido de " & GameName & "!", GREY)
+	Else
+		Call GlobalMsg("El Administrador " & GetPlayerName(Index) & " ha salido de " & GameName & "!", YELLOW)
+	End If
+End Sub
+
+' Aquí lo que se ejecuta cuando el jugador sube de nivel.
+Sub PlayerLevelUp(Index)
+	Dim TotalExp
+
+	Do While GetPlayerExp(Index) >= GetPlayerNextLevel(Index)
+		TotalExp = GetPlayerExp(Index) - GetPlayerNextLevel(Index)
+		Call SetPlayerLevel(Index, GetPlayerLevel(Index) + 1)
+
+		Call SetPlayerPOINTS(Index, GetPlayerPOINTS(Index) + 1)
+		Call SetPlayerExp(Index, TotalExp)
+	Loop
+
+	Call BattleMsg(Index, "Tienes " & GetPlayerPOINTS(Index) & " puntos de estado.", BRIGHTBLUE, 0)
+End Sub
+
+' Aquí las funciones relativas a cuando el jugador usa los puntos de estado.
+Sub UsingStatPoints(Index, PointType)
+	Select Case PointType
+		Case 0
+			If GetPlayerSTR(Index) + 1 > 1000 Then
+				Call BattleMsg(Index, "Tienes el maximo de tu fuerza!", BRIGHTRED, 0)
+				Exit Sub
+			End If
+			Call SetPlayerSTR(Index, GetPlayerSTR(Index) + 1)
+			Call BattleMsg(Index, "Has ganado más fuerza!", WHITE, 0)
+
+		Case 1
+			If GetPlayerDEF(Index) + 1 > 1000 Then
+				Call BattleMsg(Index, "Tienes el maximo de tu defensa!", BRIGHTRED, 0)
+				Exit Sub
+			End If
+			Call SetPlayerDEF(Index, GetPlayerDEF(Index) + 1)
+			Call BattleMsg(Index, "Has ganado más defensa!", WHITE, 0)
+
+		Case 2
+			If GetPlayerMAGI(Index) + 1 > 1000 Then
+				Call BattleMsg(Index, "Tienes el maximo de tu magia!", BRIGHTRED, 0)
+				Exit Sub
+			End If
+			Call SetPlayerMAGI(Index, GetPlayerMAGI(Index) + 1)
+			Call BattleMsg(Index, "Has ganado más magia!", WHITE, 0)
+
+		Case 3
+			If GetPlayerSPEED(Index) + 1 > 1000 Then
+				Call BattleMsg(Index, "Tienes el maximo de velocidad!", BRIGHTRED, 0)
+				Exit Sub
+			End If
+			Call SetPlayerSPEED(Index, GetPlayerSPEED(Index) + 1)
+			Call BattleMsg(Index, "Has ganado más velocidad!", WHITE, 0)
+	End Select
+
+
+	Call SetPlayerPOINTS(Index, GetPlayerPOINTS(Index) - 1)
+End Sub
+
+' Aquí lo relativo a cuando un jugador camina sobre un tile scripteado.
+Sub ScriptedTile(Index, Script)
+	Select Case Script
+		Case 0
+			Call PlayerMsg(Index, "Este scripted tile parece no usarse.", WHITE)
+			Exit Sub
+
+		Case Else
+			Call PlayerMsg(Index, "No se encontro un titulo para el script. Contacta con un administrador.", WHITE)
+			Exit Sub
+	End Select
+End Sub
+
+' Aquí lo relativo a cuando un jugador cliquea en una tile OnClick.
+Sub OnClick(Index, Script)
+	Select Case Script
+		Case 0
+			Call PlayerMsg(Index, "Este scripted tile parece no usarse.", WHITE)
+			Exit Sub
+			
+		Case Else
+			Call PlayerMsg(Index, "No se encontro un titulo para el script. Contacta con un administrador.", WHITE)
+			Exit Sub
+			    
+			
+			
+	End Select
+End Sub
+
+' Se ejecuta cada vez que un jugador suelta un objeto.
+Sub OnItemDrop(Index, Map, ItemNum, ItemVal, ItemDur, ItemIndex, InvSlot)
+
+End Sub
+
+' Se ejecuta cada vez que un jugador cambia de mapa.
+Sub OnMapLoad(Index, OldMap, NewMap)
+
+End Sub
+
+' Se ejecuta cada vez que un NPC muere.
+Sub OnNPCDeath(Index, Map, NPCNum, NPCIndex)
+	Call BattleMsg(Index, "Has matado a " & GetNpcName(NPCNum) & ".", BRIGHTRED, 0)
+End Sub
+
+' Se ejecuta cuando un jugador es asesinado por otro jugador.
+Sub OnPVPDeath(Attacker, Victim)
+	Call GlobalMsg(GetPlayerName(Victim) & " ha sido asesinado por " & GetPlayerName(Attacker), BRIGHTRED)
+End Sub
+
+' Aquí lo relativo a cuando otro jugador mata a otro en Arena.
+Sub OnArenaDeath(Attacker, Victim)
+	Dim Map
+	Dim X
+	Dim Y
+	Dim Data1
+	Dim Data2
+	Dim Data3
+
+	Map = GetPlayerMap(Victim)
+	X = GetPlayerX(Victim)
+	Y = GetPlayerY(Victim)
+
+	Call GlobalMsg(GetPlayerName(Victim) & " ha sido derrotado en arena por " & GetPlayerName(Attacker), BRIGHTRED)
+
+	Call SetPlayerHP(Victim, GetPlayerMaxHP(Victim))
+	Call SetPlayerMP(Victim, GetPlayerMaxMP(Victim))
+
+	Call SendHP(Victim)
+	Call SendMP(Victim)
+
+	Data1 = GetTileData1(Map, X, Y)
+	Data2 = GetTileData2(Map, X, Y)
+	Data3 = GetTileData3(Map, X, Y)
+
+	Call PlayerWarp(Victim, Data1, Data2, Data3)
+End Sub
+
+' Aquí lo relativo a cuando un jugador ejecuta un hechizo scripteado.
+Sub ScriptedSpell(Index, Script)
+	Select Case Script
+		Case 0
+			Call PlayerMsg(Index, "Este hechizo scripteado parece no tener uso.", WHITE)
+			Exit Sub
+
+		Case Else
+			Call PlayerMsg(Index, "No se encontro un titulo para el script. Contacta con un administrador.", WHITE)
+			Exit Sub
+	End Select
+End Sub
+
+' Se ejecuta cuando un NPC hace una función scripteada.
+Sub ScriptedNPC(Index, Script)
+	Select Case Script
+		Case 0			
+			
+	End Select
+End Sub
+
+' Se ejecuta cuando una acción con barra (/) se lanza al servidor.
+Sub Commands(Index)
+	Dim TextSay
+	Dim PlayerID
+	Dim MapNum
+
+	' Obtiene el comando en el cache.
+	TextSay = Trim(GetVar("Scripts\Comandos.ini", "TEMP", "Text" & Index))
+	TextSay = Split(TextSay)
+
+	Select Case TextSay(0)
+		Case "/testscripts"
+			Call TestMain(Index)
+			Exit Sub
+
+		Case "/pp"
+			Call ScriptSpawnNpc(25,1, 15, 15, 1)
+			Exit Sub
+
+		Case "/ayuda"
+			Call PlayerMsg(Index, "Comandos Sociales:", WHITE)
+			Call PlayerMsg(Index, "'msjaqui = Mensaje Difundido", WHITE)
+			Call PlayerMsg(Index, "-msjaqui = Mensaje Emotivo", WHITE)
+			Call PlayerMsg(Index, "!nombreaqui msjaqui = Mensaje al jugador", WHITE)
+			Call PlayerMsg(Index, "Comandos disponibles: /ayuda, /info, /conectados, /fps, /inv, /estados, /entrenar, /grupo, /entrar, /salir, /refrescar", WHITE)
+			Exit Sub	
+
+		Case "/llamaradmins"
+			If GetPlayerAccess(Index) = 0 Then
+				Call AdminMsg(GetPlayerName(Index) & " necesita tu ayuda!", BRIGHTGREEN)
+			Else
+				Call PlayerMsg(Index, "Tu eres un administrador. No necesitas la ayuda!", BRIGHTGREEN)
+			End If
+			Exit Sub	
+
+		Case "/admin"
+			If GetPlayerAccess(Index) > 0 Then
+				Call PlayerMsg(Index, "Comandos Sociales:", WHITE)
+				Call PlayerMsg(Index, """msjaqui = Mensaje Global", WHITE)
+				Call PlayerMsg(Index, "=msjaqui = Mensaje privado a admins", WHITE)
+				Call PlayerMsg(Index, "Comandos Disponibles: /admin, /loc, /editordemapas, /irhasta, /traeraqui, /moverme, /setsprite, /reportarmapa, /expulsar, /ban, /editarobjeto, /respawn, /editarnpc, /motd, /editartienda, /ban, /editarhechizo", WHITE)
+			End If
+			Exit Sub
+
+		Case "/irhasta"
+			If GetPlayerAccess(Index) > 0 Then
+				PlayerID = FindPlayer(TextSay(1))
+
+				If PlayerID > 0 Then
+					Call PlayerWarp(Index, GetPlayerMap(PlayerID), GetPlayerX(PlayerID), GetPlayerY(PlayerID))
+					Call PlayerMsg(Index, "Has sido movido hasta " & GetPlayerName(PlayerID) & ".", BROWN)
+				Else
+					Call PlayerMsg(Index, "El jugador no está conectado.", WHITE)
+				End If
+			End If
+			Exit Sub
+
+		Case "/traeraqui"
+			If GetPlayerAccess(Index) > 0 Then
+				PlayerID = FindPlayer(TextSay(1))
+
+				If PlayerID > 0 Then
+					Call PlayerWarp(PlayerID, GetPlayerMap(Index), GetPlayerX(Index), GetPlayerY(Index))
+					Call PlayerMsg(PlayerID, "Has sido movido hasta " & GetPlayerName(Index) & ".", BROWN)
+				Else
+					Call PlayerMsg(Index, "El jugador no está conectado.", WHITE)
+				End If
+			End If
+			Exit Sub
+
+		Case "/moverme"
+			If GetPlayerAccess(Index) > 0 Then
+				MapNum = TextSay(1)
+
+				If MapNum > 0 And MapNum <= MAX_MAPS Then
+					Call PlayerWarp(Index, MapNum, GetPlayerX(Index), GetPlayerY(Index))
+					Call PlayerMsg(Index, "Has sido movido al mapa #" & MapNum & ".", BRIGHTBLUE)
+				Else
+					Call PlayerMsg(Index, "Numero de mapa invalido.", BRIGHTRED)
+				End If
+			End If
+			Exit Sub
+
+
+	End Select
+
+	Call PlayerMsg(Index, "Esto no es un comando valido.", BRIGHTRED)
+End Sub
+
+' Aquí lo relativo a cuando un NPC muere y suelta los objetos.
+Sub DropItems(Index)
+	' Elimina esto para activarlo
+	Exit Sub
+
+	If GetPlayerWeaponSlot(Index) > 0 Then
+	    Call PlayerMapDropItem(Index, GetPlayerWeaponSlot(Index), 0)
+	End If
+	
+	If GetPlayerArmorSlot(Index) > 0 Then
+	    Call PlayerMapDropItem(Index, GetPlayerArmorSlot(Index), 0)
+	End If
+	
+	If GetPlayerHelmetSlot(Index) > 0 Then
+	    Call PlayerMapDropItem(Index, GetPlayerHelmetSlot(Index), 0)
+	End If
+	
+	If GetPlayerShieldSlot(Index) > 0 Then
+	    Call PlayerMapDropItem(Index, GetPlayerShieldSlot(Index), 0)
+	End If
+	
+	If GetPlayerLegsSlot(Index) > 0 Then
+	    Call PlayerMapDropItem(Index, GetPlayerLegsSlot(Index), 0)
+	End If
+	
+	If GetPlayerRingSlot(Index) > 0 Then
+	    Call PlayerMapDropItem(Index, GetPlayerRingSlot(Index), 0)
+	End If
+	
+	If GetPlayerNecklaceSlot(Index) > 0 Then
+	    Call PlayerMapDropItem(Index, GetPlayerNecklaceSlot(Index), 0)
+	End If
+End Sub
+
+' Se ejecuta cuando los jugadores mueren fuera de arena (muerte normal por NPC)
+Sub OnDeath(Index)
+	Dim MapNum
+	Dim ClassID
+	Dim X
+	Dim Y
+
+	If GetMapBootMap(Index) > 0 Then
+		Call PlayerWarp(Index, GetMapBootMap(Index), GetMapBootX(Index), GetMapBootY(Index))
+	Else
+		ClassID = GetPlayerClass(Index)
+
+		MapNum = GetVar("Clases\Class" & ClassID & ".ini", "CLASS", "Map")
+
+		X = GetVar("Clases\Class" & ClassID & ".ini", "CLASS", "x")
+		Y = GetVar("Clases\Class" & ClassID & ".ini", "CLASS", "y")
+
+		Call PlayerWarp(Index, MapNum, X, Y)
+	End If
+End Sub
+
+' Aquí lo relativo al uso de objetos scripteados.
+Sub ScriptedItem(Index, Script)
+	Select Case Script
+		Case 0
+			Call PlayerMsg(Index, "Este objeto scripteado no tiene uso aparente.", WHITE)
+			Exit Sub
+
+		Case Else
+			Call PlayerMsg(Index, "No se encontro el objeto scripteado. Contacta con un administrador", WHITE)
+			Exit Sub
+	End Select
+End Sub
+
+
+' Atributos de Mapa
+
+Sub SetBlank(Map, X, Y)
+	Call SetAttribute(Map, X, Y, 0, 0, 0, 0, "", "", "")
+End Sub
+
+Sub SetBlock(Map, X, Y)
+	Call SetAttribute(Map, X, Y, 1, 0, 0, 0, "", "", "")
+End Sub
+
+Sub SetWarp(Map, X, Y, WarpMap, WarpX, WarpY)
+	Call SetAttribute(Map, X, Y, 2, WarpMap, WarpX, WarpY, "", "", "")
+End Sub
+
+Sub SetItem(Map, X, Y, ItemID, ItemValue)
+	Call SetAttribute(Map, X, Y, 3, ItemID, ItemValue, 0, "", "", "")
+End Sub
+
+Sub SetNPCAvoid(Map, X, Y)
+	Call SetAttribute(Map, X, Y, 4, 0, 0, 0, "", "", "")
+End Sub
+
+Sub SetKeY(Map, X, Y, KeyID, KeyTake)
+	Call SetAttribute(Map, X, Y, 5, KeyID, KeyTake, 0, "", "", "")
+End Sub
+
+Sub SetKeYOpen(Map, X, Y, KeyX, KeyY, Message)
+	Call SetAttribute(Map, X, Y, 6, KeyX, KeyY, 0, Message, "", "")
+End Sub
+
+Sub SetHeal(Map, X, Y)
+	Call SetAttribute(Map, X, Y, 7, 0, 0, 0, "", "", "")
+End Sub
+
+Sub SetKill(Map, X, Y)
+	Call SetAttribute(Map, X, Y, 8, 0, 0, 0, "", "", "")
+End Sub
+
+Sub SetShop(Map, X, Y, ShopID)
+	Call SetAttribute(Map, X, Y, 9, ShopID, 0, 0, "", "", "")
+End Sub
+
+Sub SetClassBlock(Map, X, Y, Allow1, Allow2, Allow3)
+	Call SetAttribute(Map, X, Y, 10, Allow, Allow2, Allow3, "", "", "")
+End Sub
+
+Sub SetArena(Map, X, Y, MapID, NewX, NewY)
+	Call SetAttribute(Map, X, Y, 11, MapID, NewX, NewY, "", "", "")
+End Sub
+
+Sub SetSound(Map, X, Y, FileName)
+	Call SetAttribute(Map, X, Y, 12, 0, 0, 0, FileName, "", "")
+End Sub
+
+Sub SetSpriteChange(Map, X, Y, SpriteID, ItemID, Cost)
+	Call SetAttribute(Map, X, Y, 13, SpriteID, ItemID, Cost, "", "", "")
+End Sub
+
+Sub SetSign(Map, X, Y, Line1, Line2, Line3)
+	Call SetAttribute(Map, X, Y, 14, 0, 0, 0, Line1, Line2, Line3)
+End Sub
+
+Sub SetDoor(Map, X, Y)
+	Call SetAttribute(Map, X, Y, 15, 0, 0, 0, "", "", "")
+End Sub
+
+Sub SetNotice(Map, X, Y, Title, Text, FileName)
+	Call SetAttribute(Map, X, Y, 16, 0, 0, 0, Title, Text, FileName)
+End Sub
+
+Sub SetScripted(Map, X, Y, Script)
+	Call SetAttribute(Map, X, Y, 18, Script, 0, 0, "", "", "")
+End Sub
+
+Sub SetBank(Map, X, Y)
+	Call SetAttribute(Map, X, Y, 23, 0, 0, 0, "", "", "")
+End Sub
+
+Sub TestMain(Index)
+	Call PlayerMsg(Index, "Los scripts funcionan perfectamente.", BRIGHTGREEN)
+End Sub
+
+'En este sub se añadira todo lo relacionado a cuando clickeas encima de un jugador.
+Sub OnClickPlayer(Index)
+
+End Sub
+
+' Este sub se ejecutara cuando se borre un personaje.
+Sub OnEraseChar(Index, CharNum)
+CharName = GetName(Index, CharNum)
+End Sub
+
+Sub PlayerProfile(index, player)
+End Sub

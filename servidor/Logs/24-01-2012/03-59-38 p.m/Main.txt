@@ -1,0 +1,23 @@
+
+Conexión recibida de 127.0.0.1.
+admin ha entrado desde 127.0.0.1.
+admin/Administrador ha entrado en AlterEngine.
+Administrador se ha desconectado de AlterEngine.
+La conexion con 127.0.0.1 ha sido terminada.
+Conexión recibida de 127.0.0.1.
+admin ha entrado desde 127.0.0.1.
+admin/aSSA ha entrado en AlterEngine.
+Conexión recibida de 127.0.0.1.
+aSSA se ha desconectado de AlterEngine.
+La conexion con 127.0.0.1 ha sido terminada.
+Conexión recibida de 127.0.0.1.
+admin ha entrado desde 127.0.0.1.
+admin/Administrador ha entrado en AlterEngine.
+Administrador se ha desconectado de AlterEngine.
+La conexion con 127.0.0.1 ha sido terminada.
+Conexión recibida de 127.0.0.1.
+admin ha entrado desde 127.0.0.1.
+admin/aSSA ha entrado en AlterEngine.
+aSSA se ha desconectado de AlterEngine.
+La conexion con 127.0.0.1 ha sido terminada.
+Los registros del chat han sido guardados!

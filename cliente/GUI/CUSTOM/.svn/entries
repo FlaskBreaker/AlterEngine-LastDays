@@ -1,0 +1,54 @@
+8
+
+dir
+326
+http://opensvn.csie.org/EclipseSVN/Client/GUI/CUSTOM
+http://opensvn.csie.org/EclipseSVN
+
+
+
+2008-06-08T08:19:59.746064Z
+263
+dg1423
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+7c76a3c6-7db9-4eec-a56b-8bdaf2249dae
+
+Thumbs.db
+file
+
+
+
+
+2008-06-28T05:41:40.945445Z
+4be4e99c7c366fd923cb450235375eec
+2008-06-08T08:19:59.746064Z
+263
+dg1423
+has-props
+
+test.bmp
+file
+
+
+
+
+2008-06-28T05:41:41.007809Z
+2caf2d13e55cd230a920769525bb64fa
+2008-01-31T23:34:40.330537Z
+6
+mellowz
+has-props
+
