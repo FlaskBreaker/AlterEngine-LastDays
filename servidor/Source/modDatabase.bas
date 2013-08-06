@@ -653,8 +653,8 @@ Sub SaveClasses()
             Call PutVar(filename, "CLASS", "Y", CStr(ClassData(i).y))
             Call PutVar(filename, "CLASS", "Locked", CStr(ClassData(i).Locked))
             ClassData(i).Gender = Val(GetVar(filename, "CLASS", "Gender"))
-            ClassData(i).Gender1 = GetVar(filename, "CLASS", "Gender1", "Gender1")
-            ClassData(i).Gender2 = GetVar(filename, "CLASS", "Gender2", "Gender2")
+            ClassData(i).Gender1 = GetVar(filename, "CLASS", "Gender1")
+            ClassData(i).Gender2 = GetVar(filename, "CLASS", "Gender2")
         End If
     Next i
 End Sub

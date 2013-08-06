@@ -12,115 +12,67 @@ Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
-
-Private Type Define
+'##############################
+'# TIPOS
+'##############################
+Private Type SSDefine
     sVari As String
     sValue As String
 End Type
+Private Type SSClass
+    sName As String
+    sClassVars() As String
+    sCodeBlock As Collection
+End Type
+Private Type SSModule
+    sName As String
+    sGlobals() As String
+    sClasses() As SSClass
+    sCodeBlock As Collection
+End Type
 
+'##############################
+'# VARIABLES
+'##############################
 Public WithEvents SControl      As ScriptControl
 Attribute SControl.VB_VarHelpID = -1
 Private sAllCode()              As String
-Private sGlobals()              As String
-Private sSubs()                 As String
-Private sFunctions()            As String
-Public p_colSubs                As Collection
-Public p_colFuncs               As Collection
-Public p_colClasses               As Collection
+Private sModule              As SSModule
+Private sIncludes()          As String
 
-' Reads code into memory and initalizes global settings.
+'##############################
+'# PROCEDIMIENTOS Y FUNCIONES
+'##############################
 Public Function ReadInCode(sFile As String, sModTitle As String, msc As ScriptControl)
+    Dim sTempCode As String
+    sTempCode = ParseCompSeq(sFile)
+    sModule.sName = sModTitle
+    sAllCode = Split(sTempCode, vbNewLine)
+    ReDim Preserve sAllCode(UBound(sAllCode) - 1)
+    ParseCode sAllCode()
+    msc.Modules.Add sModTitle
+    AddCode msc
+End Function
+'Parsea los comandos de compilador: #loquesea
+Private Function ParseCompSeq(sFile As String)
     Dim sTemp As String
     Dim iTemp As Integer
     Dim sTotalTemp As String
-    Dim sTempCode() As String
     Dim iFileNum As Integer
-    Dim sDefines() As Define
+    Dim sDefines() As SSDefine
     Dim Path As String
-
+    Dim AlreadyIncluded As Boolean
+    
     Path = App.Path & "\Scripts"
-
-    Erase sAllCode
+    
+    ReDim sIncludes(0)
     ReDim sDefines(0)
-    ReDim sGlobals(0)
-
+    
+    sIncludes(0) = ""
+    
     iFileNum = FreeFile
-
+    
     Open sFile For Input As iFileNum
-    Do Until EOF(iFileNum)
-        Line Input #iFileNum, sTemp
-
-        sTemp = Trim$(Replace(sTemp, vbTab, vbNullString))
-
-        If LenB(sTemp) <> 0 Then
-            If Left$(sTemp, 1) <> "#" And LCase$(Left$(sTemp, 6)) <> "public" And LCase$(Left$(sTemp, 7)) <> "private" Then
-                sTotalTemp = sTotalTemp & sTemp & vbNewLine
-            Else
-                If LCase$(Left$(sTemp, 8)) = "#include" Then
-                    sTemp = Mid$(sTemp, InStr(sTemp, "<") + 1, Len(sTemp) - InStr(sTemp, "<") - 1)
-                    sTemp = ReturnStringFromFile(Path & "\" & sTemp)
-                    sTotalTemp = sTemp & vbNewLine & sTotalTemp
-                ElseIf LCase$(Left$(sTemp, 7)) = "#define" Then
-                    sTemp = Right$(sTemp, Len(sTemp) - 8)
-                    sDefines(UBound(sDefines)).sVari = Mid$(sTemp, 2, InStr(sTemp, "> <") - 2)
-                    sDefines(UBound(sDefines)).sValue = Mid$(sTemp, InStr(sTemp, "> <") + 3, Len(sTemp) - InStr(sTemp, "> <") - 3)
-                    ReDim Preserve sDefines(UBound(sDefines) + 1)
-                ElseIf LCase$(Left$(sTemp, 6)) = "public" Or LCase$(Left$(sTemp, 7)) = "private" Then
-                    sGlobals(UBound(sGlobals)) = RTrim$(sTemp)
-                    ReDim Preserve sGlobals(UBound(sGlobals) + 1)
-                End If
-            End If
-        End If
-    Loop
-
-    Close iFileNum
-
-    If UBound(sDefines) <> 0 Then
-        ReDim Preserve sDefines(UBound(sDefines) - 1)
-    End If
-        
-    If UBound(sGlobals) <> 0 Then
-        ReDim Preserve sGlobals(UBound(sGlobals) - 1)
-    End If
-
-    For iTemp = 0 To UBound(sDefines)
-        sTotalTemp = Replace(sTotalTemp, sDefines(iTemp).sVari, sDefines(iTemp).sValue)
-    Next
-
-    sAllCode = Split(sTotalTemp, vbNewLine)
-
-    ' Get rid of last array element (which is blank).
-    ReDim Preserve sAllCode(UBound(sAllCode) - 1)
-
-    ' Split string into collection.
-    GetClasses sAllCode
-    GetSubs sAllCode
-    GetFunctions sAllCode
-
-    ' Put collection into the script control.
-    msc.Modules.Add sModTitle
-    AddGlobalsToCode msc, sModTitle
-    AddClassesToCode msc, sModTitle
-    AddSubsToCode msc, sModTitle
-    AddFuncsToCode msc, sModTitle
-End Function
-
-' Returns a string from an #include file.
-Private Function ReturnStringFromFile(sFile As String) As String
-    Dim sTotalTemp As String
-    Dim iFileNum As Integer
-    Dim sTemp As String
-    Dim Path As String
-
-    On Local Error GoTo FileNotFound
-
-    Path = App.Path & "\Scripts"
-
-    iFileNum = FreeFile
-
-    Open sFile For Input As iFileNum
-    Err.Clear
-
     Do Until EOF(iFileNum)
         Line Input #iFileNum, sTemp
 
@@ -132,172 +84,289 @@ Private Function ReturnStringFromFile(sFile As String) As String
             Else
                 If LCase$(Left$(sTemp, 8)) = "#include" Then
                     sTemp = Mid$(sTemp, InStr(sTemp, "<") + 1, Len(sTemp) - InStr(sTemp, "<") - 1)
-                    sTemp = ReturnStringFromFile(Path & "\" & sTemp)
-                    sTotalTemp = sTemp & vbNewLine & sTotalTemp
+                    Dim i As Integer
+                    For i = 0 To UBound(sIncludes)
+                        If sIncludes(i) = LCase(sTemp) Then
+                            AlreadyIncluded = True
+                            Exit For
+                        End If
+                    Next i
+                    If Not AlreadyIncluded Then
+                        sIncludes(UBound(sIncludes)) = LCase(sTemp)
+                        ReDim Preserve sIncludes(UBound(sIncludes) + 1)
+                        sTemp = sTemp & vbNewLine & ParseCompSeq(Path & "\" & sTemp)
+                        sTotalTemp = sTotalTemp & vbNewLine & sTemp
+                    End If
+                ElseIf LCase$(Left$(sTemp, 7)) = "#define" Then
+                    sTemp = Right$(sTemp, Len(sTemp) - 8)
+                    sDefines(UBound(sDefines)).sVari = Mid$(sTemp, 2, InStr(sTemp, "> <") - 2)
+                    sDefines(UBound(sDefines)).sValue = Mid$(sTemp, InStr(sTemp, "> <") + 3, Len(sTemp) - InStr(sTemp, "> <") - 3)
+                    ReDim Preserve sDefines(UBound(sDefines) + 1)
                 End If
             End If
         End If
     Loop
 
     Close iFileNum
-
-    ReturnStringFromFile = sTotalTemp
-
-    Exit Function
-
-FileNotFound:
-End Function
-
-Private Sub AddGlobalsToCode(mscControl As ScriptControl, sModName As String)
-    Dim iCount As Integer
-
-    On Error Resume Next
-
-    For iCount = 0 To UBound(sGlobals)
-        mscControl.Modules(sModName).AddCode sGlobals(iCount)
+    
+    If UBound(sDefines) <> 0 Then
+        ReDim Preserve sDefines(UBound(sDefines) - 1)
+    End If
+    
+    For iTemp = 0 To UBound(sDefines)
+        sTotalTemp = Replace(sTotalTemp, sDefines(iTemp).sVari, sDefines(iTemp).sValue)
     Next
-End Sub
-
-Private Function GetClasses(sCode() As String)
+    ParseCompSeq = sTotalTemp
+End Function
+'Parsea el código
+Private Sub ParseCode(sCode() As String)
     Dim iCount As Integer
     Dim iTemp As Integer
     Dim sTitle As String
-    Dim sClass As String
+    Dim sClass As SSClass
+    Dim sCB As String
     
-    Set p_colClasses = New Collection
+    ReDim sModule.sGlobals(0)
+    ReDim sModule.sClasses(0)
+    Set sModule.sCodeBlock = New Collection
+    
+    ReDim sClass.sClassVars(0)
+    Set sClass.sCodeBlock = New Collection
 
     For iCount = 0 To UBound(sCode)
-        sClass = vbNullString
-
-        If LCase$(Left$(sCode(iCount), 6)) = "class " Then
-            For iTemp = 7 To Len(sCode(iCount))
-                If Mid$(sCode(iCount), iTemp, 1) = "" Then
-                    sTitle = Mid$(sCode(iCount), 7, iTemp - 7)
-                    Exit For
-                End If
-            Next
+        sCB = ""
+        If LCase$(Left$(sCode(iCount), 6)) = "class " Then 'Si es una clase
+            sClass.sName = Mid$(sCode(iCount), 7, Len(sCode(iCount)) - 6)
+'            For iTemp = 7 To Len(sCode(iCount)) 'Buscamos el nombre de la misma
+'                If Mid$(sCode(iCount), iTemp, 1) = " " Then
+'                    sClass.sName = Mid$(sCode(iCount), 7, iTemp - 7)
+'                    Exit For
+'                End If
+'            Next
 
             Do Until LCase$(sCode(iCount)) = "end class"
-                sClass = sClass & sCode(iCount) & vbNewLine
-                iCount = iCount + 1
-            Loop
-
-            sClass = sClass & sCode(iCount)
-            On Error Resume Next
+                sCB = ""
+                If (LCase$(Left$(sCode(iCount), 9)) = "function ") Or (LCase$(Left$(sCode(iCount), 4)) = "sub ") Then 'Procedimiento o función en una clase
+                    If (LCase$(Left$(sCode(iCount), 9)) = "function ") Then 'Función en una clase
+                        For iTemp = 10 To Len(sCode(iCount)) 'Buscamos el nombre
+                            If Mid$(sCode(iCount), iTemp, 1) = "(" Then
+                                sTitle = Mid$(sCode(iCount), 10, iTemp - 10)
+                                Exit For
+                            End If
+                        Next
             
-            p_colClasses.Add sClass, sTitle
-            Err.Clear
-        End If
-    Next
-End Function
-
-Private Function AddClassesToCode(mscControl As ScriptControl, sModName As String)
-    Dim iCount As Integer
-
-    On Error Resume Next
-
-    For iCount = 1 To p_colClasses.Count
-        mscControl.Modules(sModName).AddCode p_colClasses(iCount)
-    Next
-End Function
-
-Private Function GetSubs(sCode() As String)
-    Dim iCount As Integer
-    Dim iTemp As Integer
-    Dim sTitle As String
-    Dim sSub As String
-
-    Set p_colSubs = New Collection
-
-    For iCount = 0 To UBound(sCode)
-        sSub = vbNullString
-
-        If LCase$(Left$(sCode(iCount), 3)) = "sub" Then
-            For iTemp = 5 To Len(sCode(iCount))
-                If Mid$(sCode(iCount), iTemp, 1) = "(" Then
-                    sTitle = Mid$(sCode(iCount), 5, iTemp - 5)
-                    Exit For
+                        Do Until LCase$(sCode(iCount)) = "end function" 'Conseguimos el código
+                            sCB = sCB & sCode(iCount) & vbNewLine
+                            iCount = iCount + 1
+                        Loop
+                        sCB = sCB & sCode(iCount)
+                       'On Error Resume Next
+                        sClass.sCodeBlock.Add sCB, sTitle
+                        Err.Clear
+                    ElseIf (LCase$(Left$(sCode(iCount), 4)) = "sub ") Then 'Procedimiento en una clase
+                        For iTemp = 5 To Len(sCode(iCount)) 'Buscamos el nombre
+                            If Mid$(sCode(iCount), iTemp, 1) = "(" Then
+                                sTitle = Mid$(sCode(iCount), 5, iTemp - 5)
+                                Exit For
+                            End If
+                        Next
+            
+                        Do Until LCase$(sCode(iCount)) = "end sub" 'Conseguimos el código
+                            sCB = sCB & sCode(iCount) & vbNewLine
+                            iCount = iCount + 1
+                        Loop
+                        sCB = sCB & sCode(iCount)
+                       'On Error Resume Next
+                        sClass.sCodeBlock.Add sCB, sTitle
+                        Err.Clear
+                    End If
+                ElseIf (LCase$(Left$(sCode(iCount), 7)) = "public ") Or (LCase$(Left$(sCode(iCount), 8)) = "private ") Or (LCase$(Left$(sCode(iCount), 4)) = "dim ") Then 'Global en una clase
+                    If LCase$(Left$(sCode(iCount), 7)) = "public " Then
+                        If Not ((LCase$(Left$(sCode(iCount), 16)) = "public function ") Or (LCase$(Left$(sCode(iCount), 11)) = "public sub ")) Then 'Se nos coló una función o un sub
+                            If (LCase$(Left$(sCode(iCount), 16)) = "public function ") Then 'Función pública en una clase
+                                For iTemp = 17 To Len(sCode(iCount)) 'Buscamos el nombre
+                                    If Mid$(sCode(iCount), iTemp, 1) = "(" Then
+                                        sTitle = Mid$(sCode(iCount), 17, iTemp - 17)
+                                        Exit For
+                                    End If
+                                Next
+                    
+                                Do Until LCase$(sCode(iCount)) = "end function" 'Conseguimos el código
+                                    sCB = sCB & sCode(iCount) & vbNewLine
+                                    iCount = iCount + 1
+                                Loop
+                                sCB = sCB & sCode(iCount)
+                               'On Error Resume Next
+                                sClass.sCodeBlock.Add sCB, sTitle
+                                Err.Clear
+                            ElseIf (LCase$(Left$(sCode(iCount), 11)) = "public sub ") Then 'Procedimiento público en una clase
+                                For iTemp = 12 To Len(sCode(iCount)) 'Buscamos el nombre
+                                    If Mid$(sCode(iCount), iTemp, 1) = "(" Then
+                                        sTitle = Mid$(sCode(iCount), 12, iTemp - 12)
+                                        Exit For
+                                    End If
+                                Next
+                    
+                                Do Until LCase$(sCode(iCount)) = "end sub" 'Conseguimos el código
+                                    sCB = sCB & sCode(iCount) & vbNewLine
+                                    iCount = iCount + 1
+                                Loop
+                                sCB = sCB & sCode(iCount)
+                               'On Error Resume Next
+                                sClass.sCodeBlock.Add sCB, sTitle
+                                Err.Clear
+                            End If
+                        Else 'public
+                            sClass.sClassVars(UBound(sClass.sClassVars)) = sCode(iCount)
+                            ReDim Preserve sClass.sClassVars(UBound(sClass.sClassVars) + 1)
+                        End If
+                    ElseIf LCase$(Left$(sCode(iCount), 8)) = "private " Then
+                        If Not ((LCase$(Left$(sCode(iCount), 17)) = "private function ") Or (LCase$(Left$(sCode(iCount), 12)) = "private sub ")) Then 'Se nos coló una función o un sub
+                            If (LCase$(Left$(sCode(iCount), 17)) = "private function ") Then 'Función privada en una clase
+                                For iTemp = 18 To Len(sCode(iCount)) 'Buscamos el nombre
+                                    If Mid$(sCode(iCount), iTemp, 1) = "(" Then
+                                        sTitle = Mid$(sCode(iCount), 18, iTemp - 18)
+                                        Exit For
+                                    End If
+                                Next
+                    
+                                Do Until LCase$(sCode(iCount)) = "end function" 'Conseguimos el código
+                                    sCB = sCB & sCode(iCount) & vbNewLine
+                                    iCount = iCount + 1
+                                Loop
+                                sCB = sCB & sCode(iCount)
+                               'On Error Resume Next
+                                sClass.sCodeBlock.Add sCB, sTitle
+                                Err.Clear
+                            ElseIf (LCase$(Left$(sCode(iCount), 12)) = "private sub ") Then 'Procedimiento privado en una clase
+                                For iTemp = 13 To Len(sCode(iCount)) 'Buscamos el nombre
+                                    If Mid$(sCode(iCount), iTemp, 1) = "(" Then
+                                        sTitle = Mid$(sCode(iCount), 13, iTemp - 13)
+                                        Exit For
+                                    End If
+                                Next
+                    
+                                Do Until LCase$(sCode(iCount)) = "end sub" 'Conseguimos el código
+                                    sCB = sCB & sCode(iCount) & vbNewLine
+                                    iCount = iCount + 1
+                                Loop
+                                sCB = sCB & sCode(iCount)
+                               'On Error Resume Next
+                                sClass.sCodeBlock.Add sCB, sTitle
+                                Err.Clear
+                            End If
+                        Else 'private
+                            sClass.sClassVars(UBound(sClass.sClassVars)) = sCode(iCount)
+                            ReDim Preserve sClass.sClassVars(UBound(sClass.sClassVars) + 1)
+                        End If
+                    ElseIf LCase$(Left$(sCode(iCount), 4)) = "dim " Then 'dim
+                        sClass.sClassVars(UBound(sClass.sClassVars)) = sCode(iCount)
+                        ReDim Preserve sClass.sClassVars(UBound(sClass.sClassVars) + 1)
+                    End If
                 End If
-            Next
-
-            Do Until LCase$(sCode(iCount)) = "end sub"
-                sSub = sSub & sCode(iCount) & vbNewLine
                 iCount = iCount + 1
             Loop
+            
+            If UBound(sClass.sClassVars) <> 0 Then
+                ReDim Preserve sClass.sClassVars(UBound(sClass.sClassVars) - 1)
+            End If
+           'On Error Resume Next
 
-            sSub = sSub & sCode(iCount)
-
-            On Error Resume Next
-
-            p_colSubs.Add sSub, sTitle
+            sModule.sClasses(UBound(sModule.sClasses)) = sClass
+            ReDim Preserve sModule.sClasses(UBound(sModule.sClasses) + 1)
             Err.Clear
+            'Reseteo de Class
+            ReDim sClass.sClassVars(0)
+            Set sClass.sCodeBlock = New Collection
+        ElseIf (LCase$(Left$(sCode(iCount), 9)) = "function ") Or (LCase$(Left$(sCode(iCount), 4)) = "sub ") Then
+            If (LCase$(Left$(sCode(iCount), 9)) = "function ") Then 'Función fuera de una clase
+                For iTemp = 10 To Len(sCode(iCount)) 'Buscamos el nombre
+                    If Mid$(sCode(iCount), iTemp, 1) = "(" Then
+                        sTitle = Mid$(sCode(iCount), 10, iTemp - 10)
+                        Exit For
+                    End If
+                Next
+    
+                Do Until LCase$(sCode(iCount)) = "end function" 'Conseguimos el código
+                    sCB = sCB & sCode(iCount) & vbNewLine
+                    iCount = iCount + 1
+                Loop
+                sCB = sCB & sCode(iCount)
+               'On Error Resume Next
+                sModule.sCodeBlock.Add sCB, sTitle
+                Err.Clear
+            ElseIf (LCase$(Left$(sCode(iCount), 4)) = "sub ") Then 'Procedimiento fuera de una clase
+                For iTemp = 5 To Len(sCode(iCount)) 'Buscamos el nombre
+                    If Mid$(sCode(iCount), iTemp, 1) = "(" Then
+                        sTitle = Mid$(sCode(iCount), 5, iTemp - 5)
+                        Exit For
+                    End If
+                Next
+    
+                Do Until LCase$(sCode(iCount)) = "end sub" 'Conseguimos el código
+                    sCB = sCB & sCode(iCount) & vbNewLine
+                    iCount = iCount + 1
+                Loop
+                sCB = sCB & sCode(iCount)
+               'On Error Resume Next
+                sModule.sCodeBlock.Add sCB, sTitle
+                Err.Clear
+            End If
+        ElseIf (LCase$(Left$(sCode(iCount), 7)) = "public ") Or (LCase$(Left$(sCode(iCount), 8)) = "private ") Then
+            sModule.sGlobals(UBound(sModule.sGlobals)) = sCode(iCount)
+            ReDim Preserve sModule.sGlobals(UBound(sModule.sGlobals) + 1)
         End If
-    Next
-End Function
-
-Private Function AddSubsToCode(mscControl As ScriptControl, sModName As String)
-    Dim iCount As Integer
-
-    On Error Resume Next
-
-    For iCount = 1 To p_colSubs.Count
-        mscControl.Modules(sModName).AddCode p_colSubs(iCount)
-    Next
-End Function
-
-Private Function GetFunctions(sCode() As String)
-    Dim iCount As Integer
-    Dim iTemp As Integer
-    Dim sTitle As String
-    Dim sFunc As String
-
-    Set p_colFuncs = New Collection
-
-    For iCount = 0 To UBound(sCode)
-        sFunc = vbNullString
-
-        If LCase$(Left$(sCode(iCount), 8)) = "function" Then
-            For iTemp = 10 To Len(sCode(iCount))
-                If Mid$(sCode(iCount), iTemp, 1) = "(" Then
-                    sTitle = Mid$(sCode(iCount), 10, iTemp - 10)
-                    Exit For
-                End If
-            Next
-
-            Do Until LCase$(sCode(iCount)) = "end function"
-                sFunc = sFunc & sCode(iCount) & vbNewLine
-                iCount = iCount + 1
-            Loop
-
-            sFunc = sFunc & sCode(iCount)
-
-            On Error Resume Next
-
-            p_colFuncs.Add sFunc, sTitle
-            Err.Clear
-        End If
-    Next
-End Function
-
-Private Function AddFuncsToCode(mscControl As ScriptControl, sModName As String)
-    Dim iCount As Integer
-
-    On Error Resume Next
-
-    For iCount = 1 To p_colFuncs.Count
-        mscControl.Modules(sModName).AddCode p_colFuncs(iCount)
-    Next
-End Function
-
+    Next iCount
+    If UBound(sModule.sGlobals) <> 0 Then
+        ReDim Preserve sModule.sGlobals(UBound(sModule.sGlobals) - 1)
+    End If
+    If UBound(sModule.sClasses) <> 0 Then
+        ReDim Preserve sModule.sClasses(UBound(sModule.sClasses) - 1)
+    End If
+End Sub
+'Añade el código al ScriptControl
+Private Sub AddCode(mscControl As ScriptControl)
+    Dim i As Integer
+    Dim j As Integer
+    Dim aClass As SSClass
+    Dim tmpClass As String
+   'On Error Resume Next
+   If sModule.sGlobals(0) <> "" Then
+        For i = 0 To UBound(sModule.sGlobals)
+            mscControl.Modules(sModule.sName).AddCode sModule.sGlobals(i)
+        Next i
+    End If
+   i = 0
+    If sModule.sClasses(0).sName <> "" Then
+        For i = 0 To UBound(sModule.sClasses)
+            aClass = sModule.sClasses(i)
+            tmpClass = tmpClass & vbNewLine & "Class " & aClass.sName
+            If aClass.sClassVars(0) <> "" Then
+                For j = 0 To UBound(aClass.sClassVars)
+                    tmpClass = tmpClass & vbNewLine & aClass.sClassVars(j)
+                Next j
+            End If
+            j = 0
+            For j = 1 To aClass.sCodeBlock.Count
+                tmpClass = tmpClass & vbNewLine & aClass.sCodeBlock(j)
+            Next j
+            tmpClass = tmpClass & vbNewLine & "End Class"
+            mscControl.Modules(sModule.sName).AddCode tmpClass
+            tmpClass = ""
+        Next i
+    End If
+    i = 0
+    For i = 1 To sModule.sCodeBlock.Count
+        mscControl.Modules(sModule.sName).AddCode sModule.sCodeBlock(i)
+    Next i
+End Sub
 Private Sub Class_Initialize()
     Set SControl = New ScriptControl
-    SControl.Language = "vbScript"
+    SControl.Language = "VBScript"
 End Sub
 
 Private Sub Class_Terminate()
     Set SControl = Nothing
-    Set p_colFuncs = Nothing
-    Set p_colSubs = Nothing
 End Sub
 
 'PRIVATE BECAUSE I CANT GET IT TO WORK
@@ -319,7 +388,7 @@ Private Function RunCodeReturn(sModule As String, sCode As String, ParamArray ab
 End Function
 
 Public Function ExecuteStatement(sModule As String, sCode As String)
-    On Error Resume Next
+    'On Error Resume Next
 
     SControl.Modules(sModule).ExecuteStatement sCode
 End Function
@@ -333,3 +402,4 @@ Private Sub SControl_Error()
 
     Err.Clear
 End Sub
+

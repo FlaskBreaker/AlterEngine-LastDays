@@ -661,6 +661,8 @@ FirstAidExp As Long
 QuestExpReward As Long
 End Type
 
+
+
 Public Quest(1 To MAX_QUESTS) As QuestRec
 
 Function FileExist(ByVal filename As String) As Boolean

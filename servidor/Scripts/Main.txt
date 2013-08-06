@@ -32,7 +32,6 @@ Public Const ADMIN_MAPPER = 2
 Public Const ADMIN_DEVELOPER = 3
 Public Const ADMIN_CREATOR = 4
 
-
 ' Aquí lo que se ejecuta cuando el servidor se inicia.
 Sub OnServerLoad()
 	GameName = GetVar("Configuracion.ini", "CONFIG", "GameName")
