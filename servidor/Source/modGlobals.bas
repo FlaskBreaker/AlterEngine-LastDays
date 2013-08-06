@@ -1,6 +1,9 @@
 Attribute VB_Name = "modGlobals"
 Option Explicit
 
+' Used for bug fixing
+Public shutdowning As Boolean
+
 ' Used for parsing
 Public SEP_CHAR As String * 1
 Public END_CHAR As String * 1

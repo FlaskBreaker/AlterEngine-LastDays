@@ -4494,11 +4494,13 @@ Private Sub Form_Resize()
 End Sub
 
 Private Sub Form_Terminate()
+    shutdowning = True
     Call SaveAllPlayersOnline
     Call DestroyServer
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
+    shutdowning = True
     Call SaveAllPlayersOnline
     Call DestroyServer
 End Sub

@@ -13,8 +13,13 @@ Sub UpdateTOP()
 End Sub
 
 Function IsConnected(ByVal index As Long) As Boolean
-    If frmServer.Socket(index).State = sckConnected Then
-        IsConnected = True
+    If Not shutdowning Then
+        If frmServer.Socket(index).State = sckConnected Then
+            IsConnected = True
+        Else
+            IsConnected = False
+        End If
+        Exit Function
     Else
         IsConnected = False
     End If

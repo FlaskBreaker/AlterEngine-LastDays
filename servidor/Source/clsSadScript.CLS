@@ -45,7 +45,7 @@ Private sIncludes()          As String
 '##############################
 Public Function ReadInCode(sFile As String, sModTitle As String, msc As ScriptControl)
     Dim sTempCode As String
-    sTempCode = ParseCompSeq(sFile)
+    sTempCode = ParseCompSeq(sFile, False)
     sModule.sName = sModTitle
     sAllCode = Split(sTempCode, vbNewLine)
     ReDim Preserve sAllCode(UBound(sAllCode) - 1)
@@ -54,7 +54,7 @@ Public Function ReadInCode(sFile As String, sModTitle As String, msc As ScriptCo
     AddCode msc
 End Function
 'Parsea los comandos de compilador: #loquesea
-Private Function ParseCompSeq(sFile As String)
+Private Function ParseCompSeq(sFile As String, include As Boolean)
     Dim sTemp As String
     Dim iTemp As Integer
     Dim sTotalTemp As String
@@ -94,7 +94,7 @@ Private Function ParseCompSeq(sFile As String)
                     If Not AlreadyIncluded Then
                         sIncludes(UBound(sIncludes)) = LCase(sTemp)
                         ReDim Preserve sIncludes(UBound(sIncludes) + 1)
-                        sTemp = sTemp & vbNewLine & ParseCompSeq(Path & "\" & sTemp)
+                        sTemp = sTemp & vbNewLine & ParseCompSeq(Path & "\" & sTemp, True)
                         sTotalTemp = sTotalTemp & vbNewLine & sTemp
                     End If
                 ElseIf LCase$(Left$(sTemp, 7)) = "#define" Then
@@ -109,13 +109,15 @@ Private Function ParseCompSeq(sFile As String)
 
     Close iFileNum
     
-    If UBound(sDefines) <> 0 Then
-        ReDim Preserve sDefines(UBound(sDefines) - 1)
+    If (Not include) Then
+        If UBound(sDefines) <> 0 Then
+            ReDim Preserve sDefines(UBound(sDefines) - 1)
+        End If
+        
+        For iTemp = 0 To UBound(sDefines)
+            sTotalTemp = Replace(sTotalTemp, sDefines(iTemp).sVari, sDefines(iTemp).sValue)
+        Next
     End If
-    
-    For iTemp = 0 To UBound(sDefines)
-        sTotalTemp = Replace(sTotalTemp, sDefines(iTemp).sVari, sDefines(iTemp).sValue)
-    Next
     ParseCompSeq = sTotalTemp
 End Function
 'Parsea el código
