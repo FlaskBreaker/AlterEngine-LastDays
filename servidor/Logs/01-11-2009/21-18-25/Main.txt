@@ -1,8 +1,0 @@
-
-Conexión recibida de 127.0.0.1.
-admin ha entrado desde 127.0.0.1.
-admin/Admin ha entrado en World of AlterEngine.
-Admin se ha desconectado de World of AlterEngine.
-La conexión con 127.0.0.1 ha sido terminada.
-Conexión recibida de 127.0.0.1.
-La conexión con 127.0.0.1 ha sido terminada.
