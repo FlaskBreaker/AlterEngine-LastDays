@@ -150,7 +150,7 @@ Private Sub Form_Load()
             Ending = ".png"
         End If
 
-        If FileExists("GUI\Menu_Principal" & Ending) Then
+        If FileExists("GUI\Menu_Principal-on" & Ending) Then
             frmMainMenu.Picture = LoadPicture(App.Path & "\GUI\Menu_Principal-on" & Ending)
         End If
     Next I
@@ -190,25 +190,9 @@ Private Sub Form_Unload(Cancel As Integer)
 End Sub
 
 
-Private Sub picAutoLogin_Click()
-    If ConnectToServer = False Or (ConnectToServer = True And AutoLogin = 1 And AllDataReceived) Then
-        Call MenuState(MENU_STATE_AUTO_LOGIN)
-    End If
-End Sub
-
-Private Sub picIpConfig_Click()
-    Me.Visible = False
-    frmIpconfig.Visible = True
-End Sub
-
 Private Sub picNewAccount_Click()
     Me.Visible = False
     frmNewAccount.Visible = True
-End Sub
-
-Private Sub picDeleteAccount_Click()
-    frmDeleteAccount.Visible = True
-    Me.Visible = False
 End Sub
 
 Private Sub picLogin_Click()
@@ -227,22 +211,50 @@ Private Sub picCredits_Click()
     frmCredits.Visible = True
 End Sub
 
-Private Sub picQuit_Click()
-    Call GameDestroy
-End Sub
-
 Private Sub Status_Timer()
     If ConnectToServer = True Then
+        Dim I As Long
+        Dim Ending As String
         If Not AllDataReceived Then
             Call SendData("givemethemax" & END_CHAR)
         Else
-            'lblOnline.Caption = "Encendido"
-            'lblOnline.ForeColor = vbBlue
+            For I = 1 To 3
+                If I = 1 Then
+                    Ending = ".gif"
+                End If
+        
+                If I = 2 Then
+                    Ending = ".jpg"
+                End If
+        
+                If I = 3 Then
+                    Ending = ".png"
+                End If
+        
+                If FileExists("GUI\Menu_Principal-on" & Ending) Then
+                    frmMainMenu.Picture = LoadPicture(App.Path & "\GUI\Menu_Principal-on" & Ending)
+                End If
+            Next I
         End If
     Else
         picNews.Caption = "No se ha podido conectar. El servidor puede que este apagado."
-
-        'lblOnline.Caption = "Apagado"
-        'lblOnline.ForeColor = vbRed
+        
+        For I = 1 To 3
+            If I = 1 Then
+                Ending = ".gif"
+            End If
+        
+            If I = 2 Then
+                Ending = ".jpg"
+            End If
+        
+            If I = 3 Then
+                Ending = ".png"
+            End If
+        
+            If FileExists("GUI\Menu_Principal-off" & Ending) Then
+                frmMainMenu.Picture = LoadPicture(App.Path & "\GUI\Menu_Principal-off" & Ending)
+            End If
+        Next I
     End If
 End Sub

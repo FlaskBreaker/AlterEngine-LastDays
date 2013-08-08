@@ -66,7 +66,7 @@ Public Sub Main()
     Call SetStatus("Preparando conexión...")
     Call TcpInit
 
-    frmMainMenu.lblVersion.Caption = "Version: " & App.Major & "." & App.Minor
+    'frmMainMenu.lblVersion.Caption = "Version: " & App.Major & "." & App.Minor
 
     frmSendGetData.Visible = False
     frmMainMenu.Visible = True
@@ -306,11 +306,11 @@ Public Function IsInArray(CtrlArray As Variant, index As Integer) As Boolean
 End Function
 
 Public Sub ClearSpells()
-Dim i As Byte
+Dim I As Byte
 
-For i = 1 To 20
-Player(MyIndex).spellcdb(i) = False
-Player(MyIndex).SpellcdTimer(i) = 0
-Player(MyIndex).Spellpos(i) = 0
-Next i
+For I = 1 To 20
+Player(MyIndex).spellcdb(I) = False
+Player(MyIndex).SpellcdTimer(I) = 0
+Player(MyIndex).Spellpos(I) = 0
+Next I
 End Sub
