@@ -31,10 +31,10 @@ Public Sub MainMenuInit()
     End If
 
     If ConnectToServer = True And AutoLogin = 1 Then
-        'frmMainMenu.picAutoLogin.Visible = True
+        frmMainMenu.picAutoLogin.Visible = True
         frmChars.Label1.Visible = True
     Else
-        'frmMainMenu.picAutoLogin.Visible = False
+        frmMainMenu.picAutoLogin.Visible = False
         frmChars.Label1.Visible = False
     End If
 End Sub

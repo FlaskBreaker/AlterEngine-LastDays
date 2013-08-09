@@ -4,7 +4,6 @@ Reference=*\G{00025E01-0000-0000-C000-000000000046}#4.0#0#..\..\..\..\..\..\Prog
 Reference=*\G{E1211242-8E94-11D1-8808-00C04FC2C602}#1.0#0#..\..\..\..\..\..\Windows\SysWow64\dx7vb.dll#DirectX 7 for Visual Basic Type Library
 Object={D27CDB6B-AE6D-11CF-96B8-444553540000}#1.0#0; Flash.ocx
 Object={665BF2B8-F41F-4EF4-A8D0-303FBFFC475E}#2.0#0; cmcs21.ocx
-Reference=*\G{E1211242-8E94-11D1-8808-00C04FC2C603}#1.0#0#..\..\..\..\..\..\Windows\SysWow64\dx8vb.dll#DirectX 8 for Visual Basic Type Library
 Object={248DD890-BB45-11CF-9ABC-0080C7E7B78D}#1.0#0; Mswinsck.ocx
 Object={3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0; Richtx32.ocx
 Object={BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0; tabctl32.ocx
