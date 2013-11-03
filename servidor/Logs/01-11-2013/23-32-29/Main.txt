@@ -1,0 +1,6 @@
+
+Conexión recibida de 127.0.0.1.
+admin ha entrado desde 127.0.0.1.
+admin/Administrador ha entrado en AlterEngine LastDays.
+Administrador se ha desconectado de AlterEngine LastDays.
+La conexion con 127.0.0.1 ha sido terminada.

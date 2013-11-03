@@ -43,12 +43,12 @@ Public PKCr(1 To 3) As Byte
 ' 32 is a safe and recommended setting
 
 ' Used for AlwaysOnTop
-Public Const Flags As Long = 3
+Public Const flags As Long = 3
 Public Const HWND_TOPMOST As Long = -1
 Public Const HWND_NOTOPMOST As Long = -2
 
 Public SetTop As Boolean
-Public Declare Function SetWindowPos Lib "user32" (ByVal h As Long, ByVal hb As Long, ByVal x As Long, ByVal y As Long, ByVal cX As Long, ByVal cY As Long, ByVal F As Long) As Long
+Public Declare Function SetWindowPos Lib "user32" (ByVal h As Long, ByVal hb As Long, ByVal X As Long, ByVal Y As Long, ByVal cX As Long, ByVal cY As Long, ByVal F As Long) As Long
 
 Public Const MAX_ARROWS = 100
 Public Const MAX_PLAYER_ARROWS = 100
@@ -149,6 +149,7 @@ Public Const ITEM_TYPE_THROW = 19
 Public Const ITEM_TYPE_WARP = 20
 Public Const ITEM_TYPE_PET = 21
 Public Const ITEM_TYPE_PETREZ = 22
+Public Const ITEM_TYPE_BOOK = 23
 
 ' Direction constants
 Public Const DIR_UP = 0

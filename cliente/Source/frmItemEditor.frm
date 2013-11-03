@@ -715,7 +715,35 @@ Begin VB.Form frmItemEditor
       Tab(0).Control(17).Enabled=   0   'False
       Tab(0).Control(18)=   "petspritetxt"
       Tab(0).Control(18).Enabled=   0   'False
-      Tab(0).ControlCount=   19
+      Tab(0).Control(19)=   "Frame1"
+      Tab(0).Control(19).Enabled=   0   'False
+      Tab(0).ControlCount=   20
+      Begin VB.Frame Frame1 
+         Caption         =   "Contenido"
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   6.75
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H0000C000&
+         Height          =   3135
+         Left            =   3840
+         TabIndex        =   98
+         Top             =   480
+         Width           =   6495
+         Begin VB.TextBox Text1 
+            Height          =   2415
+            Left            =   360
+            MultiLine       =   -1  'True
+            TabIndex        =   99
+            Top             =   360
+            Width           =   5895
+         End
+      End
       Begin VB.TextBox petspritetxt 
          Alignment       =   2  'Center
          Appearance      =   0  'Flat
@@ -749,7 +777,7 @@ Begin VB.Form frmItemEditor
          Height          =   285
          ItemData        =   "frmItemEditor.frx":0FDE
          Left            =   360
-         List            =   "frmItemEditor.frx":1027
+         List            =   "frmItemEditor.frx":102A
          Style           =   2  'Dropdown List
          TabIndex        =   89
          Top             =   1080
@@ -994,9 +1022,9 @@ Begin VB.Form frmItemEditor
                Strikethrough   =   0   'False
             EndProperty
             Height          =   315
-            ItemData        =   "frmItemEditor.frx":1152
+            ItemData        =   "frmItemEditor.frx":115C
             Left            =   120
-            List            =   "frmItemEditor.frx":1154
+            List            =   "frmItemEditor.frx":115E
             Style           =   2  'Dropdown List
             TabIndex        =   70
             Top             =   600
@@ -1527,8 +1555,8 @@ Begin VB.Form frmItemEditor
          EndProperty
          BackColor       =   14935011
          Caption         =   "Guardar"
-         PictureNormal   =   "frmItemEditor.frx":1156
-         PictureHot      =   "frmItemEditor.frx":193A
+         PictureNormal   =   "frmItemEditor.frx":1160
+         PictureHot      =   "frmItemEditor.frx":1944
          PictureEffectOnOver=   0
          PictureEffectOnDown=   0
          PicturePushOnHover=   -1  'True
@@ -1556,8 +1584,8 @@ Begin VB.Form frmItemEditor
          EndProperty
          BackColor       =   14935011
          Caption         =   "Cancelar"
-         PictureNormal   =   "frmItemEditor.frx":211E
-         PictureHot      =   "frmItemEditor.frx":2A72
+         PictureNormal   =   "frmItemEditor.frx":2128
+         PictureHot      =   "frmItemEditor.frx":2A7C
          PictureEffectOnOver=   0
          PictureEffectOnDown=   0
          PicturePushOnHover=   -1  'True
@@ -1710,6 +1738,13 @@ Private Sub cmbType_Click()
         fraEquipment.Visible = False
         fraAttributes.Visible = False
         fraBow.Visible = False
+    End If
+
+    If (cmbType.ListIndex >= ITEM_TYPE_BOOK) Then
+        fraEquipment.Visible = False
+        fraAttributes.Visible = False
+        Frame1.Visible = True
+        chkStackable.Visible = True
     End If
 
     If (cmbType.ListIndex >= ITEM_TYPE_POTIONADDHP) And (cmbType.ListIndex <= ITEM_TYPE_POTIONSUBSP) Then

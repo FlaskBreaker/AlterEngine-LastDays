@@ -46,6 +46,9 @@ Public GAME_PORT As Long
 ' Map Control
 Public IS_SCROLLING As Long
 
+' Used for Double Exp
+Public DoubleExp As Boolean
+
 ' Used for respawning items
 Public SpawnSeconds As Long
 

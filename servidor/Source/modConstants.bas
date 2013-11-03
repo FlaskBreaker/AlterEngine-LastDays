@@ -153,6 +153,7 @@ Public Const ITEM_TYPE_THROW = 19
 Public Const ITEM_TYPE_WARP = 20
 Public Const ITEM_TYPE_PET = 21
 Public Const ITEM_TYPE_PETREZ = 22
+Public Const ITEM_TYPE_BOOK = 23
 
 ' Direction Constants.
 Public Const DIR_UP = 0

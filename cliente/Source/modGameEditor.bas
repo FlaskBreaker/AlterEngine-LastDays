@@ -1019,7 +1019,14 @@ Public Sub ItemEditorInit()
     Else
         frmItemEditor.fraSpell.Visible = False
     End If
-
+    
+    If (frmItemEditor.cmbType.ListIndex = ITEM_TYPE_BOOK) Then
+        frmItemEditor.Frame1.Visible = True
+        frmItemEditor.chkStackable.Visible = True
+    Else
+        frmItemEditor.Frame1.Visible = False
+    End If
+    
     If (frmItemEditor.cmbType.ListIndex >= ITEM_TYPE_SCRIPTED) Then
         frmItemEditor.fraScript.Visible = True
         frmItemEditor.scrlScript.value = Item(EditorIndex).Data1
@@ -1108,6 +1115,29 @@ Public Sub ItemEditorOk()
 
     If (frmItemEditor.cmbType.ListIndex = ITEM_TYPE_SPELL) Then
         Item(EditorIndex).Data1 = frmItemEditor.scrlSpell.value
+        Item(EditorIndex).Data2 = 0
+        Item(EditorIndex).Data3 = 0
+        Item(EditorIndex).StrReq = 0
+        Item(EditorIndex).DefReq = 0
+        Item(EditorIndex).SpeedReq = 0
+        Item(EditorIndex).MagicReq = 0
+        Item(EditorIndex).ClassReq = -1
+        Item(EditorIndex).AccessReq = 0
+
+        Item(EditorIndex).AddHP = 0
+        Item(EditorIndex).AddMP = 0
+        Item(EditorIndex).AddSP = 0
+        Item(EditorIndex).AddStr = 0
+        Item(EditorIndex).AddDef = 0
+        Item(EditorIndex).AddMagi = 0
+        Item(EditorIndex).AddSpeed = 0
+        Item(EditorIndex).AddEXP = 0
+        Item(EditorIndex).AttackSpeed = 0
+        Item(EditorIndex).Stackable = frmItemEditor.chkStackable.value
+    End If
+
+    If (frmItemEditor.cmbType.ListIndex = ITEM_TYPE_BOOK) Then
+        Item(EditorIndex).Data1 = frmItemEditor.Text1.Text
         Item(EditorIndex).Data2 = 0
         Item(EditorIndex).Data3 = 0
         Item(EditorIndex).StrReq = 0

@@ -238,22 +238,22 @@ Function NeedToRestoreSurfaces() As Boolean
     End If
 End Function
 
-Public Sub SetMaskColorFromPixel(ByRef TheSurface As DirectDrawSurface7, ByVal X As Long, ByVal Y As Long)
+Public Sub SetMaskColorFromPixel(ByRef TheSurface As DirectDrawSurface7, ByVal x As Long, ByVal y As Long)
     Dim TmpR As RECT
     Dim TmpDDSD As DDSURFACEDESC2
     Dim TmpColorKey As DDCOLORKEY
 
     With TmpR
-        .Left = X
-        .top = Y
-        .Right = X
-        .Bottom = Y
+        .Left = x
+        .Top = y
+        .Right = x
+        .Bottom = y
     End With
 
     TheSurface.Lock TmpR, TmpDDSD, DDLOCK_WAIT Or DDLOCK_READONLY, 0
 
     With TmpColorKey
-        .low = TheSurface.GetLockedPixel(X, Y)
+        .low = TheSurface.GetLockedPixel(x, y)
         .high = .low
     End With
 
@@ -273,55 +273,55 @@ Sub DisplayFx(ByRef surfDisplay As DirectDrawSurface7, intX As Long, intY As Lon
     DD_BackBuffer.ReleaseDC lngDestDC
 End Sub
 
-Public Function GetScreenLeft(ByVal index As Long) As Long
-    GetScreenLeft = GetPlayerX(index) - 11
+Public Function GetScreenLeft(ByVal Index As Long) As Long
+    GetScreenLeft = GetPlayerX(Index) - 11
 End Function
 
-Public Function GetScreenTop(ByVal index As Long) As Long
-    GetScreenTop = GetPlayerY(index) - 8
+Public Function GetScreenTop(ByVal Index As Long) As Long
+    GetScreenTop = GetPlayerY(Index) - 8
 End Function
 
-Public Function GetScreenRight(ByVal index As Long) As Long
-    GetScreenRight = GetPlayerX(index) + 10
+Public Function GetScreenRight(ByVal Index As Long) As Long
+    GetScreenRight = GetPlayerX(Index) + 10
 End Function
 
-Public Function GetScreenBottom(ByVal index As Long) As Long
-    GetScreenBottom = GetPlayerY(index) + 8
+Public Function GetScreenBottom(ByVal Index As Long) As Long
+    GetScreenBottom = GetPlayerY(Index) + 8
 End Function
 
 Sub Night()
-    Dim X As Long, Y As Long
+    Dim x As Long, y As Long
 
     If TileFile(10) = 0 Then
         Exit Sub
     End If
 
-    For Y = ScreenY To ScreenY2
-        For X = ScreenX To ScreenX2
-            If Map(GetPlayerMap(MyIndex)).Tile(X, Y).Light <= 0 Then
-                DisplayFx DD_TileSurf(10), (X - NewPlayerX) * PIC_X + sx - NewXOffset, (Y - NewPlayerY) * PIC_Y + sx - NewYOffset, 32, 32, vbSrcAnd, DDBLT_ROP Or DDBLT_WAIT, 31
+    For y = ScreenY To ScreenY2
+        For x = ScreenX To ScreenX2
+            If Map(GetPlayerMap(MyIndex)).Tile(x, y).Light <= 0 Then
+                DisplayFx DD_TileSurf(10), (x - NewPlayerX) * PIC_X + sx - NewXOffset, (y - NewPlayerY) * PIC_Y + sx - NewYOffset, 32, 32, vbSrcAnd, DDBLT_ROP Or DDBLT_WAIT, 31
             Else
-                DisplayFx DD_TileSurf(10), (X - NewPlayerX) * PIC_X + sx - NewXOffset, (Y - NewPlayerY) * PIC_Y + sx - NewYOffset, 32, 32, vbSrcAnd, DDBLT_ROP Or DDBLT_WAIT, CLng(Map(GetPlayerMap(MyIndex)).Tile(X, Y).Light)
+                DisplayFx DD_TileSurf(10), (x - NewPlayerX) * PIC_X + sx - NewXOffset, (y - NewPlayerY) * PIC_Y + sx - NewYOffset, 32, 32, vbSrcAnd, DDBLT_ROP Or DDBLT_WAIT, CLng(Map(GetPlayerMap(MyIndex)).Tile(x, y).Light)
             End If
-        Next X
-    Next Y
+        Next x
+    Next y
 End Sub
 
-Sub BltTile2(ByVal X As Long, ByVal Y As Long, ByVal Tile As Long)
+Sub BltTile2(ByVal x As Long, ByVal y As Long, ByVal Tile As Long)
     If TileFile(10) = 0 Then
         Exit Sub
     End If
 
-    rec.top = Int(Tile / TilesInSheets) * PIC_Y
-    rec.Bottom = rec.top + PIC_Y
+    rec.Top = Int(Tile / TilesInSheets) * PIC_Y
+    rec.Bottom = rec.Top + PIC_Y
     rec.Left = (Tile - Int(Tile / TilesInSheets) * TilesInSheets) * PIC_X
     rec.Right = rec.Left + PIC_X
     
-    Call DD_BackBuffer.BltFast(X - (NewPlayerX * PIC_X) + sx - NewXOffset, Y - (NewPlayerY * PIC_Y) + sx - NewYOffset, DD_TileSurf(10), rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
+    Call DD_BackBuffer.BltFast(x - (NewPlayerX * PIC_X) + sx - NewXOffset, y - (NewPlayerY * PIC_Y) + sx - NewYOffset, DD_TileSurf(10), rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
 '    DisplayFx DD_TileSurf(10), (x - NewPlayerX * PIC_X) + sx - NewXOffset, y - (NewPlayerY * PIC_Y) + sx - NewYOffset, 32, 16, vbSrcAnd, DDBLT_ROP Or DDBLT_WAIT, Tile
 End Sub
 
-Sub BltPlayerText(ByVal index As Long)
+Sub BltPlayerText(ByVal Index As Long)
     Dim TextX As Long
     Dim TextY As Long
     Dim intLoop As Integer
@@ -331,10 +331,10 @@ Sub BltPlayerText(ByVal index As Long)
     Dim bytLineLength As Byte
     Dim strLine(0 To MAX_LINES - 1) As String
     Dim strWords() As String
-    strWords() = Split(Bubble(index).Text, " ")
+    strWords() = Split(Bubble(Index).Text, " ")
 
-    If Len(Bubble(index).Text) < MAX_LINE_LENGTH Then
-        DISPLAY_BUBBLE_WIDTH = 2 + ((Len(Bubble(index).Text) * 9) \ PIC_X)
+    If Len(Bubble(Index).Text) < MAX_LINE_LENGTH Then
+        DISPLAY_BUBBLE_WIDTH = 2 + ((Len(Bubble(Index).Text) * 9) \ PIC_X)
 
         If DISPLAY_BUBBLE_WIDTH > MAX_BUBBLE_WIDTH Then
             DISPLAY_BUBBLE_WIDTH = MAX_BUBBLE_WIDTH
@@ -343,8 +343,8 @@ Sub BltPlayerText(ByVal index As Long)
         DISPLAY_BUBBLE_WIDTH = 6
     End If
 
-    TextX = GetPlayerX(index) * PIC_X + Player(index).XOffset + Int(PIC_X) - ((DISPLAY_BUBBLE_WIDTH * 32) / 2) - 6
-    TextY = GetPlayerY(index) * PIC_Y + Player(index).YOffset - Int(PIC_Y) + 75
+    TextX = GetPlayerX(Index) * PIC_X + Player(Index).XOffset + Int(PIC_X) - ((DISPLAY_BUBBLE_WIDTH * 32) / 2) - 6
+    TextY = GetPlayerY(Index) * PIC_Y + Player(Index).YOffset - Int(PIC_Y) + 75
 
     Call DD_BackBuffer.ReleaseDC(TexthDC)
 
@@ -411,7 +411,7 @@ Sub BltPlayerText(ByVal index As Long)
     Next intLoop
 End Sub
 
-Sub Bltscriptbubble(ByVal index As Long, ByVal MapNum As Long, ByVal X As Long, ByVal Y As Long, ByVal Colour As Long)
+Sub Bltscriptbubble(ByVal Index As Long, ByVal MapNum As Long, ByVal x As Long, ByVal y As Long, ByVal Colour As Long)
     Dim TextX As Long
     Dim TextY As Long
     Dim intLoop As Integer
@@ -422,10 +422,10 @@ Sub Bltscriptbubble(ByVal index As Long, ByVal MapNum As Long, ByVal X As Long, 
     Dim strLine(0 To MAX_LINES - 1) As String
     Dim strWords() As String
 
-    strWords() = Split(ScriptBubble(index).Text, " ")
+    strWords() = Split(ScriptBubble(Index).Text, " ")
 
-    If Len(ScriptBubble(index).Text) < MAX_LINE_LENGTH Then
-        DISPLAY_BUBBLE_WIDTH = 2 + ((Len(ScriptBubble(index).Text) * 9) \ PIC_X)
+    If Len(ScriptBubble(Index).Text) < MAX_LINE_LENGTH Then
+        DISPLAY_BUBBLE_WIDTH = 2 + ((Len(ScriptBubble(Index).Text) * 9) \ PIC_X)
 
         If DISPLAY_BUBBLE_WIDTH > MAX_BUBBLE_WIDTH Then
             DISPLAY_BUBBLE_WIDTH = MAX_BUBBLE_WIDTH
@@ -435,8 +435,8 @@ Sub Bltscriptbubble(ByVal index As Long, ByVal MapNum As Long, ByVal X As Long, 
     End If
 
     ' TextX = X * PIC_X + Int(PIC_X) - ((DISPLAY_BUBBLE_WIDTH * 32) / 2) - 6
-    TextX = X * PIC_X - 22
-    TextY = Y * PIC_Y - 22
+    TextX = x * PIC_X - 22
+    TextY = y * PIC_Y - 22
 
     Call DD_BackBuffer.ReleaseDC(TexthDC)
 
@@ -502,87 +502,87 @@ Sub Bltscriptbubble(ByVal index As Long, ByVal MapNum As Long, ByVal X As Long, 
     Next intLoop
 End Sub
 
-Sub BltPlayerBars(ByVal index As Long)
-    Dim X As Long, Y As Long
+Sub BltPlayerBars(ByVal Index As Long)
+    Dim x As Long, y As Long
 
-    X = (GetPlayerX(index) * PIC_X + sx + Player(index).XOffset) - (NewPlayerX * PIC_X) - NewXOffset
-    Y = (GetPlayerY(index) * PIC_Y + sx + Player(index).YOffset) - (NewPlayerY * PIC_Y) - NewYOffset
+    x = (GetPlayerX(Index) * PIC_X + sx + Player(Index).XOffset) - (NewPlayerX * PIC_X) - NewXOffset
+    y = (GetPlayerY(Index) * PIC_Y + sx + Player(Index).YOffset) - (NewPlayerY * PIC_Y) - NewYOffset
 
 
-    If Player(index).HP = 0 Then
+    If Player(Index).HP = 0 Then
         Exit Sub
     End If
     If SpriteSize = 1 Then
         ' draws the back bars
         Call DD_BackBuffer.SetFillColor(RGB(255, 0, 0))
-        Call DD_BackBuffer.DrawBox(X, Y - 30, X + 32, Y - 34)
+        Call DD_BackBuffer.DrawBox(x, y - 30, x + 32, y - 34)
 
         ' draws HP
         Call DD_BackBuffer.SetFillColor(RGB(0, 255, 0))
-        Call DD_BackBuffer.DrawBox(X, Y - 30, X + ((Player(index).HP / 100) / (Player(index).MaxHP / 100) * 32), Y - 34)
+        Call DD_BackBuffer.DrawBox(x, y - 30, x + ((Player(Index).HP / 100) / (Player(Index).MaxHP / 100) * 32), y - 34)
     Else
         If SpriteSize = 2 Then
             ' draws the back bars
             Call DD_BackBuffer.SetFillColor(RGB(255, 0, 0))
-            Call DD_BackBuffer.DrawBox(X, Y - 30 - PIC_Y, X + 32, Y - 34 - PIC_Y)
+            Call DD_BackBuffer.DrawBox(x, y - 30 - PIC_Y, x + 32, y - 34 - PIC_Y)
 
             ' draws HP
             Call DD_BackBuffer.SetFillColor(RGB(0, 255, 0))
-            Call DD_BackBuffer.DrawBox(X, Y - 30 - PIC_Y, X + ((Player(index).HP / 100) / (Player(index).MaxHP / 100) * 32), Y - 34 - PIC_Y)
+            Call DD_BackBuffer.DrawBox(x, y - 30 - PIC_Y, x + ((Player(Index).HP / 100) / (Player(Index).MaxHP / 100) * 32), y - 34 - PIC_Y)
         Else
             ' draws the back bars
             Call DD_BackBuffer.SetFillColor(RGB(255, 0, 0))
-            Call DD_BackBuffer.DrawBox(X, Y + 2, X + 32, Y - 2)
+            Call DD_BackBuffer.DrawBox(x, y + 2, x + 32, y - 2)
 
             ' draws HP
             Call DD_BackBuffer.SetFillColor(RGB(0, 255, 0))
-            Call DD_BackBuffer.DrawBox(X, Y + 2, X + ((Player(index).HP / 100) / (Player(index).MaxHP / 100) * 32), Y - 2)
+            Call DD_BackBuffer.DrawBox(x, y + 2, x + ((Player(Index).HP / 100) / (Player(Index).MaxHP / 100) * 32), y - 2)
         End If
     End If
 End Sub
-Sub BltSpellsBar(ByVal index As Long, ByVal Spellnum As Long)
-        Dim value As Variant
+Sub BltSpellsBar(ByVal Index As Long, ByVal Spellnum As Long)
+        Dim Value As Variant
         Dim Bar As String
         frmMirage.Timer1.Enabled = True
         frmMirage.Timer1.Interval = 1
 End Sub
 
-Sub BltNpcBars(ByVal index As Long)
-    Dim X As Long, Y As Long
+Sub BltNpcBars(ByVal Index As Long)
+    Dim x As Long, y As Long
 
     On Error GoTo BltNpcBars_Error
 
-    If MapNpc(index).HP = 0 Then
+    If MapNpc(Index).HP = 0 Then
         Exit Sub
     End If
-    If MapNpc(index).Num < 1 Then
+    If MapNpc(Index).Num < 1 Then
         Exit Sub
     End If
 
-    If Npc(MapNpc(index).Num).Big = 1 Then
-        X = (MapNpc(index).X * PIC_X + sx - 9 + MapNpc(index).XOffset) - (NewPlayerX * PIC_X) - NewXOffset
-        Y = (MapNpc(index).Y * PIC_Y + sx + MapNpc(index).YOffset) - (NewPlayerY * PIC_Y) - NewYOffset
+    If Npc(MapNpc(Index).Num).Big = 1 Then
+        x = (MapNpc(Index).x * PIC_X + sx - 9 + MapNpc(Index).XOffset) - (NewPlayerX * PIC_X) - NewXOffset
+        y = (MapNpc(Index).y * PIC_Y + sx + MapNpc(Index).YOffset) - (NewPlayerY * PIC_Y) - NewYOffset
 
         Call DD_BackBuffer.SetFillColor(RGB(255, 0, 0))
-        Call DD_BackBuffer.DrawBox(X, Y + 32, X + 50, Y + 36)
+        Call DD_BackBuffer.DrawBox(x, y + 32, x + 50, y + 36)
         Call DD_BackBuffer.SetFillColor(RGB(0, 255, 0))
-        If MapNpc(index).MaxHP < 1 Then
-            Call DD_BackBuffer.DrawBox(X, Y + 32, X + ((MapNpc(index).HP / 100) / ((MapNpc(index).MaxHP + 1) / 100) * 50), Y + 36)
+        If MapNpc(Index).MaxHP < 1 Then
+            Call DD_BackBuffer.DrawBox(x, y + 32, x + ((MapNpc(Index).HP / 100) / ((MapNpc(Index).MaxHP + 1) / 100) * 50), y + 36)
         Else
-            Call DD_BackBuffer.DrawBox(X, Y + 32, X + ((MapNpc(index).HP / 100) / (MapNpc(index).MaxHP / 100) * 50), Y + 36)
+            Call DD_BackBuffer.DrawBox(x, y + 32, x + ((MapNpc(Index).HP / 100) / (MapNpc(Index).MaxHP / 100) * 50), y + 36)
         End If
     Else
-        X = (MapNpc(index).X * PIC_X + sx + MapNpc(index).XOffset) - (NewPlayerX * PIC_X) - NewXOffset
-        Y = (MapNpc(index).Y * PIC_Y + sx + MapNpc(index).YOffset) - (NewPlayerY * PIC_Y) - NewYOffset
+        x = (MapNpc(Index).x * PIC_X + sx + MapNpc(Index).XOffset) - (NewPlayerX * PIC_X) - NewXOffset
+        y = (MapNpc(Index).y * PIC_Y + sx + MapNpc(Index).YOffset) - (NewPlayerY * PIC_Y) - NewYOffset
 
         Call DD_BackBuffer.SetFillColor(RGB(255, 0, 0))
-        Call DD_BackBuffer.DrawBox(X, Y + 32, X + 32, Y + 36)
+        Call DD_BackBuffer.DrawBox(x, y + 32, x + 32, y + 36)
         Call DD_BackBuffer.SetFillColor(RGB(0, 255, 0))
 
-        If MapNpc(index).MaxHP < 1 Then
-            Call DD_BackBuffer.DrawBox(X, Y + 32, X + ((MapNpc(index).HP / 100) / ((MapNpc(index).MaxHP + 1) / 100) * 32), Y + 36)
+        If MapNpc(Index).MaxHP < 1 Then
+            Call DD_BackBuffer.DrawBox(x, y + 32, x + ((MapNpc(Index).HP / 100) / ((MapNpc(Index).MaxHP + 1) / 100) * 32), y + 36)
         Else
-            Call DD_BackBuffer.DrawBox(X, Y + 32, X + ((MapNpc(index).HP / 100) / (MapNpc(index).MaxHP / 100) * 32), Y + 36)
+            Call DD_BackBuffer.DrawBox(x, y + 32, x + ((MapNpc(Index).HP / 100) / (MapNpc(Index).MaxHP / 100) * 32), y + 36)
         End If
 
     End If
@@ -638,30 +638,30 @@ Sub BltWeather()
     End If
 
     For I = 1 To MAX_RAINDROPS
-        If Not ((DropRain(I).X = 0) Or (DropRain(I).Y = 0)) Then
-            rec.top = 0
-            rec.Bottom = rec.top + PIC_Y
+        If Not ((DropRain(I).x = 0) Or (DropRain(I).y = 0)) Then
+            rec.Top = 0
+            rec.Bottom = rec.Top + PIC_Y
             rec.Left = 6 * PIC_X
             rec.Right = rec.Left + PIC_X
-            DropRain(I).X = DropRain(I).X + DropRain(I).SPEED
-            DropRain(I).Y = DropRain(I).Y + DropRain(I).SPEED
-            Call DD_BackBuffer.BltFast(DropRain(I).X + DropRain(I).SPEED, DropRain(I).Y + DropRain(I).SPEED, DD_TileSurf(10), rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
-            If (DropRain(I).X > (MAX_MAPX + 1) * PIC_X) Or (DropRain(I).Y > (MAX_MAPY + 1) * PIC_Y) Then
+            DropRain(I).x = DropRain(I).x + DropRain(I).SPEED
+            DropRain(I).y = DropRain(I).y + DropRain(I).SPEED
+            Call DD_BackBuffer.BltFast(DropRain(I).x + DropRain(I).SPEED, DropRain(I).y + DropRain(I).SPEED, DD_TileSurf(10), rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
+            If (DropRain(I).x > (MAX_MAPX + 1) * PIC_X) Or (DropRain(I).y > (MAX_MAPY + 1) * PIC_Y) Then
                 DropRain(I).Randomized = False
             End If
         End If
     Next I
     If TileFile(10) = 1 Then
-        rec.top = Int(14 / TilesInSheets) * PIC_Y
-        rec.Bottom = rec.top + PIC_Y
+        rec.Top = Int(14 / TilesInSheets) * PIC_Y
+        rec.Bottom = rec.Top + PIC_Y
         rec.Left = (14 - Int(14 / TilesInSheets) * TilesInSheets) * PIC_X
         rec.Right = rec.Left + PIC_X
         For I = 1 To MAX_RAINDROPS
-            If Not ((DropSnow(I).X = 0) Or (DropSnow(I).Y = 0)) Then
-                DropSnow(I).X = DropSnow(I).X + DropSnow(I).SPEED
-                DropSnow(I).Y = DropSnow(I).Y + DropSnow(I).SPEED
-                Call DD_BackBuffer.BltFast(DropSnow(I).X + DropSnow(I).SPEED, DropSnow(I).Y + DropSnow(I).SPEED, DD_TileSurf(10), rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
-                If (DropSnow(I).X > (MAX_MAPX + 1) * PIC_X) Or (DropSnow(I).Y > (MAX_MAPY + 1) * PIC_Y) Then
+            If Not ((DropSnow(I).x = 0) Or (DropSnow(I).y = 0)) Then
+                DropSnow(I).x = DropSnow(I).x + DropSnow(I).SPEED
+                DropSnow(I).y = DropSnow(I).y + DropSnow(I).SPEED
+                Call DD_BackBuffer.BltFast(DropSnow(I).x + DropSnow(I).SPEED, DropSnow(I).y + DropSnow(I).SPEED, DD_TileSurf(10), rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
+                If (DropSnow(I).x > (MAX_MAPX + 1) * PIC_X) Or (DropSnow(I).y > (MAX_MAPY + 1) * PIC_Y) Then
                     DropSnow(I).Randomized = False
                 End If
             End If
@@ -693,15 +693,15 @@ Sub BltMapWeather()
             End If
         Next I
         For I = 1 To MAX_RAINDROPS
-            If Not ((DropRain(I).X = 0) Or (DropRain(I).Y = 0)) Then
-                rec.top = (14 - Int(14 / TilesInSheets)) * PIC_Y
-                rec.Bottom = rec.top + PIC_Y
+            If Not ((DropRain(I).x = 0) Or (DropRain(I).y = 0)) Then
+                rec.Top = (14 - Int(14 / TilesInSheets)) * PIC_Y
+                rec.Bottom = rec.Top + PIC_Y
                 rec.Left = 6 * PIC_X
                 rec.Right = rec.Left + PIC_X
-                DropRain(I).X = DropRain(I).X + DropRain(I).SPEED
-                DropRain(I).Y = DropRain(I).Y + DropRain(I).SPEED
-                Call DD_BackBuffer.BltFast(DropRain(I).X + DropRain(I).SPEED, DropRain(I).Y + DropRain(I).SPEED, DD_TileSurf(10), rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
-                If (DropRain(I).X > (MAX_MAPX + 1) * PIC_X) Or (DropRain(I).Y > (MAX_MAPY + 1) * PIC_Y) Then
+                DropRain(I).x = DropRain(I).x + DropRain(I).SPEED
+                DropRain(I).y = DropRain(I).y + DropRain(I).SPEED
+                Call DD_BackBuffer.BltFast(DropRain(I).x + DropRain(I).SPEED, DropRain(I).y + DropRain(I).SPEED, DD_TileSurf(10), rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
+                If (DropRain(I).x > (MAX_MAPX + 1) * PIC_X) Or (DropRain(I).y > (MAX_MAPY + 1) * PIC_Y) Then
                     DropRain(I).Randomized = False
                 End If
             End If
@@ -725,17 +725,17 @@ Sub BltMapWeather()
             End If
         Next I
         If TileFile(10) = 1 Then
-            rec.top = Int(14 / TilesInSheets) * PIC_Y
-            rec.Bottom = rec.top + PIC_Y
+            rec.Top = Int(14 / TilesInSheets) * PIC_Y
+            rec.Bottom = rec.Top + PIC_Y
             rec.Left = (14 - Int(14 / TilesInSheets) * TilesInSheets) * PIC_X
             rec.Right = rec.Left + PIC_X
 
             For I = 1 To MAX_RAINDROPS
-                If Not ((DropSnow(I).X = 0) Or (DropSnow(I).Y = 0)) Then
-                    DropSnow(I).X = DropSnow(I).X + DropSnow(I).SPEED
-                    DropSnow(I).Y = DropSnow(I).Y + DropSnow(I).SPEED
-                    Call DD_BackBuffer.BltFast(DropSnow(I).X + DropSnow(I).SPEED, DropSnow(I).Y + DropSnow(I).SPEED, DD_TileSurf(10), rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
-                    If (DropSnow(I).X > (MAX_MAPX + 1) * PIC_X) Or (DropSnow(I).Y > (MAX_MAPY + 1) * PIC_Y) Then
+                If Not ((DropSnow(I).x = 0) Or (DropSnow(I).y = 0)) Then
+                    DropSnow(I).x = DropSnow(I).x + DropSnow(I).SPEED
+                    DropSnow(I).y = DropSnow(I).y + DropSnow(I).SPEED
+                    Call DD_BackBuffer.BltFast(DropSnow(I).x + DropSnow(I).SPEED, DropSnow(I).y + DropSnow(I).SPEED, DD_TileSurf(10), rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
+                    If (DropSnow(I).x > (MAX_MAPX + 1) * PIC_X) Or (DropSnow(I).y > (MAX_MAPY + 1) * PIC_Y) Then
                         DropSnow(I).Randomized = False
                     End If
                 End If
@@ -751,9 +751,9 @@ End Sub
 
 Sub RNDRainDrop(ByVal RDNumber As Long)
 Start:
-    DropRain(RDNumber).X = Int((((MAX_MAPX + 1) * PIC_X) * Rnd) + 1)
-    DropRain(RDNumber).Y = Int((((MAX_MAPY + 1) * PIC_Y) * Rnd) + 1)
-    If (DropRain(RDNumber).Y > (MAX_MAPY + 1) * PIC_Y / 4) And (DropRain(RDNumber).X > (MAX_MAPX + 1) * PIC_X / 4) Then
+    DropRain(RDNumber).x = Int((((MAX_MAPX + 1) * PIC_X) * Rnd) + 1)
+    DropRain(RDNumber).y = Int((((MAX_MAPY + 1) * PIC_Y) * Rnd) + 1)
+    If (DropRain(RDNumber).y > (MAX_MAPY + 1) * PIC_Y / 4) And (DropRain(RDNumber).x > (MAX_MAPX + 1) * PIC_X / 4) Then
         GoTo Start
     End If
     DropRain(RDNumber).SPEED = Int((10 * Rnd) + 6)
@@ -762,17 +762,17 @@ End Sub
 
 Sub ClearRainDrop(ByVal RDNumber As Long)
     On Error Resume Next
-    DropRain(RDNumber).X = 0
-    DropRain(RDNumber).Y = 0
+    DropRain(RDNumber).x = 0
+    DropRain(RDNumber).y = 0
     DropRain(RDNumber).SPEED = 0
     DropRain(RDNumber).Randomized = False
 End Sub
 
 Sub RNDSnowDrop(ByVal RDNumber As Long)
 Start:
-    DropSnow(RDNumber).X = Int((((MAX_MAPX + 1) * PIC_X) * Rnd) + 1)
-    DropSnow(RDNumber).Y = Int((((MAX_MAPY + 1) * PIC_Y) * Rnd) + 1)
-    If (DropSnow(RDNumber).Y > (MAX_MAPY + 1) * PIC_Y / 4) And (DropSnow(RDNumber).X > (MAX_MAPX + 1) * PIC_X / 4) Then
+    DropSnow(RDNumber).x = Int((((MAX_MAPX + 1) * PIC_X) * Rnd) + 1)
+    DropSnow(RDNumber).y = Int((((MAX_MAPY + 1) * PIC_Y) * Rnd) + 1)
+    If (DropSnow(RDNumber).y > (MAX_MAPY + 1) * PIC_Y / 4) And (DropSnow(RDNumber).x > (MAX_MAPX + 1) * PIC_X / 4) Then
         GoTo Start
     End If
     DropSnow(RDNumber).SPEED = Int((10 * Rnd) + 6)
@@ -781,179 +781,179 @@ End Sub
 
 Sub ClearSnowDrop(ByVal RDNumber As Long)
     On Error Resume Next
-    DropSnow(RDNumber).X = 0
-    DropSnow(RDNumber).Y = 0
+    DropSnow(RDNumber).x = 0
+    DropSnow(RDNumber).y = 0
     DropSnow(RDNumber).SPEED = 0
     DropSnow(RDNumber).Randomized = False
 End Sub
 
-Sub BltSpell(ByVal index As Long)
-    Dim X As Long, Y As Long, I As Long
+Sub BltSpell(ByVal Index As Long)
+    Dim x As Long, y As Long, I As Long
 
-    If Player(index).Spellnum <= 0 Or Player(index).Spellnum > MAX_SPELLS Then
+    If Player(Index).Spellnum <= 0 Or Player(Index).Spellnum > MAX_SPELLS Then
         Exit Sub
     End If
 
 
     For I = 1 To MAX_SPELL_ANIM
         ' IF SPELL IS NOT BIG
-        If Spell(Player(index).Spellnum).Big = 0 Then
-            If Player(index).SpellAnim(I).CastedSpell = YES Then
-                If Player(index).SpellAnim(I).SpellDone < Spell(Player(index).Spellnum).SpellDone Then
+        If Spell(Player(Index).Spellnum).Big = 0 Then
+            If Player(Index).SpellAnim(I).CastedSpell = YES Then
+                If Player(Index).SpellAnim(I).SpellDone < Spell(Player(Index).Spellnum).SpellDone Then
 
-                    rec.top = Spell(Player(index).Spellnum).SpellAnim * PIC_Y
-                    rec.Bottom = rec.top + PIC_Y
-                    rec.Left = Player(index).SpellAnim(I).SpellVar * PIC_X
+                    rec.Top = Spell(Player(Index).Spellnum).SpellAnim * PIC_Y
+                    rec.Bottom = rec.Top + PIC_Y
+                    rec.Left = Player(Index).SpellAnim(I).SpellVar * PIC_X
                     rec.Right = rec.Left + PIC_X
 
-                    If Player(index).SpellAnim(I).TargetType = 0 Then
+                    If Player(Index).SpellAnim(I).TargetType = 0 Then
 
                         ' SMALL: IF TARGET IS A PLAYER
-                        If Player(index).SpellAnim(I).Target > 0 Then
+                        If Player(Index).SpellAnim(I).Target > 0 Then
 
                             ' SMALL: IF TARGET IS SELF
-                            If Player(index).SpellAnim(I).Target = MyIndex Then
-                                X = NewX + sx
-                                Y = NewY + sx
-                                Call DD_BackBuffer.BltFast(X, Y, DD_SpellAnim, rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
+                            If Player(Index).SpellAnim(I).Target = MyIndex Then
+                                x = NewX + sx
+                                y = NewY + sx
+                                Call DD_BackBuffer.BltFast(x, y, DD_SpellAnim, rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
 
                             ' SMALL: IF TARGET IS ANOTHER PLAYER
                             Else
-                                X = GetPlayerX(Player(index).SpellAnim(I).Target) * PIC_X + sx + Player(Player(index).SpellAnim(I).Target).XOffset
-                                Y = GetPlayerY(Player(index).SpellAnim(I).Target) * PIC_Y + sx + Player(Player(index).SpellAnim(I).Target).YOffset
-                                Call DD_BackBuffer.BltFast(X - (NewPlayerX * PIC_X) - NewXOffset, Y - (NewPlayerY * PIC_Y) - NewYOffset, DD_SpellAnim, rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
+                                x = GetPlayerX(Player(Index).SpellAnim(I).Target) * PIC_X + sx + Player(Player(Index).SpellAnim(I).Target).XOffset
+                                y = GetPlayerY(Player(Index).SpellAnim(I).Target) * PIC_Y + sx + Player(Player(Index).SpellAnim(I).Target).YOffset
+                                Call DD_BackBuffer.BltFast(x - (NewPlayerX * PIC_X) - NewXOffset, y - (NewPlayerY * PIC_Y) - NewYOffset, DD_SpellAnim, rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
                             End If
                         End If
 
                     ' SMALL: IF TARGET IS AN NPC
                     Else
-                        X = MapNpc(Player(index).SpellAnim(I).Target).X * PIC_X + sx + MapNpc(Player(index).SpellAnim(I).Target).XOffset
-                        Y = MapNpc(Player(index).SpellAnim(I).Target).Y * PIC_Y + sx + MapNpc(Player(index).SpellAnim(I).Target).YOffset
-                        Call DD_BackBuffer.BltFast(X - (NewPlayerX * PIC_X) - NewXOffset, Y - (NewPlayerY * PIC_Y) - NewYOffset, DD_SpellAnim, rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
+                        x = MapNpc(Player(Index).SpellAnim(I).Target).x * PIC_X + sx + MapNpc(Player(Index).SpellAnim(I).Target).XOffset
+                        y = MapNpc(Player(Index).SpellAnim(I).Target).y * PIC_Y + sx + MapNpc(Player(Index).SpellAnim(I).Target).YOffset
+                        Call DD_BackBuffer.BltFast(x - (NewPlayerX * PIC_X) - NewXOffset, y - (NewPlayerY * PIC_Y) - NewYOffset, DD_SpellAnim, rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
                     End If
 
 
 ' SMALL: ADVANCE SPELL ONE CYCLE
 
-                    If GetTickCount > Player(index).SpellAnim(I).SpellTime + Spell(Player(index).Spellnum).SpellTime Then
-                        Player(index).SpellAnim(I).SpellTime = GetTickCount
-                        Player(index).SpellAnim(I).SpellVar = Player(index).SpellAnim(I).SpellVar + 1
+                    If GetTickCount > Player(Index).SpellAnim(I).SpellTime + Spell(Player(Index).Spellnum).SpellTime Then
+                        Player(Index).SpellAnim(I).SpellTime = GetTickCount
+                        Player(Index).SpellAnim(I).SpellVar = Player(Index).SpellAnim(I).SpellVar + 1
                     End If
 
-                    If Player(index).SpellAnim(I).SpellVar > 12 Then
-                        Player(index).SpellAnim(I).SpellDone = Player(index).SpellAnim(I).SpellDone + 1
-                        Player(index).SpellAnim(I).SpellVar = 0
+                    If Player(Index).SpellAnim(I).SpellVar > 12 Then
+                        Player(Index).SpellAnim(I).SpellDone = Player(Index).SpellAnim(I).SpellDone + 1
+                        Player(Index).SpellAnim(I).SpellVar = 0
                     End If
 
                 Else
-                    Player(index).SpellAnim(I).CastedSpell = NO
+                    Player(Index).SpellAnim(I).CastedSpell = NO
                 End If
             End If
         Else
-            If Player(index).SpellAnim(I).CastedSpell = YES Then
-                If Player(index).SpellAnim(I).SpellDone < Spell(Player(index).Spellnum).SpellDone Then
+            If Player(Index).SpellAnim(I).CastedSpell = YES Then
+                If Player(Index).SpellAnim(I).SpellDone < Spell(Player(Index).Spellnum).SpellDone Then
 
-                    rec.top = Spell(Player(index).Spellnum).SpellAnim * (PIC_Y * 3)
-                    rec.Bottom = rec.top + PIC_Y + 64
-                    rec.Left = Player(index).SpellAnim(I).SpellVar * PIC_X
+                    rec.Top = Spell(Player(Index).Spellnum).SpellAnim * (PIC_Y * 3)
+                    rec.Bottom = rec.Top + PIC_Y + 64
+                    rec.Left = Player(Index).SpellAnim(I).SpellVar * PIC_X
                     rec.Right = rec.Left + PIC_X + 64
 
-                    If Player(index).SpellAnim(I).TargetType = 0 Then
+                    If Player(Index).SpellAnim(I).TargetType = 0 Then
 
                         ' BIG: IF TARGET IS A PLAYER
-                        If Player(index).SpellAnim(I).Target > 0 Then
+                        If Player(Index).SpellAnim(I).Target > 0 Then
 
                             ' BIG: IF TARGET IS SELF
-                            If Player(index).SpellAnim(I).Target = MyIndex Then
-                                X = NewX + sx - 32
-                                Y = NewY + sx - 32
+                            If Player(Index).SpellAnim(I).Target = MyIndex Then
+                                x = NewX + sx - 32
+                                y = NewY + sx - 32
 
-                                If Y < 0 Then
-                                    rec.top = rec.top + (Y * -1)
-                                    Y = 0
+                                If y < 0 Then
+                                    rec.Top = rec.Top + (y * -1)
+                                    y = 0
                                 End If
 
-                                If X < 0 Then
-                                    rec.Left = rec.Left + (X * -1)
-                                    X = 0
+                                If x < 0 Then
+                                    rec.Left = rec.Left + (x * -1)
+                                    x = 0
                                 End If
 
-                                If (X + 64) > (MAX_MAPX * 32) Then
+                                If (x + 64) > (MAX_MAPX * 32) Then
                                     rec.Right = rec.Left + 64
                                 End If
 
-                                If (Y + 64) > (MAX_MAPY * 32) Then
-                                    rec.Bottom = rec.top + 64
+                                If (y + 64) > (MAX_MAPY * 32) Then
+                                    rec.Bottom = rec.Top + 64
                                 End If
 
-                                Call DD_BackBuffer.BltFast(X, Y, DD_BigSpellAnim, rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
+                                Call DD_BackBuffer.BltFast(x, y, DD_BigSpellAnim, rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
 
                             ' BIG: IF TARGET IS A DIFFERENT PLAYER
                             Else
-                                X = GetPlayerX(Player(index).SpellAnim(I).Target) * PIC_X + sx - 32 + Player(Player(index).SpellAnim(I).Target).XOffset
-                                Y = GetPlayerY(Player(index).SpellAnim(I).Target) * PIC_Y + sx - 32 + Player(Player(index).SpellAnim(I).Target).YOffset
+                                x = GetPlayerX(Player(Index).SpellAnim(I).Target) * PIC_X + sx - 32 + Player(Player(Index).SpellAnim(I).Target).XOffset
+                                y = GetPlayerY(Player(Index).SpellAnim(I).Target) * PIC_Y + sx - 32 + Player(Player(Index).SpellAnim(I).Target).YOffset
 
-                                If Y < 0 Then
-                                    rec.top = rec.top + (Y * -1)
-                                    Y = 0
+                                If y < 0 Then
+                                    rec.Top = rec.Top + (y * -1)
+                                    y = 0
                                 End If
 
-                                If X < 0 Then
-                                    rec.Left = rec.Left + (X * -1)
-                                    X = 0
+                                If x < 0 Then
+                                    rec.Left = rec.Left + (x * -1)
+                                    x = 0
                                 End If
 
-                                If (X + 64) > (MAX_MAPX * 32) Then
+                                If (x + 64) > (MAX_MAPX * 32) Then
                                     rec.Right = rec.Left + 64
                                 End If
 
-                                If (Y + 64) > (MAX_MAPY * 32) Then
-                                    rec.Bottom = rec.top + 64
+                                If (y + 64) > (MAX_MAPY * 32) Then
+                                    rec.Bottom = rec.Top + 64
                                 End If
 
-                                Call DD_BackBuffer.BltFast(X - (NewPlayerX * PIC_X) - NewXOffset, Y - (NewPlayerY * PIC_Y) - NewYOffset, DD_BigSpellAnim, rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
+                                Call DD_BackBuffer.BltFast(x - (NewPlayerX * PIC_X) - NewXOffset, y - (NewPlayerY * PIC_Y) - NewYOffset, DD_BigSpellAnim, rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
                             End If
                         End If
 
                     ' BIG: IF TARGET IS AN NPC
                     Else
-                        X = MapNpc(Player(index).SpellAnim(I).Target).X * PIC_X + sx - 32 + MapNpc(Player(index).SpellAnim(I).Target).XOffset
-                        Y = MapNpc(Player(index).SpellAnim(I).Target).Y * PIC_Y + sx - 32 + MapNpc(Player(index).SpellAnim(I).Target).YOffset
+                        x = MapNpc(Player(Index).SpellAnim(I).Target).x * PIC_X + sx - 32 + MapNpc(Player(Index).SpellAnim(I).Target).XOffset
+                        y = MapNpc(Player(Index).SpellAnim(I).Target).y * PIC_Y + sx - 32 + MapNpc(Player(Index).SpellAnim(I).Target).YOffset
 
-                        If Y < 0 Then
-                            rec.top = rec.top + (Y * -1)
-                            Y = 0
+                        If y < 0 Then
+                            rec.Top = rec.Top + (y * -1)
+                            y = 0
                         End If
 
-                        If X < 0 Then
-                            rec.Left = rec.Left + (X * -1)
-                            X = 0
+                        If x < 0 Then
+                            rec.Left = rec.Left + (x * -1)
+                            x = 0
                         End If
 
-                        If (X + 64) > (MAX_MAPX * 32) Then
+                        If (x + 64) > (MAX_MAPX * 32) Then
                             rec.Right = rec.Left + 64
                         End If
 
-                        If (Y + 64) > (MAX_MAPY * 32) Then
-                            rec.Bottom = rec.top + 64
+                        If (y + 64) > (MAX_MAPY * 32) Then
+                            rec.Bottom = rec.Top + 64
                         End If
 
-                        Call DD_BackBuffer.BltFast(X - (NewPlayerX * PIC_X) - NewXOffset, Y - (NewPlayerY * PIC_Y) - NewYOffset, DD_BigSpellAnim, rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
+                        Call DD_BackBuffer.BltFast(x - (NewPlayerX * PIC_X) - NewXOffset, y - (NewPlayerY * PIC_Y) - NewYOffset, DD_BigSpellAnim, rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
                     End If
 
                     ' BIG: ADVANCE SPELL ONE CYCLE
-                    If GetTickCount > Player(index).SpellAnim(I).SpellTime + Spell(Player(index).Spellnum).SpellTime Then
-                        Player(index).SpellAnim(I).SpellTime = GetTickCount
-                        Player(index).SpellAnim(I).SpellVar = Player(index).SpellAnim(I).SpellVar + 3
+                    If GetTickCount > Player(Index).SpellAnim(I).SpellTime + Spell(Player(Index).Spellnum).SpellTime Then
+                        Player(Index).SpellAnim(I).SpellTime = GetTickCount
+                        Player(Index).SpellAnim(I).SpellVar = Player(Index).SpellAnim(I).SpellVar + 3
                     End If
 
-                    If Player(index).SpellAnim(I).SpellVar > 36 Then
-                        Player(index).SpellAnim(I).SpellDone = Player(index).SpellAnim(I).SpellDone + 1
-                        Player(index).SpellAnim(I).SpellVar = 0
+                    If Player(Index).SpellAnim(I).SpellVar > 36 Then
+                        Player(Index).SpellAnim(I).SpellDone = Player(Index).SpellAnim(I).SpellDone + 1
+                        Player(Index).SpellAnim(I).SpellVar = 0
                     End If
 
                 Else
-                    Player(index).SpellAnim(I).CastedSpell = NO
+                    Player(Index).SpellAnim(I).CastedSpell = NO
                 End If
             End If
         End If
@@ -963,20 +963,20 @@ End Sub
 ' Scripted Spell
 Sub BltScriptSpell(ByVal I As Long)
     Dim rec As RECT
-    Dim X As Long, Y As Long
+    Dim x As Long, y As Long
 
-    X = ScriptSpell(I).X
-    Y = ScriptSpell(I).Y
+    x = ScriptSpell(I).x
+    y = ScriptSpell(I).y
 
     If Spell(ScriptSpell(I).Spellnum).Big = 0 Then
         If ScriptSpell(I).SpellDone < Spell(ScriptSpell(I).Spellnum).SpellDone Then
-            rec.top = Spell(ScriptSpell(I).Spellnum).SpellAnim * PIC_Y
-            rec.Bottom = rec.top + PIC_Y
+            rec.Top = Spell(ScriptSpell(I).Spellnum).SpellAnim * PIC_Y
+            rec.Bottom = rec.Top + PIC_Y
             rec.Left = ScriptSpell(I).SpellVar * PIC_X
             rec.Right = rec.Left + PIC_X
 
-            X = X * PIC_X + sx
-            Y = Y * PIC_Y + sx
+            x = x * PIC_X + sx
+            y = y * PIC_Y + sx
 
             If ScriptSpell(I).SpellVar > 10 Then
                 ScriptSpell(I).SpellDone = ScriptSpell(I).SpellDone + 1
@@ -988,37 +988,37 @@ Sub BltScriptSpell(ByVal I As Long)
                 ScriptSpell(I).SpellVar = ScriptSpell(I).SpellVar + 1
             End If
 
-            Call DD_BackBuffer.BltFast(X - (NewPlayerX * PIC_X), Y - (NewPlayerY * PIC_Y), DD_SpellAnim, rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
+            Call DD_BackBuffer.BltFast(x - (NewPlayerX * PIC_X), y - (NewPlayerY * PIC_Y), DD_SpellAnim, rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
 
         Else ' spell is done
             ScriptSpell(I).CastedSpell = NO
         End If
     Else
         If ScriptSpell(I).SpellDone < Spell(ScriptSpell(I).Spellnum).SpellDone Then
-            rec.top = Spell(ScriptSpell(I).Spellnum).SpellAnim * (PIC_Y * 3)
-            rec.Bottom = rec.top + PIC_Y + 64
+            rec.Top = Spell(ScriptSpell(I).Spellnum).SpellAnim * (PIC_Y * 3)
+            rec.Bottom = rec.Top + PIC_Y + 64
             rec.Left = ScriptSpell(I).SpellVar * PIC_X
             rec.Right = rec.Left + PIC_X + 64
 
-            X = X * PIC_X + sx - 32
-            Y = Y * PIC_Y + sx - 32
+            x = x * PIC_X + sx - 32
+            y = y * PIC_Y + sx - 32
 
-            If Y < 0 Then
-                rec.top = rec.top + (Y * -1)
-                Y = 0
+            If y < 0 Then
+                rec.Top = rec.Top + (y * -1)
+                y = 0
             End If
 
-            If X < 0 Then
-                rec.Left = rec.Left + (X * -1)
-                X = 0
+            If x < 0 Then
+                rec.Left = rec.Left + (x * -1)
+                x = 0
             End If
 
-            If (X + 64) > (MAX_MAPX * 32) Then
+            If (x + 64) > (MAX_MAPX * 32) Then
                 rec.Right = rec.Left + 64
             End If
 
-            If (Y + 64) > (MAX_MAPY * 32) Then
-                rec.Bottom = rec.top + 64
+            If (y + 64) > (MAX_MAPY * 32) Then
+                rec.Bottom = rec.Top + 64
             End If
 
             If ScriptSpell(I).SpellVar > 30 Then
@@ -1031,55 +1031,55 @@ Sub BltScriptSpell(ByVal I As Long)
                 ScriptSpell(I).SpellVar = ScriptSpell(I).SpellVar + 3
             End If
 
-            Call DD_BackBuffer.BltFast(X - (NewPlayerX * PIC_X), Y - (NewPlayerY * PIC_Y), DD_BigSpellAnim, rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
+            Call DD_BackBuffer.BltFast(x - (NewPlayerX * PIC_X), y - (NewPlayerY * PIC_Y), DD_BigSpellAnim, rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
         Else 'spell is done
             ScriptSpell(I).CastedSpell = NO
         End If
     End If
 End Sub
 
-Sub BltEmoticons(ByVal index As Long)
+Sub BltEmoticons(ByVal Index As Long)
     Dim X2 As Long, Y2 As Long
     Dim ETime As Long
     ETime = 1300
 
-    If Player(index).EmoticonNum < 0 Then
+    If Player(Index).EmoticonNum < 0 Then
         Exit Sub
     End If
 
-    If Player(index).EmoticonTime + ETime > GetTickCount Then
-        If GetTickCount < Player(index).EmoticonTime + Int((ETime / 12) * 1) Then
-            Player(index).EmoticonVar = 0
-        ElseIf GetTickCount < Player(index).EmoticonTime + Int((ETime / 12) * 2) Then
-            Player(index).EmoticonVar = 1
-        ElseIf GetTickCount < Player(index).EmoticonTime + Int((ETime / 12) * 3) Then
-            Player(index).EmoticonVar = 2
-        ElseIf GetTickCount < Player(index).EmoticonTime + Int((ETime / 12) * 4) Then
-            Player(index).EmoticonVar = 3
-        ElseIf GetTickCount < Player(index).EmoticonTime + Int((ETime / 12) * 5) Then
-            Player(index).EmoticonVar = 4
-        ElseIf GetTickCount < Player(index).EmoticonTime + Int((ETime / 12) * 6) Then
-            Player(index).EmoticonVar = 5
-        ElseIf GetTickCount < Player(index).EmoticonTime + Int((ETime / 12) * 7) Then
-            Player(index).EmoticonVar = 6
-        ElseIf GetTickCount < Player(index).EmoticonTime + Int((ETime / 12) * 8) Then
-            Player(index).EmoticonVar = 7
-        ElseIf GetTickCount < Player(index).EmoticonTime + Int((ETime / 12) * 9) Then
-            Player(index).EmoticonVar = 8
-        ElseIf GetTickCount < Player(index).EmoticonTime + Int((ETime / 12) * 10) Then
-            Player(index).EmoticonVar = 9
-        ElseIf GetTickCount < Player(index).EmoticonTime + Int((ETime / 12) * 11) Then
-            Player(index).EmoticonVar = 10
-        ElseIf GetTickCount < Player(index).EmoticonTime + Int((ETime / 12) * 12) Then
-            Player(index).EmoticonVar = 11
+    If Player(Index).EmoticonTime + ETime > GetTickCount Then
+        If GetTickCount < Player(Index).EmoticonTime + Int((ETime / 12) * 1) Then
+            Player(Index).EmoticonVar = 0
+        ElseIf GetTickCount < Player(Index).EmoticonTime + Int((ETime / 12) * 2) Then
+            Player(Index).EmoticonVar = 1
+        ElseIf GetTickCount < Player(Index).EmoticonTime + Int((ETime / 12) * 3) Then
+            Player(Index).EmoticonVar = 2
+        ElseIf GetTickCount < Player(Index).EmoticonTime + Int((ETime / 12) * 4) Then
+            Player(Index).EmoticonVar = 3
+        ElseIf GetTickCount < Player(Index).EmoticonTime + Int((ETime / 12) * 5) Then
+            Player(Index).EmoticonVar = 4
+        ElseIf GetTickCount < Player(Index).EmoticonTime + Int((ETime / 12) * 6) Then
+            Player(Index).EmoticonVar = 5
+        ElseIf GetTickCount < Player(Index).EmoticonTime + Int((ETime / 12) * 7) Then
+            Player(Index).EmoticonVar = 6
+        ElseIf GetTickCount < Player(Index).EmoticonTime + Int((ETime / 12) * 8) Then
+            Player(Index).EmoticonVar = 7
+        ElseIf GetTickCount < Player(Index).EmoticonTime + Int((ETime / 12) * 9) Then
+            Player(Index).EmoticonVar = 8
+        ElseIf GetTickCount < Player(Index).EmoticonTime + Int((ETime / 12) * 10) Then
+            Player(Index).EmoticonVar = 9
+        ElseIf GetTickCount < Player(Index).EmoticonTime + Int((ETime / 12) * 11) Then
+            Player(Index).EmoticonVar = 10
+        ElseIf GetTickCount < Player(Index).EmoticonTime + Int((ETime / 12) * 12) Then
+            Player(Index).EmoticonVar = 11
         End If
 
-        rec.top = Player(index).EmoticonNum * PIC_Y
-        rec.Bottom = rec.top + PIC_Y
-        rec.Left = Player(index).EmoticonVar * PIC_X
+        rec.Top = Player(Index).EmoticonNum * PIC_Y
+        rec.Bottom = rec.Top + PIC_Y
+        rec.Left = Player(Index).EmoticonVar * PIC_X
         rec.Right = rec.Left + PIC_X
 
-        If index = MyIndex Then
+        If Index = MyIndex Then
             X2 = NewX + sx + 16
             Y2 = NewY + sx - 32
 
@@ -1089,8 +1089,8 @@ Sub BltEmoticons(ByVal index As Long)
 
             Call DD_BackBuffer.BltFast(X2, Y2, DD_EmoticonSurf, rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
         Else
-            X2 = GetPlayerX(index) * PIC_X + sx + Player(index).XOffset + 16
-            Y2 = GetPlayerY(index) * PIC_Y + sx + Player(index).YOffset - 32
+            X2 = GetPlayerX(Index) * PIC_X + sx + Player(Index).XOffset + 16
+            Y2 = GetPlayerY(Index) * PIC_Y + sx + Player(Index).YOffset - 32
 
             If Y2 < 0 Then
                 Exit Sub
@@ -1101,13 +1101,13 @@ Sub BltEmoticons(ByVal index As Long)
     End If
 End Sub
 
-Sub Bltgrapple(ByVal index As Long)
+Sub Bltgrapple(ByVal Index As Long)
     Dim z As Integer
     Dim BX As Long, BY As Long
 
-    If Player(index).HookShotX > 0 Or Player(index).HookShotY <> 0 Then
+    If Player(Index).HookShotX > 0 Or Player(Index).HookShotY <> 0 Then
 
-        Select Case Player(index).HookShotDir
+        Select Case Player(Index).HookShotDir
             Case 0
                 z = 1
             Case 1
@@ -1118,32 +1118,32 @@ Sub Bltgrapple(ByVal index As Long)
                 z = 2
         End Select
 
-        rec.top = Player(index).HookShotAnim * PIC_Y
-        rec.Bottom = rec.top + PIC_Y
+        rec.Top = Player(Index).HookShotAnim * PIC_Y
+        rec.Bottom = rec.Top + PIC_Y
         rec.Left = z * PIC_X
         rec.Right = rec.Left + PIC_X
 
-        If GetTickCount > Player(index).HookShotTime + 50 Then
-            If Player(index).HookShotSucces = 1 Then
-                If index = MyIndex Then
+        If GetTickCount > Player(Index).HookShotTime + 50 Then
+            If Player(Index).HookShotSucces = 1 Then
+                If Index = MyIndex Then
                 Call SendData("endshot" & SEP_CHAR & 1 & END_CHAR)
                 End If
-                Player(index).HookShotX = 0
-                Player(index).HookShotY = 0
+                Player(Index).HookShotX = 0
+                Player(Index).HookShotY = 0
             Else
-                If index = MyIndex Then
+                If Index = MyIndex Then
                 Call SendData("endshot" & SEP_CHAR & 0 & END_CHAR)
                 End If
-                Player(index).HookShotX = 0
-                Player(index).HookShotY = 0
+                Player(Index).HookShotX = 0
+                Player(Index).HookShotY = 0
             End If
         End If
 
-        BX = GetPlayerX(index)
-        BY = GetPlayerY(index)
+        BX = GetPlayerX(Index)
+        BY = GetPlayerY(Index)
 
-        If Player(index).HookShotDir = DIR_DOWN Then
-            Do While BY <= Player(index).HookShotToY
+        If Player(Index).HookShotDir = DIR_DOWN Then
+            Do While BY <= Player(Index).HookShotToY
                 If BY <= MAX_MAPY Then
                     Call DD_BackBuffer.BltFast((BX - NewPlayerX) * PIC_X + sx - NewXOffset, (BY - NewPlayerY) * PIC_Y + sx - NewYOffset, DD_ArrowAnim, rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
                 End If
@@ -1151,8 +1151,8 @@ Sub Bltgrapple(ByVal index As Long)
             Loop
         End If
 
-        If Player(index).HookShotDir = DIR_UP Then
-            Do While BY >= Player(index).HookShotToY
+        If Player(Index).HookShotDir = DIR_UP Then
+            Do While BY >= Player(Index).HookShotToY
                 If BY >= 0 Then
                     Call DD_BackBuffer.BltFast((BX - NewPlayerX) * PIC_X + sx - NewXOffset, (BY - NewPlayerY) * PIC_Y + sx - NewYOffset, DD_ArrowAnim, rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
                 End If
@@ -1160,8 +1160,8 @@ Sub Bltgrapple(ByVal index As Long)
             Loop
         End If
 
-        If Player(index).HookShotDir = DIR_RIGHT Then
-            Do While BX <= Player(index).HookShotToX
+        If Player(Index).HookShotDir = DIR_RIGHT Then
+            Do While BX <= Player(Index).HookShotToX
                 If BX <= MAX_MAPX Then
                     Call DD_BackBuffer.BltFast((BX - NewPlayerX) * PIC_X + sx - NewXOffset, (BY - NewPlayerY) * PIC_Y + sx - NewYOffset, DD_ArrowAnim, rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
                 End If
@@ -1169,8 +1169,8 @@ Sub Bltgrapple(ByVal index As Long)
             Loop
         End If
 
-        If Player(index).HookShotDir = DIR_LEFT Then
-            Do While BX >= Player(index).HookShotToX
+        If Player(Index).HookShotDir = DIR_LEFT Then
+            Do While BX >= Player(Index).HookShotToX
                 If BX >= 0 Then
                     Call DD_BackBuffer.BltFast((BX - NewPlayerX) * PIC_X + sx - NewXOffset, (BY - NewPlayerY) * PIC_Y + sx - NewYOffset, DD_ArrowAnim, rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
                 End If
@@ -1180,81 +1180,81 @@ Sub Bltgrapple(ByVal index As Long)
     End If
 End Sub
 
-Sub BltArrow(ByVal index As Long)
-    Dim X As Long
-    Dim Y As Long
+Sub BltArrow(ByVal Index As Long)
+    Dim x As Long
+    Dim y As Long
     Dim I As Long
     Dim z As Long
 
     For z = 1 To MAX_PLAYER_ARROWS
-        If Player(index).Arrow(z).Arrow > 0 Then
-            rec.top = Player(index).Arrow(z).ArrowAnim * PIC_Y
-            rec.Bottom = rec.top + PIC_Y
-            rec.Left = Player(index).Arrow(z).ArrowPosition * PIC_X
+        If Player(Index).Arrow(z).Arrow > 0 Then
+            rec.Top = Player(Index).Arrow(z).ArrowAnim * PIC_Y
+            rec.Bottom = rec.Top + PIC_Y
+            rec.Left = Player(Index).Arrow(z).ArrowPosition * PIC_X
             rec.Right = rec.Left + PIC_X
 
-            If GetTickCount > Player(index).Arrow(z).ArrowTime + 30 Then
-                Player(index).Arrow(z).ArrowTime = GetTickCount
-                Player(index).Arrow(z).ArrowVarX = Player(index).Arrow(z).ArrowVarX + 10
-                Player(index).Arrow(z).ArrowVarY = Player(index).Arrow(z).ArrowVarY + 10
+            If GetTickCount > Player(Index).Arrow(z).ArrowTime + 30 Then
+                Player(Index).Arrow(z).ArrowTime = GetTickCount
+                Player(Index).Arrow(z).ArrowVarX = Player(Index).Arrow(z).ArrowVarX + 10
+                Player(Index).Arrow(z).ArrowVarY = Player(Index).Arrow(z).ArrowVarY + 10
             End If
 
-            If Player(index).Arrow(z).ArrowPosition = 0 Then
-                X = Player(index).Arrow(z).ArrowX
-                Y = Player(index).Arrow(z).ArrowY + Int(Player(index).Arrow(z).ArrowVarY / 32)
+            If Player(Index).Arrow(z).ArrowPosition = 0 Then
+                x = Player(Index).Arrow(z).ArrowX
+                y = Player(Index).Arrow(z).ArrowY + Int(Player(Index).Arrow(z).ArrowVarY / 32)
 
-                If Y > Player(index).Arrow(z).ArrowY + Arrows(Player(index).Arrow(z).ArrowNum).Range - 2 Then
-                    Player(index).Arrow(z).Arrow = 0
+                If y > Player(Index).Arrow(z).ArrowY + Arrows(Player(Index).Arrow(z).ArrowNum).Range - 2 Then
+                    Player(Index).Arrow(z).Arrow = 0
                 End If
 
-                If Y <= MAX_MAPY Then
-                    Call DD_BackBuffer.BltFast((Player(index).Arrow(z).ArrowX - NewPlayerX) * PIC_X + sx - NewXOffset, (Player(index).Arrow(z).ArrowY - NewPlayerY) * PIC_Y + sx - NewYOffset + Player(index).Arrow(z).ArrowVarY, DD_ArrowAnim, rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
-                End If
-            End If
-
-            If Player(index).Arrow(z).ArrowPosition = 1 Then
-                X = Player(index).Arrow(z).ArrowX
-                Y = Player(index).Arrow(z).ArrowY - Int(Player(index).Arrow(z).ArrowVarY / 32)
-
-                If Y < Player(index).Arrow(z).ArrowY - Arrows(Player(index).Arrow(z).ArrowNum).Range + 2 Then
-                    Player(index).Arrow(z).Arrow = 0
-                End If
-
-                If Y >= 0 Then
-                    Call DD_BackBuffer.BltFast((Player(index).Arrow(z).ArrowX - NewPlayerX) * PIC_X + sx - NewXOffset, (Player(index).Arrow(z).ArrowY - NewPlayerY) * PIC_Y + sx - NewYOffset - Player(index).Arrow(z).ArrowVarY, DD_ArrowAnim, rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
+                If y <= MAX_MAPY Then
+                    Call DD_BackBuffer.BltFast((Player(Index).Arrow(z).ArrowX - NewPlayerX) * PIC_X + sx - NewXOffset, (Player(Index).Arrow(z).ArrowY - NewPlayerY) * PIC_Y + sx - NewYOffset + Player(Index).Arrow(z).ArrowVarY, DD_ArrowAnim, rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
                 End If
             End If
 
-            If Player(index).Arrow(z).ArrowPosition = 2 Then
-                X = Player(index).Arrow(z).ArrowX + Int(Player(index).Arrow(z).ArrowVarX / 32)
-                Y = Player(index).Arrow(z).ArrowY
+            If Player(Index).Arrow(z).ArrowPosition = 1 Then
+                x = Player(Index).Arrow(z).ArrowX
+                y = Player(Index).Arrow(z).ArrowY - Int(Player(Index).Arrow(z).ArrowVarY / 32)
 
-                If X > Player(index).Arrow(z).ArrowX + Arrows(Player(index).Arrow(z).ArrowNum).Range - 2 Then
-                    Player(index).Arrow(z).Arrow = 0
+                If y < Player(Index).Arrow(z).ArrowY - Arrows(Player(Index).Arrow(z).ArrowNum).Range + 2 Then
+                    Player(Index).Arrow(z).Arrow = 0
                 End If
 
-                If X <= MAX_MAPX Then
-                    Call DD_BackBuffer.BltFast((Player(index).Arrow(z).ArrowX - NewPlayerX) * PIC_X + sx - NewXOffset + Player(index).Arrow(z).ArrowVarX, (Player(index).Arrow(z).ArrowY - NewPlayerY) * PIC_Y + sx - NewYOffset, DD_ArrowAnim, rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
-                End If
-            End If
-
-            If Player(index).Arrow(z).ArrowPosition = 3 Then
-                X = Player(index).Arrow(z).ArrowX - Int(Player(index).Arrow(z).ArrowVarX / 32)
-                Y = Player(index).Arrow(z).ArrowY
-
-                If X < Player(index).Arrow(z).ArrowX - Arrows(Player(index).Arrow(z).ArrowNum).Range + 2 Then
-                    Player(index).Arrow(z).Arrow = 0
-                End If
-
-                If X >= 0 Then
-                    Call DD_BackBuffer.BltFast((Player(index).Arrow(z).ArrowX - NewPlayerX) * PIC_X + sx - NewXOffset - Player(index).Arrow(z).ArrowVarX, (Player(index).Arrow(z).ArrowY - NewPlayerY) * PIC_Y + sx - NewYOffset, DD_ArrowAnim, rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
+                If y >= 0 Then
+                    Call DD_BackBuffer.BltFast((Player(Index).Arrow(z).ArrowX - NewPlayerX) * PIC_X + sx - NewXOffset, (Player(Index).Arrow(z).ArrowY - NewPlayerY) * PIC_Y + sx - NewYOffset - Player(Index).Arrow(z).ArrowVarY, DD_ArrowAnim, rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
                 End If
             End If
 
-            If X >= 0 And X <= MAX_MAPX Then
-                If Y >= 0 And Y <= MAX_MAPY Then
-                    If Map(GetPlayerMap(MyIndex)).Tile(X, Y).Type = TILE_TYPE_BLOCKED Then
-                        Player(index).Arrow(z).Arrow = 0
+            If Player(Index).Arrow(z).ArrowPosition = 2 Then
+                x = Player(Index).Arrow(z).ArrowX + Int(Player(Index).Arrow(z).ArrowVarX / 32)
+                y = Player(Index).Arrow(z).ArrowY
+
+                If x > Player(Index).Arrow(z).ArrowX + Arrows(Player(Index).Arrow(z).ArrowNum).Range - 2 Then
+                    Player(Index).Arrow(z).Arrow = 0
+                End If
+
+                If x <= MAX_MAPX Then
+                    Call DD_BackBuffer.BltFast((Player(Index).Arrow(z).ArrowX - NewPlayerX) * PIC_X + sx - NewXOffset + Player(Index).Arrow(z).ArrowVarX, (Player(Index).Arrow(z).ArrowY - NewPlayerY) * PIC_Y + sx - NewYOffset, DD_ArrowAnim, rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
+                End If
+            End If
+
+            If Player(Index).Arrow(z).ArrowPosition = 3 Then
+                x = Player(Index).Arrow(z).ArrowX - Int(Player(Index).Arrow(z).ArrowVarX / 32)
+                y = Player(Index).Arrow(z).ArrowY
+
+                If x < Player(Index).Arrow(z).ArrowX - Arrows(Player(Index).Arrow(z).ArrowNum).Range + 2 Then
+                    Player(Index).Arrow(z).Arrow = 0
+                End If
+
+                If x >= 0 Then
+                    Call DD_BackBuffer.BltFast((Player(Index).Arrow(z).ArrowX - NewPlayerX) * PIC_X + sx - NewXOffset - Player(Index).Arrow(z).ArrowVarX, (Player(Index).Arrow(z).ArrowY - NewPlayerY) * PIC_Y + sx - NewYOffset, DD_ArrowAnim, rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
+                End If
+            End If
+
+            If x >= 0 And x <= MAX_MAPX Then
+                If y >= 0 And y <= MAX_MAPY Then
+                    If Map(GetPlayerMap(MyIndex)).Tile(x, y).Type = TILE_TYPE_BLOCKED Then
+                        Player(Index).Arrow(z).Arrow = 0
                     End If
                 End If
             End If
@@ -1262,14 +1262,14 @@ Sub BltArrow(ByVal index As Long)
             For I = 1 To MAX_PLAYERS
                 If IsPlaying(I) Then
                     If GetPlayerMap(I) = GetPlayerMap(MyIndex) Then
-                        If GetPlayerX(I) = X Then
-                            If GetPlayerY(I) = Y Then
-                                If index = MyIndex Then
-                                    Call SendData("arrowhit" & SEP_CHAR & 0 & SEP_CHAR & I & SEP_CHAR & X & SEP_CHAR & Y & END_CHAR)
+                        If GetPlayerX(I) = x Then
+                            If GetPlayerY(I) = y Then
+                                If Index = MyIndex Then
+                                    Call SendData("arrowhit" & SEP_CHAR & 0 & SEP_CHAR & I & SEP_CHAR & x & SEP_CHAR & y & END_CHAR)
                                 End If
 
-                                If index <> I Then
-                                    Player(index).Arrow(z).Arrow = 0
+                                If Index <> I Then
+                                    Player(Index).Arrow(z).Arrow = 0
                                 End If
 
                                 Exit Sub
@@ -1281,13 +1281,13 @@ Sub BltArrow(ByVal index As Long)
 
             For I = 1 To MAX_MAP_NPCS
                 If MapNpc(I).Num > 0 Then
-                    If MapNpc(I).X = X Then
-                        If MapNpc(I).Y = Y Then
-                            If index = MyIndex Then
-                                Call SendData("arrowhit" & SEP_CHAR & 1 & SEP_CHAR & I & SEP_CHAR & X & SEP_CHAR & Y & END_CHAR)
+                    If MapNpc(I).x = x Then
+                        If MapNpc(I).y = y Then
+                            If Index = MyIndex Then
+                                Call SendData("arrowhit" & SEP_CHAR & 1 & SEP_CHAR & I & SEP_CHAR & x & SEP_CHAR & y & END_CHAR)
                             End If
 
-                            Player(index).Arrow(z).Arrow = 0
+                            Player(Index).Arrow(z).Arrow = 0
 
                             Exit Sub
                         End If
@@ -1298,54 +1298,54 @@ Sub BltArrow(ByVal index As Long)
     Next z
 End Sub
 
-Sub BltLevelUp(ByVal index As Long)
+Sub BltLevelUp(ByVal Index As Long)
     Dim rec As RECT
-    Dim X As Integer
-    Dim Y As Integer
+    Dim x As Integer
+    Dim y As Integer
 
-    If Player(index).LevelUpT + 3000 > GetTickCount Then
-        If GetPlayerMap(index) = GetPlayerMap(MyIndex) Then
-            rec.top = PIC_Y * 2
-            rec.Bottom = rec.top + PIC_Y
+    If Player(Index).LevelUpT + 3000 > GetTickCount Then
+        If GetPlayerMap(Index) = GetPlayerMap(MyIndex) Then
+            rec.Top = PIC_Y * 2
+            rec.Bottom = rec.Top + PIC_Y
             rec.Left = PIC_X * 4
             rec.Right = rec.Left + 96
 
-            X = GetPlayerX(index) * PIC_X + Player(index).XOffset + sx
-            Y = GetPlayerY(index) * PIC_Y + Player(index).YOffset + sx
+            x = GetPlayerX(Index) * PIC_X + Player(Index).XOffset + sx
+            y = GetPlayerY(Index) * PIC_Y + Player(Index).YOffset + sx
 
-            Call DD_BackBuffer.BltFast(X - (NewPlayerX * PIC_X) - PIC_X - NewXOffset, Y - (NewPlayerY * PIC_Y) - PIC_Y - NewYOffset - 8, DD_TileSurf(10), rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
+            Call DD_BackBuffer.BltFast(x - (NewPlayerX * PIC_X) - PIC_X - NewXOffset, y - (NewPlayerY * PIC_Y) - PIC_Y - NewYOffset - 8, DD_TileSurf(10), rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
 
-            If Player(index).LevelUp >= 3 Then
-                Player(index).LevelUp = Player(index).LevelUp - 1
-            ElseIf Player(index).LevelUp >= 1 Then
-                Player(index).LevelUp = Player(index).LevelUp + 1
+            If Player(Index).LevelUp >= 3 Then
+                Player(Index).LevelUp = Player(Index).LevelUp - 1
+            ElseIf Player(Index).LevelUp >= 1 Then
+                Player(Index).LevelUp = Player(Index).LevelUp + 1
             End If
         Else
-            Player(index).LevelUpT = 0
+            Player(Index).LevelUpT = 0
         End If
     End If
 End Sub
 
-Sub BltSpriteChange(ByVal X As Long, ByVal Y As Long)
-    If Map(GetPlayerMap(MyIndex)).Tile(X, Y).Type = TILE_TYPE_SPRITE_CHANGE Then
+Sub BltSpriteChange(ByVal x As Long, ByVal y As Long)
+    If Map(GetPlayerMap(MyIndex)).Tile(x, y).Type = TILE_TYPE_SPRITE_CHANGE Then
         If SpriteSize = 0 Then
-            rec.top = Map(GetPlayerMap(MyIndex)).Tile(X, Y).Data1 * PIC_Y + 16
-            rec.Bottom = rec.top + PIC_Y - 16
+            rec.Top = Map(GetPlayerMap(MyIndex)).Tile(x, y).Data1 * PIC_Y + 16
+            rec.Bottom = rec.Top + PIC_Y - 16
         Else
-            rec.top = Map(GetPlayerMap(MyIndex)).Tile(X, Y).Data1 * 64 + 16
-            rec.Bottom = rec.top + 64 - 16
+            rec.Top = Map(GetPlayerMap(MyIndex)).Tile(x, y).Data1 * 64 + 16
+            rec.Bottom = rec.Top + 64 - 16
         End If
         
         rec.Left = 96
         rec.Right = rec.Left + PIC_X
 
-        X = X * PIC_X + sx
-        Y = Y * PIC_Y + (sx / 2) '- 16
+        x = x * PIC_X + sx
+        y = y * PIC_Y + (sx / 2) '- 16
 
-        If Y < 0 Then
+        If y < 0 Then
             Exit Sub
         End If
 
-        Call DD_BackBuffer.BltFast(X - (NewPlayerX * PIC_X) - NewXOffset, Y - (NewPlayerY * PIC_Y) - NewYOffset, DD_SpriteSurf, rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
+        Call DD_BackBuffer.BltFast(x - (NewPlayerX * PIC_X) - NewXOffset, y - (NewPlayerY * PIC_Y) - NewYOffset, DD_SpriteSurf, rec, DDBLTFAST_WAIT Or DDBLTFAST_SRCCOLORKEY)
     End If
 End Sub

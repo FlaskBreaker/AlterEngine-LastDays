@@ -1,8 +1,8 @@
 VERSION 5.00
 Object = "{665BF2B8-F41F-4EF4-A8D0-303FBFFC475E}#2.0#0"; "cmcs21.ocx"
-Object = "{248DD890-BB45-11CF-9ABC-0080C7E7B78D}#1.0#0"; "Mswinsck.ocx"
+Object = "{248DD890-BB45-11CF-9ABC-0080C7E7B78D}#1.0#0"; "mswinsck.ocx"
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT3N.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL32.OCX"
 Object = "{48E59290-9880-11CF-9754-00AA00C00908}#1.0#0"; "msinet.ocx"
 Begin VB.Form frmServer 
    BorderStyle     =   1  'Fixed Single
@@ -10,7 +10,7 @@ Begin VB.Form frmServer
    ClientHeight    =   5775
    ClientLeft      =   420
    ClientTop       =   840
-   ClientWidth     =   10860
+   ClientWidth     =   13365
    BeginProperty Font 
       Name            =   "Tahoma"
       Size            =   8.25
@@ -25,7 +25,7 @@ Begin VB.Form frmServer
    MaxButton       =   0   'False
    ScaleHeight     =   385
    ScaleMode       =   3  'Pixel
-   ScaleWidth      =   724
+   ScaleWidth      =   891
    StartUpPosition =   2  'CenterScreen
    Begin InetCtlsObjects.Inet tolpene 
       Left            =   6480
@@ -39,15 +39,15 @@ Begin VB.Form frmServer
       Left            =   120
       TabIndex        =   0
       Top             =   120
-      Width           =   10695
-      _ExtentX        =   18865
+      Width           =   13095
+      _ExtentX        =   23098
       _ExtentY        =   9922
       _Version        =   393216
       Tabs            =   4
       Tab             =   2
       TabsPerRow      =   4
       TabHeight       =   370
-      TabMaxWidth     =   2646
+      TabMaxWidth     =   3969
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Tahoma"
          Size            =   6.75
@@ -61,28 +61,47 @@ Begin VB.Form frmServer
       TabPicture(0)   =   "frmServer.frx":1708A
       Tab(0).ControlEnabled=   0   'False
       Tab(0).Control(0)=   "lblLogTime"
+      Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "fraChatOpt"
+      Tab(0).Control(1).Enabled=   0   'False
       Tab(0).Control(2)=   "SSTab2"
+      Tab(0).Control(2).Enabled=   0   'False
       Tab(0).Control(3)=   "picCMsg"
+      Tab(0).Control(3).Enabled=   0   'False
       Tab(0).Control(4)=   "tmrChatLogs"
+      Tab(0).Control(4).Enabled=   0   'False
       Tab(0).ControlCount=   5
       TabCaption(1)   =   "Jugadores"
       TabPicture(1)   =   "frmServer.frx":170A6
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "TPO"
+      Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "cmdGiveAccess"
+      Tab(1).Control(1).Enabled=   0   'False
       Tab(1).Control(2)=   "Command66"
+      Tab(1).Control(2).Enabled=   0   'False
       Tab(1).Control(3)=   "Frame5"
+      Tab(1).Control(3).Enabled=   0   'False
       Tab(1).Control(4)=   "lvUsers"
+      Tab(1).Control(4).Enabled=   0   'False
       Tab(1).Control(5)=   "Check1"
+      Tab(1).Control(5).Enabled=   0   'False
       Tab(1).Control(6)=   "picBan"
+      Tab(1).Control(6).Enabled=   0   'False
       Tab(1).Control(7)=   "picStats"
+      Tab(1).Control(7).Enabled=   0   'False
       Tab(1).Control(8)=   "picJail"
+      Tab(1).Control(8).Enabled=   0   'False
       Tab(1).Control(9)=   "picWarp"
+      Tab(1).Control(9).Enabled=   0   'False
       Tab(1).Control(10)=   "picKick"
+      Tab(1).Control(10).Enabled=   0   'False
       Tab(1).Control(11)=   "picMessage"
+      Tab(1).Control(11).Enabled=   0   'False
       Tab(1).Control(12)=   "cmdKickPlayerReason"
+      Tab(1).Control(12).Enabled=   0   'False
       Tab(1).Control(13)=   "cmdBanPlayerReason"
+      Tab(1).Control(13).Enabled=   0   'False
       Tab(1).ControlCount=   14
       TabCaption(2)   =   "Panel de Control"
       TabPicture(2)   =   "frmServer.frx":170C2
@@ -129,18 +148,119 @@ Begin VB.Form frmServer
       Tab(2).Control(19).Enabled=   0   'False
       Tab(2).Control(20)=   "picWarpAll"
       Tab(2).Control(20).Enabled=   0   'False
-      Tab(2).ControlCount=   21
-      TabCaption(3)   =   "AlterEngine"
+      Tab(2).Control(21)=   "picxpglob"
+      Tab(2).Control(21).Enabled=   0   'False
+      Tab(2).ControlCount=   22
+      TabCaption(3)   =   "AlterEngine Last Days"
       TabPicture(3)   =   "frmServer.frx":170DE
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "Frame8"
-      Tab(3).Control(1)=   "Frame7"
-      Tab(3).Control(2)=   "txtTopic"
+      Tab(3).Control(0)=   "lblTopic"
+      Tab(3).Control(0).Enabled=   0   'False
+      Tab(3).Control(1)=   "lblContent"
+      Tab(3).Control(1).Enabled=   0   'False
+      Tab(3).Control(2)=   "Image1"
+      Tab(3).Control(2).Enabled=   0   'False
       Tab(3).Control(3)=   "lstTopics"
-      Tab(3).Control(4)=   "Image1"
-      Tab(3).Control(5)=   "lblContent"
-      Tab(3).Control(6)=   "lblTopic"
+      Tab(3).Control(3).Enabled=   0   'False
+      Tab(3).Control(4)=   "txtTopic"
+      Tab(3).Control(4).Enabled=   0   'False
+      Tab(3).Control(5)=   "Frame7"
+      Tab(3).Control(5).Enabled=   0   'False
+      Tab(3).Control(6)=   "Frame8"
+      Tab(3).Control(6).Enabled=   0   'False
       Tab(3).ControlCount=   7
+      Begin VB.PictureBox picxpglob 
+         Appearance      =   0  'Flat
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H80000008&
+         Height          =   1455
+         Left            =   480
+         ScaleHeight     =   95
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   223
+         TabIndex        =   217
+         Top             =   960
+         Visible         =   0   'False
+         Width           =   3375
+         Begin VB.HScrollBar HScroll3 
+            Height          =   255
+            Left            =   120
+            Max             =   10000
+            Min             =   1
+            TabIndex        =   218
+            Top             =   360
+            Value           =   1
+            Width           =   3135
+         End
+         Begin Server.jcbutton jcbutton3 
+            Height          =   375
+            Left            =   120
+            TabIndex        =   219
+            Top             =   840
+            Width           =   1455
+            _ExtentX        =   2566
+            _ExtentY        =   661
+            ButtonStyle     =   3
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "Tahoma"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            BackColor       =   14935011
+            Caption         =   "Mover"
+            PictureNormal   =   "frmServer.frx":170FA
+            PictureHot      =   "frmServer.frx":17A4E
+            CaptionEffects  =   4
+            ColorScheme     =   2
+         End
+         Begin Server.jcbutton jcbutton4 
+            Height          =   375
+            Left            =   1680
+            TabIndex        =   220
+            Top             =   840
+            Width           =   1575
+            _ExtentX        =   2778
+            _ExtentY        =   661
+            ButtonStyle     =   3
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "Tahoma"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            BackColor       =   14935011
+            Caption         =   "Cancelar"
+            PictureNormal   =   "frmServer.frx":183A2
+            PictureHot      =   "frmServer.frx":18CF6
+            CaptionEffects  =   4
+            ColorScheme     =   2
+         End
+         Begin VB.Label Label16 
+            AutoSize        =   -1  'True
+            BackStyle       =   0  'Transparent
+            Caption         =   "Exp: 1"
+            Height          =   195
+            Left            =   120
+            TabIndex        =   221
+            Top             =   120
+            Width           =   465
+         End
+      End
       Begin VB.Frame Frame8 
          Caption         =   "Creditos"
          BeginProperty Font 
@@ -154,10 +274,27 @@ Begin VB.Form frmServer
          EndProperty
          ForeColor       =   &H00404040&
          Height          =   2415
-         Left            =   -69600
+         Left            =   -67800
          TabIndex        =   204
          Top             =   3000
          Width           =   5055
+         Begin VB.Label Label10 
+            Caption         =   "AE LD Team: FlaskBreaker - Mapacho"
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   255
+            Left            =   840
+            TabIndex        =   214
+            Top             =   1440
+            Width           =   3375
+         End
          Begin VB.Label Label12 
             Caption         =   "AE Team: 6dragon6 - Ludipe - Ellesar"
             BeginProperty Font 
@@ -240,7 +377,7 @@ Begin VB.Form frmServer
          EndProperty
          ForeColor       =   &H00404040&
          Height          =   2415
-         Left            =   -74760
+         Left            =   -74040
          TabIndex        =   197
          Top             =   3000
          Width           =   4815
@@ -260,7 +397,7 @@ Begin VB.Form frmServer
             Left            =   240
             Locked          =   -1  'True
             TabIndex        =   200
-            Text            =   "v1.8.2"
+            Text            =   "v0.2"
             Top             =   600
             Width           =   1815
          End
@@ -304,7 +441,7 @@ Begin VB.Form frmServer
             EndProperty
             BackColor       =   15199212
             Caption         =   "Tienes la ultima versión."
-            PictureNormal   =   "frmServer.frx":170FA
+            PictureNormal   =   "frmServer.frx":1964A
             PictureEffectOnOver=   0
             PictureEffectOnDown=   0
             PicturePushOnHover=   -1  'True
@@ -335,8 +472,8 @@ Begin VB.Form frmServer
             EndProperty
             BackColor       =   15199212
             Caption         =   "Debes actualizar tu versión!"
-            PictureNormal   =   "frmServer.frx":178DE
-            PictureHot      =   "frmServer.frx":18232
+            PictureNormal   =   "frmServer.frx":19E2E
+            PictureHot      =   "frmServer.frx":1A782
             PictureEffectOnOver=   0
             PictureEffectOnDown=   0
             PicturePushOnHover=   -1  'True
@@ -368,8 +505,8 @@ Begin VB.Form frmServer
          Left            =   -66480
          TabIndex        =   176
          Top             =   960
-         Width           =   1935
-         _ExtentX        =   3413
+         Width           =   4095
+         _ExtentX        =   7223
          _ExtentY        =   661
          ButtonStyle     =   3
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -383,8 +520,8 @@ Begin VB.Form frmServer
          EndProperty
          BackColor       =   14935011
          Caption         =   "Banear Jugador  "
-         PictureNormal   =   "frmServer.frx":18B86
-         PictureHot      =   "frmServer.frx":194DA
+         PictureNormal   =   "frmServer.frx":1B0D6
+         PictureHot      =   "frmServer.frx":1BA2A
          CaptionEffects  =   4
          ColorScheme     =   2
       End
@@ -393,8 +530,8 @@ Begin VB.Form frmServer
          Left            =   -66480
          TabIndex        =   175
          Top             =   480
-         Width           =   1935
-         _ExtentX        =   3413
+         Width           =   4095
+         _ExtentX        =   7223
          _ExtentY        =   661
          ButtonStyle     =   3
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -408,8 +545,8 @@ Begin VB.Form frmServer
          EndProperty
          BackColor       =   14935011
          Caption         =   "Expulsar Jugador"
-         PictureNormal   =   "frmServer.frx":19E2E
-         PictureHot      =   "frmServer.frx":1A782
+         PictureNormal   =   "frmServer.frx":1C37E
+         PictureHot      =   "frmServer.frx":1CCD2
          CaptionEffects  =   4
          ColorScheme     =   2
       End
@@ -477,8 +614,8 @@ Begin VB.Form frmServer
             EndProperty
             BackColor       =   14935011
             Caption         =   "Mover"
-            PictureNormal   =   "frmServer.frx":1B0D6
-            PictureHot      =   "frmServer.frx":1BA2A
+            PictureNormal   =   "frmServer.frx":1D626
+            PictureHot      =   "frmServer.frx":1DF7A
             CaptionEffects  =   4
             ColorScheme     =   2
          End
@@ -502,8 +639,8 @@ Begin VB.Form frmServer
             EndProperty
             BackColor       =   14935011
             Caption         =   "Cancelar"
-            PictureNormal   =   "frmServer.frx":1C37E
-            PictureHot      =   "frmServer.frx":1CCD2
+            PictureNormal   =   "frmServer.frx":1E8CE
+            PictureHot      =   "frmServer.frx":1F222
             CaptionEffects  =   4
             ColorScheme     =   2
          End
@@ -595,8 +732,8 @@ Begin VB.Form frmServer
             EndProperty
             BackColor       =   14935011
             Caption         =   "Enviar"
-            PictureNormal   =   "frmServer.frx":1D626
-            PictureHot      =   "frmServer.frx":1DF7A
+            PictureNormal   =   "frmServer.frx":1FB76
+            PictureHot      =   "frmServer.frx":204CA
             CaptionEffects  =   4
             ColorScheme     =   2
          End
@@ -620,8 +757,8 @@ Begin VB.Form frmServer
             EndProperty
             BackColor       =   14935011
             Caption         =   "Cancelar"
-            PictureNormal   =   "frmServer.frx":1E8CE
-            PictureHot      =   "frmServer.frx":1F222
+            PictureNormal   =   "frmServer.frx":20E1E
+            PictureHot      =   "frmServer.frx":21772
             CaptionEffects  =   4
             ColorScheme     =   2
          End
@@ -699,8 +836,8 @@ Begin VB.Form frmServer
             EndProperty
             BackColor       =   14935011
             Caption         =   "Expulsar"
-            PictureNormal   =   "frmServer.frx":1FB76
-            PictureHot      =   "frmServer.frx":204CA
+            PictureNormal   =   "frmServer.frx":220C6
+            PictureHot      =   "frmServer.frx":22A1A
             CaptionEffects  =   4
             ColorScheme     =   2
          End
@@ -724,8 +861,8 @@ Begin VB.Form frmServer
             EndProperty
             BackColor       =   14935011
             Caption         =   "Cancelar"
-            PictureNormal   =   "frmServer.frx":20E1E
-            PictureHot      =   "frmServer.frx":21772
+            PictureNormal   =   "frmServer.frx":2336E
+            PictureHot      =   "frmServer.frx":23CC2
             CaptionEffects  =   4
             ColorScheme     =   2
          End
@@ -809,8 +946,8 @@ Begin VB.Form frmServer
             EndProperty
             BackColor       =   14935011
             Caption         =   "Mover"
-            PictureNormal   =   "frmServer.frx":220C6
-            PictureHot      =   "frmServer.frx":22A1A
+            PictureNormal   =   "frmServer.frx":24616
+            PictureHot      =   "frmServer.frx":24F6A
             CaptionEffects  =   4
             ColorScheme     =   2
          End
@@ -834,8 +971,8 @@ Begin VB.Form frmServer
             EndProperty
             BackColor       =   14935011
             Caption         =   "Cancelar"
-            PictureNormal   =   "frmServer.frx":2336E
-            PictureHot      =   "frmServer.frx":23CC2
+            PictureNormal   =   "frmServer.frx":258BE
+            PictureHot      =   "frmServer.frx":26212
             CaptionEffects  =   4
             ColorScheme     =   2
          End
@@ -886,7 +1023,7 @@ Begin VB.Form frmServer
          Left            =   360
          TabIndex        =   122
          Top             =   4320
-         Width           =   9975
+         Width           =   12375
          Begin VB.TextBox txtTimeS 
             Height          =   285
             Left            =   1320
@@ -913,7 +1050,7 @@ Begin VB.Form frmServer
          End
          Begin VB.TextBox GameTimeSpeed 
             Height          =   285
-            Left            =   7320
+            Left            =   9720
             TabIndex        =   123
             Text            =   "1"
             Top             =   720
@@ -944,7 +1081,7 @@ Begin VB.Form frmServer
          End
          Begin Server.jcbutton Command68 
             Height          =   255
-            Left            =   7920
+            Left            =   10440
             TabIndex        =   162
             Top             =   720
             Width           =   1815
@@ -967,7 +1104,7 @@ Begin VB.Form frmServer
          End
          Begin Server.jcbutton Command69 
             Height          =   375
-            Left            =   3960
+            Left            =   5160
             TabIndex        =   163
             Top             =   600
             Width           =   2055
@@ -1010,7 +1147,7 @@ Begin VB.Form frmServer
             Alignment       =   2  'Center
             Caption         =   "Velocidad:"
             Height          =   255
-            Left            =   6240
+            Left            =   8400
             TabIndex        =   124
             Top             =   720
             Width           =   975
@@ -1040,7 +1177,7 @@ Begin VB.Form frmServer
          Begin CodeSenseCtl.CodeSense ServerScript 
             Height          =   1575
             Left            =   120
-            OleObjectBlob   =   "frmServer.frx":24616
+            OleObjectBlob   =   "frmServer.frx":26B66
             TabIndex        =   119
             Top             =   240
             Width           =   3705
@@ -1065,8 +1202,8 @@ Begin VB.Form frmServer
             EndProperty
             BackColor       =   14935011
             Caption         =   "Ejecutar"
-            PictureNormal   =   "frmServer.frx":2477C
-            PictureHot      =   "frmServer.frx":250D0
+            PictureNormal   =   "frmServer.frx":26CCC
+            PictureHot      =   "frmServer.frx":27620
             CaptionEffects  =   4
             ColorScheme     =   2
          End
@@ -1090,8 +1227,8 @@ Begin VB.Form frmServer
             EndProperty
             BackColor       =   14935011
             Caption         =   "Cancelar"
-            PictureNormal   =   "frmServer.frx":25A24
-            PictureHot      =   "frmServer.frx":26378
+            PictureNormal   =   "frmServer.frx":27F74
+            PictureHot      =   "frmServer.frx":288C8
             CaptionEffects  =   4
             ColorScheme     =   2
          End
@@ -1331,7 +1468,7 @@ Begin VB.Form frmServer
             Strikethrough   =   0   'False
          EndProperty
          TabCaption(0)   =   "Principal"
-         TabPicture(0)   =   "frmServer.frx":26CCC
+         TabPicture(0)   =   "frmServer.frx":2921C
          Tab(0).ControlEnabled=   -1  'True
          Tab(0).Control(0)=   "txtText(0)"
          Tab(0).Control(0).Enabled=   0   'False
@@ -1339,32 +1476,32 @@ Begin VB.Form frmServer
          Tab(0).Control(1).Enabled=   0   'False
          Tab(0).ControlCount=   2
          TabCaption(1)   =   "Difusión"
-         TabPicture(1)   =   "frmServer.frx":26CE8
+         TabPicture(1)   =   "frmServer.frx":29238
          Tab(1).ControlEnabled=   0   'False
          Tab(1).Control(0)=   "txtText(1)"
          Tab(1).ControlCount=   1
          TabCaption(2)   =   "Global"
-         TabPicture(2)   =   "frmServer.frx":26D04
+         TabPicture(2)   =   "frmServer.frx":29254
          Tab(2).ControlEnabled=   0   'False
          Tab(2).Control(0)=   "txtText(2)"
          Tab(2).ControlCount=   1
          TabCaption(3)   =   "Mapa"
-         TabPicture(3)   =   "frmServer.frx":26D20
+         TabPicture(3)   =   "frmServer.frx":29270
          Tab(3).ControlEnabled=   0   'False
          Tab(3).Control(0)=   "txtText(3)"
          Tab(3).ControlCount=   1
          TabCaption(4)   =   "Privado"
-         TabPicture(4)   =   "frmServer.frx":26D3C
+         TabPicture(4)   =   "frmServer.frx":2928C
          Tab(4).ControlEnabled=   0   'False
          Tab(4).Control(0)=   "txtText(4)"
          Tab(4).ControlCount=   1
          TabCaption(5)   =   "Admin"
-         TabPicture(5)   =   "frmServer.frx":26D58
+         TabPicture(5)   =   "frmServer.frx":292A8
          Tab(5).ControlEnabled=   0   'False
          Tab(5).Control(0)=   "txtText(5)"
          Tab(5).ControlCount=   1
          TabCaption(6)   =   "Emoticonos"
-         TabPicture(6)   =   "frmServer.frx":26D74
+         TabPicture(6)   =   "frmServer.frx":292C4
          Tab(6).ControlEnabled=   0   'False
          Tab(6).Control(0)=   "txtText(6)"
          Tab(6).ControlCount=   1
@@ -1566,8 +1703,8 @@ Begin VB.Form frmServer
             EndProperty
             BackColor       =   14935011
             Caption         =   "Cerrar"
-            PictureNormal   =   "frmServer.frx":26D90
-            PictureHot      =   "frmServer.frx":276E4
+            PictureNormal   =   "frmServer.frx":292E0
+            PictureHot      =   "frmServer.frx":29C34
             CaptionEffects  =   4
             ColorScheme     =   2
          End
@@ -1821,17 +1958,17 @@ Begin VB.Form frmServer
             Strikethrough   =   0   'False
          EndProperty
          ForeColor       =   &H00404040&
-         Height          =   1335
-         Left            =   6840
+         Height          =   2415
+         Left            =   8400
          TabIndex        =   57
-         Top             =   2880
-         Width           =   3495
+         Top             =   480
+         Width           =   4335
          Begin VB.CommandButton Command33 
             Caption         =   "Mass Experience"
             Height          =   255
-            Left            =   1680
+            Left            =   1800
             TabIndex        =   59
-            Top             =   2040
+            Top             =   2760
             Width           =   1575
          End
          Begin VB.CommandButton Command12 
@@ -1839,14 +1976,14 @@ Begin VB.Form frmServer
             Height          =   255
             Left            =   120
             TabIndex        =   58
-            Top             =   2040
+            Top             =   2640
             Width           =   1575
          End
          Begin Server.jcbutton Command34 
             Height          =   375
-            Left            =   1800
+            Left            =   2520
             TabIndex        =   164
-            Top             =   840
+            Top             =   1080
             Width           =   1575
             _ExtentX        =   2778
             _ExtentY        =   661
@@ -1869,7 +2006,7 @@ Begin VB.Form frmServer
             Height          =   375
             Left            =   120
             TabIndex        =   165
-            Top             =   840
+            Top             =   1080
             Width           =   1575
             _ExtentX        =   2778
             _ExtentY        =   661
@@ -1890,9 +2027,9 @@ Begin VB.Form frmServer
          End
          Begin Server.jcbutton Command32 
             Height          =   375
-            Left            =   1800
+            Left            =   2520
             TabIndex        =   166
-            Top             =   360
+            Top             =   480
             Width           =   1575
             _ExtentX        =   2778
             _ExtentY        =   661
@@ -1917,7 +2054,7 @@ Begin VB.Form frmServer
             Height          =   375
             Left            =   120
             TabIndex        =   167
-            Top             =   360
+            Top             =   480
             Width           =   1575
             _ExtentX        =   2778
             _ExtentY        =   661
@@ -1936,6 +2073,52 @@ Begin VB.Form frmServer
             CaptionEffects  =   4
             ToolTip         =   "Expulsa a todos los jugadores conectados al servidor."
             TooltipType     =   1
+            ColorScheme     =   2
+         End
+         Begin Server.jcbutton jcbutton1 
+            Height          =   375
+            Left            =   2520
+            TabIndex        =   215
+            Top             =   1800
+            Width           =   1575
+            _ExtentX        =   2778
+            _ExtentY        =   661
+            ButtonStyle     =   3
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "Tahoma"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            BackColor       =   14935011
+            Caption         =   "Exp Global"
+            CaptionEffects  =   4
+            ColorScheme     =   2
+         End
+         Begin Server.jcbutton jcbutton2 
+            Height          =   375
+            Left            =   120
+            TabIndex        =   216
+            Top             =   1800
+            Width           =   1575
+            _ExtentX        =   2778
+            _ExtentY        =   661
+            ButtonStyle     =   3
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "Tahoma"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            BackColor       =   14935011
+            Caption         =   "Doble Exp"
+            CaptionEffects  =   4
             ColorScheme     =   2
          End
       End
@@ -2025,8 +2208,8 @@ Begin VB.Form frmServer
             EndProperty
             BackColor       =   14935011
             Caption         =   "Encarcelar"
-            PictureNormal   =   "frmServer.frx":28038
-            PictureHot      =   "frmServer.frx":2898C
+            PictureNormal   =   "frmServer.frx":2A588
+            PictureHot      =   "frmServer.frx":2AEDC
             CaptionEffects  =   4
             ColorScheme     =   2
          End
@@ -2050,8 +2233,8 @@ Begin VB.Form frmServer
             EndProperty
             BackColor       =   14935011
             Caption         =   "Cancelar"
-            PictureNormal   =   "frmServer.frx":292E0
-            PictureHot      =   "frmServer.frx":29C34
+            PictureNormal   =   "frmServer.frx":2B830
+            PictureHot      =   "frmServer.frx":2C184
             CaptionEffects  =   4
             ColorScheme     =   2
          End
@@ -2127,8 +2310,8 @@ Begin VB.Form frmServer
             EndProperty
             BackColor       =   14935011
             Caption         =   "Cancelar"
-            PictureNormal   =   "frmServer.frx":2A588
-            PictureHot      =   "frmServer.frx":2AEDC
+            PictureNormal   =   "frmServer.frx":2CAD8
+            PictureHot      =   "frmServer.frx":2D42C
             CaptionEffects  =   4
             ColorScheme     =   2
          End
@@ -2429,8 +2612,8 @@ Begin VB.Form frmServer
             EndProperty
             BackColor       =   14935011
             Caption         =   "Banear"
-            PictureNormal   =   "frmServer.frx":2B830
-            PictureHot      =   "frmServer.frx":2C184
+            PictureNormal   =   "frmServer.frx":2DD80
+            PictureHot      =   "frmServer.frx":2E6D4
             CaptionEffects  =   4
             ColorScheme     =   2
          End
@@ -2454,8 +2637,8 @@ Begin VB.Form frmServer
             EndProperty
             BackColor       =   14935011
             Caption         =   "Cancelar"
-            PictureNormal   =   "frmServer.frx":2CAD8
-            PictureHot      =   "frmServer.frx":2D42C
+            PictureNormal   =   "frmServer.frx":2F028
+            PictureHot      =   "frmServer.frx":2F97C
             CaptionEffects  =   4
             ColorScheme     =   2
          End
@@ -2541,8 +2724,8 @@ Begin VB.Form frmServer
             EndProperty
             BackColor       =   14935011
             Caption         =   "Guardar Registros"
-            PictureNormal   =   "frmServer.frx":2DD80
-            PictureHot      =   "frmServer.frx":2E6D4
+            PictureNormal   =   "frmServer.frx":302D0
+            PictureHot      =   "frmServer.frx":30C24
             CaptionEffects  =   4
             ColorScheme     =   2
          End
@@ -2680,8 +2863,8 @@ Begin VB.Form frmServer
             EndProperty
             BackColor       =   14935011
             Caption         =   "Ver Información"
-            PictureNormal   =   "frmServer.frx":2F028
-            PictureHot      =   "frmServer.frx":2F97C
+            PictureNormal   =   "frmServer.frx":31578
+            PictureHot      =   "frmServer.frx":31ECC
             CaptionEffects  =   4
             ColorScheme     =   2
          End
@@ -2705,8 +2888,8 @@ Begin VB.Form frmServer
             EndProperty
             BackColor       =   14935011
             Caption         =   "Lista de mapas"
-            PictureNormal   =   "frmServer.frx":302D0
-            PictureHot      =   "frmServer.frx":31324
+            PictureNormal   =   "frmServer.frx":32820
+            PictureHot      =   "frmServer.frx":33874
             CaptionEffects  =   4
             ColorScheme     =   2
          End
@@ -2730,8 +2913,8 @@ Begin VB.Form frmServer
             EndProperty
             BackColor       =   14935011
             Caption         =   "Apagar Servidor"
-            PictureNormal   =   "frmServer.frx":32378
-            PictureHot      =   "frmServer.frx":32CCC
+            PictureNormal   =   "frmServer.frx":348C8
+            PictureHot      =   "frmServer.frx":3521C
             CaptionEffects  =   4
             ColorScheme     =   2
          End
@@ -2773,8 +2956,8 @@ Begin VB.Form frmServer
             EndProperty
             BackColor       =   14935011
             Caption         =   "Recargar"
-            PictureNormal   =   "frmServer.frx":33620
-            PictureHot      =   "frmServer.frx":33F74
+            PictureNormal   =   "frmServer.frx":35B70
+            PictureHot      =   "frmServer.frx":364C4
             CaptionEffects  =   3
             ToolTip         =   "Si has realizado alguna modificación de scripts, esto los recarga sin necesidad de apagar el servidor."
             TooltipType     =   1
@@ -3042,7 +3225,7 @@ Begin VB.Form frmServer
             EndProperty
             BackColor       =   14935011
             Caption         =   "Editar Noticia"
-            PictureNormal   =   "frmServer.frx":348C8
+            PictureNormal   =   "frmServer.frx":36E18
             CaptionEffects  =   4
             ColorScheme     =   2
          End
@@ -3066,8 +3249,8 @@ Begin VB.Form frmServer
             EndProperty
             BackColor       =   14935011
             Caption         =   "Enviar Noticia"
-            PictureNormal   =   "frmServer.frx":3521C
-            PictureHot      =   "frmServer.frx":35B70
+            PictureNormal   =   "frmServer.frx":3776C
+            PictureHot      =   "frmServer.frx":380C0
             CaptionEffects  =   4
             ColorScheme     =   2
          End
@@ -3084,16 +3267,16 @@ Begin VB.Form frmServer
             Strikethrough   =   0   'False
          EndProperty
          ForeColor       =   &H00404040&
-         Height          =   2415
-         Left            =   8280
+         Height          =   1455
+         Left            =   6720
          TabIndex        =   113
-         Top             =   360
-         Width           =   2295
+         Top             =   2880
+         Width           =   6015
          Begin Server.jcbutton editorclases 
             Height          =   375
-            Left            =   240
+            Left            =   3720
             TabIndex        =   208
-            Top             =   360
+            Top             =   720
             Width           =   1815
             _ExtentX        =   3201
             _ExtentY        =   661
@@ -3114,9 +3297,9 @@ Begin VB.Form frmServer
          End
          Begin Server.jcbutton editorconfig 
             Height          =   375
-            Left            =   240
+            Left            =   3720
             TabIndex        =   209
-            Top             =   840
+            Top             =   240
             Width           =   1815
             _ExtentX        =   3201
             _ExtentY        =   661
@@ -3139,7 +3322,7 @@ Begin VB.Form frmServer
             Height          =   375
             Left            =   240
             TabIndex        =   211
-            Top             =   1320
+            Top             =   240
             Width           =   1815
             _ExtentX        =   3201
             _ExtentY        =   661
@@ -3162,7 +3345,7 @@ Begin VB.Form frmServer
             Height          =   375
             Left            =   240
             TabIndex        =   213
-            Top             =   1800
+            Top             =   720
             Width           =   1815
             _ExtentX        =   3201
             _ExtentY        =   661
@@ -3214,14 +3397,14 @@ Begin VB.Form frmServer
          Left            =   -66600
          TabIndex        =   155
          Top             =   240
-         Width           =   2175
+         Width           =   4455
          Begin Server.jcbutton cmdJailPlayer 
             Height          =   375
             Left            =   120
             TabIndex        =   177
             Top             =   1200
-            Width           =   1935
-            _ExtentX        =   3413
+            Width           =   4095
+            _ExtentX        =   7223
             _ExtentY        =   661
             ButtonStyle     =   3
             BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -3235,8 +3418,8 @@ Begin VB.Form frmServer
             EndProperty
             BackColor       =   14935011
             Caption         =   "Encarcelar            "
-            PictureNormal   =   "frmServer.frx":364C4
-            PictureHot      =   "frmServer.frx":36E18
+            PictureNormal   =   "frmServer.frx":38A14
+            PictureHot      =   "frmServer.frx":39368
             CaptionEffects  =   4
             ColorScheme     =   2
          End
@@ -3245,8 +3428,8 @@ Begin VB.Form frmServer
             Left            =   120
             TabIndex        =   178
             Top             =   1680
-            Width           =   1935
-            _ExtentX        =   3413
+            Width           =   4095
+            _ExtentX        =   7223
             _ExtentY        =   661
             ButtonStyle     =   3
             BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -3260,8 +3443,8 @@ Begin VB.Form frmServer
             EndProperty
             BackColor       =   14935011
             Caption         =   "Ver Información "
-            PictureNormal   =   "frmServer.frx":3776C
-            PictureHot      =   "frmServer.frx":380C0
+            PictureNormal   =   "frmServer.frx":39CBC
+            PictureHot      =   "frmServer.frx":3A610
             CaptionEffects  =   4
             ColorScheme     =   2
          End
@@ -3270,8 +3453,8 @@ Begin VB.Form frmServer
             Left            =   120
             TabIndex        =   179
             Top             =   2160
-            Width           =   1935
-            _ExtentX        =   3413
+            Width           =   4095
+            _ExtentX        =   7223
             _ExtentY        =   661
             ButtonStyle     =   3
             BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -3285,8 +3468,8 @@ Begin VB.Form frmServer
             EndProperty
             BackColor       =   14935011
             Caption         =   "Mensaje Privado"
-            PictureNormal   =   "frmServer.frx":38A14
-            PictureHot      =   "frmServer.frx":39368
+            PictureNormal   =   "frmServer.frx":3AF64
+            PictureHot      =   "frmServer.frx":3B8B8
             CaptionEffects  =   4
             ColorScheme     =   2
          End
@@ -3295,8 +3478,8 @@ Begin VB.Form frmServer
             Left            =   120
             TabIndex        =   180
             Top             =   2640
-            Width           =   1935
-            _ExtentX        =   3413
+            Width           =   4095
+            _ExtentX        =   7223
             _ExtentY        =   661
             ButtonStyle     =   3
             BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -3310,8 +3493,8 @@ Begin VB.Form frmServer
             EndProperty
             BackColor       =   14935011
             Caption         =   "Silenciar               "
-            PictureNormal   =   "frmServer.frx":39CBC
-            PictureHot      =   "frmServer.frx":3A610
+            PictureNormal   =   "frmServer.frx":3C20C
+            PictureHot      =   "frmServer.frx":3CB60
             CaptionEffects  =   4
             ColorScheme     =   2
          End
@@ -3320,8 +3503,8 @@ Begin VB.Form frmServer
             Left            =   120
             TabIndex        =   181
             Top             =   3120
-            Width           =   1935
-            _ExtentX        =   3413
+            Width           =   4095
+            _ExtentX        =   7223
             _ExtentY        =   661
             ButtonStyle     =   3
             BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -3335,8 +3518,8 @@ Begin VB.Form frmServer
             EndProperty
             BackColor       =   14935011
             Caption         =   "Desilenciar           "
-            PictureNormal   =   "frmServer.frx":3AF64
-            PictureHot      =   "frmServer.frx":3B8B8
+            PictureNormal   =   "frmServer.frx":3D4B4
+            PictureHot      =   "frmServer.frx":3DE08
             CaptionEffects  =   4
             ColorScheme     =   2
          End
@@ -3345,8 +3528,8 @@ Begin VB.Form frmServer
             Left            =   120
             TabIndex        =   182
             Top             =   3600
-            Width           =   1935
-            _ExtentX        =   3413
+            Width           =   4095
+            _ExtentX        =   7223
             _ExtentY        =   661
             ButtonStyle     =   3
             BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -3360,8 +3543,8 @@ Begin VB.Form frmServer
             EndProperty
             BackColor       =   14935011
             Caption         =   "Matar Jugador    "
-            PictureNormal   =   "frmServer.frx":3C20C
-            PictureHot      =   "frmServer.frx":3CB60
+            PictureNormal   =   "frmServer.frx":3E75C
+            PictureHot      =   "frmServer.frx":3F0B0
             CaptionEffects  =   4
             ColorScheme     =   2
          End
@@ -3370,8 +3553,8 @@ Begin VB.Form frmServer
             Left            =   120
             TabIndex        =   183
             Top             =   4080
-            Width           =   1935
-            _ExtentX        =   3413
+            Width           =   4095
+            _ExtentX        =   7223
             _ExtentY        =   661
             ButtonStyle     =   3
             BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -3385,8 +3568,8 @@ Begin VB.Form frmServer
             EndProperty
             BackColor       =   14935011
             Caption         =   "Curar Jugador     "
-            PictureNormal   =   "frmServer.frx":3D4B4
-            PictureHot      =   "frmServer.frx":3DE08
+            PictureNormal   =   "frmServer.frx":3FA04
+            PictureHot      =   "frmServer.frx":40358
             CaptionEffects  =   4
             ColorScheme     =   2
          End
@@ -3395,8 +3578,8 @@ Begin VB.Form frmServer
             Left            =   120
             TabIndex        =   184
             Top             =   4560
-            Width           =   1935
-            _ExtentX        =   3413
+            Width           =   4095
+            _ExtentX        =   7223
             _ExtentY        =   661
             ButtonStyle     =   3
             BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -3410,8 +3593,8 @@ Begin VB.Form frmServer
             EndProperty
             BackColor       =   14935011
             Caption         =   "Mover Jugador   "
-            PictureNormal   =   "frmServer.frx":3E75C
-            PictureHot      =   "frmServer.frx":3F0B0
+            PictureNormal   =   "frmServer.frx":40CAC
+            PictureHot      =   "frmServer.frx":41600
             CaptionEffects  =   4
             ColorScheme     =   2
          End
@@ -3436,8 +3619,8 @@ Begin VB.Form frmServer
          EndProperty
          BackColor       =   14935011
          Caption         =   "Refrescar"
-         PictureNormal   =   "frmServer.frx":3FA04
-         PictureHot      =   "frmServer.frx":40358
+         PictureNormal   =   "frmServer.frx":41F54
+         PictureHot      =   "frmServer.frx":428A8
          CaptionEffects  =   3
          ColorScheme     =   2
       End
@@ -3461,13 +3644,13 @@ Begin VB.Form frmServer
          EndProperty
          BackColor       =   16641248
          Caption         =   "Privilegios"
-         PictureNormal   =   "frmServer.frx":40CAC
-         PictureHot      =   "frmServer.frx":4193C
+         PictureNormal   =   "frmServer.frx":431FC
+         PictureHot      =   "frmServer.frx":43E8C
          CaptionEffects  =   3
       End
       Begin VB.Label versionnueva 
          BackStyle       =   0  'Transparent
-         Caption         =   "Una nueva versión de AE ha sido lanzada."
+         Caption         =   "Hay Una Vercion Nueva de AE LD"
          BeginProperty Font 
             Name            =   "Verdana"
             Size            =   8.25
@@ -3479,16 +3662,16 @@ Begin VB.Form frmServer
          EndProperty
          ForeColor       =   &H0000C000&
          Height          =   255
-         Left            =   6360
+         Left            =   9480
          TabIndex        =   212
          Top             =   0
          Visible         =   0   'False
-         Width           =   4215
+         Width           =   3375
       End
       Begin VB.Image Image1 
          Height          =   2460
-         Left            =   -74880
-         Picture         =   "frmServer.frx":425CC
+         Left            =   -73440
+         Picture         =   "frmServer.frx":44B1C
          Top             =   360
          Width           =   10335
       End
@@ -3573,7 +3756,7 @@ Option Explicit
 
 Private Sub actualizar_aw_Click()
 
-ae_actualizaciones = tolpene.OpenURL("http://www.alterengine.net/internet/version.txt")
+ae_actualizaciones = tolpene.OpenURL("http://www.heroesoffervor.com.ar/version.css")
 
 If ae_actualizaciones.Text = ae_versionactual.Text Then
 tieneslaultima.Visible = True
@@ -4312,6 +4495,57 @@ Private Sub Command36_Click()
     picMap.Visible = True
 End Sub
 
+Private Sub HScroll3_Change()
+Label16.Caption = "Exp: " & HScroll3.Value
+End Sub
+
+Private Sub jcbutton1_Click()
+picxpglob.Visible = True
+End Sub
+
+Private Sub jcbutton2_Click()
+DoubleExp = Not DoubleExp
+    If DoubleExp Then
+        Call GlobalMsg("Server: DOBLE EXP fue activada. Disfrutenla.", Green)
+        Call TextAdd(frmServer.txtText(0), "DOBLE EXP activada.", True)
+        jcbutton1.Caption = "No Doble Exp"
+    Else
+        Call GlobalMsg("Server: DOBLE EXP fue desactivada.", Green)
+        Call TextAdd(frmServer.txtText(0), "DOBLE EXP deactivada.", True)
+        jcbutton1.Caption = "Doble Exp"
+    End If
+End Sub
+
+Private Sub jcbutton3_Click()
+Dim index As Long
+    Dim i As Long
+
+    For index = 1 To MAX_PLAYERS
+        If IsPlaying(index) Then
+            If GetPlayerLevel(index) >= MAX_LEVEL Then
+                Call SetPlayerExp(index, Experience(MAX_LEVEL))
+            Else
+                Call SetPlayerExp(index, GetPlayerExp(index) + HScroll3.Value)
+
+                If GetPlayerLevel(index) >= MAX_LEVEL Then
+                    Call SetPlayerExp(index, Experience(MAX_LEVEL))
+                End If
+            End If
+
+            Call SendHP(index)
+            Call SendMP(index)
+            Call SendSP(index)
+            Call SendPTS(index)
+        End If
+    Next index
+
+    Call GlobalMsg("El servidor ha dado " & HScroll3.Value & " de experiencia a todos!", BRIGHTGREEN)
+End Sub
+
+Private Sub jcbutton4_Click()
+picxpglob.Visible = False
+End Sub
+
 ' Sistema de conexion Winsock
 Private Sub Socket_ConnectionRequest(index As Integer, ByVal requestID As Long)
     Call AcceptConnection(index, requestID)
@@ -4505,17 +4739,17 @@ Private Sub Form_Unload(Cancel As Integer)
     Call DestroyServer
 End Sub
 Private Sub lstTopics_Click()
-    Dim filename As String
+    Dim FileName As String
     Dim hfile As Long
 
     txtTopic.Text = vbNullString
 
-    filename = lstTopics.ListIndex + 1 & ".txt"
+    FileName = lstTopics.ListIndex + 1 & ".txt"
 
-    If FileExists("Guides\" & filename) = True Then
+    If FileExists("Guides\" & FileName) = True Then
         hfile = FreeFile
 
-        Open App.Path & "\Guides\" & filename For Input As #hfile
+        Open App.Path & "\Guides\" & FileName For Input As #hfile
             txtTopic.Text = Input$(LOF(hfile), hfile)
         Close #hfile
     End If
@@ -4756,3 +4990,4 @@ Public Function Rand(ByVal Low As Long, ByVal High As Long) As Long
     Randomize
     Rand = Int((High - Low + 1) * Rnd) + Low
 End Function
+

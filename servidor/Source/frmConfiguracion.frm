@@ -22,99 +22,127 @@ Begin VB.Form frmConfiguracion
       _ExtentX        =   14261
       _ExtentY        =   12091
       _Version        =   393216
+      Tab             =   1
       TabHeight       =   670
       TabCaption(0)   =   "Configuración Principal"
       TabPicture(0)   =   "frmConfiguracion.frx":0000
-      Tab(0).ControlEnabled=   -1  'True
-      Tab(0).Control(0)=   "Label3"
+      Tab(0).ControlEnabled=   0   'False
+      Tab(0).Control(0)=   "Frame3"
       Tab(0).Control(0).Enabled=   0   'False
-      Tab(0).Control(1)=   "Label2"
+      Tab(0).Control(1)=   "jcbutton2"
       Tab(0).Control(1).Enabled=   0   'False
-      Tab(0).Control(2)=   "Label1"
+      Tab(0).Control(2)=   "Frame2"
       Tab(0).Control(2).Enabled=   0   'False
-      Tab(0).Control(3)=   "nombrejuego"
+      Tab(0).Control(3)=   "Frame1"
       Tab(0).Control(3).Enabled=   0   'False
-      Tab(0).Control(4)=   "webjuego"
+      Tab(0).Control(4)=   "puertojuego"
       Tab(0).Control(4).Enabled=   0   'False
-      Tab(0).Control(5)=   "puertojuego"
+      Tab(0).Control(5)=   "webjuego"
       Tab(0).Control(5).Enabled=   0   'False
-      Tab(0).Control(6)=   "Frame1"
+      Tab(0).Control(6)=   "nombrejuego"
       Tab(0).Control(6).Enabled=   0   'False
-      Tab(0).Control(7)=   "Frame2"
+      Tab(0).Control(7)=   "Label1"
       Tab(0).Control(7).Enabled=   0   'False
-      Tab(0).Control(8)=   "jcbutton2"
+      Tab(0).Control(8)=   "Label2"
       Tab(0).Control(8).Enabled=   0   'False
-      Tab(0).Control(9)=   "Frame3"
+      Tab(0).Control(9)=   "Label3"
       Tab(0).Control(9).Enabled=   0   'False
       Tab(0).ControlCount=   10
       TabCaption(1)   =   "Parametros"
       TabPicture(1)   =   "frmConfiguracion.frx":001C
-      Tab(1).ControlEnabled=   0   'False
+      Tab(1).ControlEnabled=   -1  'True
       Tab(1).Control(0)=   "Label18"
+      Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "Label19"
+      Tab(1).Control(1).Enabled=   0   'False
       Tab(1).Control(2)=   "Label20"
+      Tab(1).Control(2).Enabled=   0   'False
       Tab(1).Control(3)=   "Label21"
+      Tab(1).Control(3).Enabled=   0   'False
       Tab(1).Control(4)=   "Label22"
+      Tab(1).Control(4).Enabled=   0   'False
       Tab(1).Control(5)=   "Label23"
+      Tab(1).Control(5).Enabled=   0   'False
       Tab(1).Control(6)=   "Label24"
+      Tab(1).Control(6).Enabled=   0   'False
       Tab(1).Control(7)=   "Label25"
+      Tab(1).Control(7).Enabled=   0   'False
       Tab(1).Control(8)=   "Label26"
+      Tab(1).Control(8).Enabled=   0   'False
       Tab(1).Control(9)=   "Label44"
+      Tab(1).Control(9).Enabled=   0   'False
       Tab(1).Control(10)=   "Label45"
+      Tab(1).Control(10).Enabled=   0   'False
       Tab(1).Control(11)=   "Label46"
+      Tab(1).Control(11).Enabled=   0   'False
       Tab(1).Control(12)=   "jcbutton4"
+      Tab(1).Control(12).Enabled=   0   'False
       Tab(1).Control(13)=   "jcbutton3"
+      Tab(1).Control(13).Enabled=   0   'False
       Tab(1).Control(14)=   "scripting"
+      Tab(1).Control(14).Enabled=   0   'False
       Tab(1).Control(15)=   "scripterrores"
+      Tab(1).Control(15).Enabled=   0   'False
       Tab(1).Control(16)=   "paperdoll"
+      Tab(1).Control(16).Enabled=   0   'False
       Tab(1).Control(17)=   "guardartiempo"
+      Tab(1).Control(17).Enabled=   0   'False
       Tab(1).Control(18)=   "sizedenpc"
+      Tab(1).Control(18).Enabled=   0   'False
       Tab(1).Control(19)=   "customnpc"
+      Tab(1).Control(19).Enabled=   0   'False
       Tab(1).Control(20)=   "nivelminimopk"
+      Tab(1).Control(20).Enabled=   0   'False
       Tab(1).Control(21)=   "mostrarnivel"
+      Tab(1).Control(21).Enabled=   0   'False
       Tab(1).Control(22)=   "clases"
+      Tab(1).Control(22).Enabled=   0   'False
       Tab(1).Control(23)=   "Frame4"
+      Tab(1).Control(23).Enabled=   0   'False
       Tab(1).Control(24)=   "Text1"
+      Tab(1).Control(24).Enabled=   0   'False
       Tab(1).Control(25)=   "Text2"
+      Tab(1).Control(25).Enabled=   0   'False
       Tab(1).Control(26)=   "Text3"
+      Tab(1).Control(26).Enabled=   0   'False
       Tab(1).ControlCount=   27
       TabCaption(2)   =   "Maximos"
       TabPicture(2)   =   "frmConfiguracion.frx":0038
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "Label29"
-      Tab(2).Control(1)=   "Label30"
-      Tab(2).Control(2)=   "Label31"
-      Tab(2).Control(3)=   "Label32"
-      Tab(2).Control(4)=   "Label33"
-      Tab(2).Control(5)=   "Label34"
-      Tab(2).Control(6)=   "Label35"
-      Tab(2).Control(7)=   "Label36"
-      Tab(2).Control(8)=   "Label37"
-      Tab(2).Control(9)=   "Label38"
-      Tab(2).Control(10)=   "Label39"
-      Tab(2).Control(11)=   "Label40"
-      Tab(2).Control(12)=   "Label41"
-      Tab(2).Control(13)=   "Label42"
+      Tab(2).Control(0)=   "Frame5"
+      Tab(2).Control(1)=   "maxjugadores"
+      Tab(2).Control(2)=   "maxobjetos"
+      Tab(2).Control(3)=   "maxnpcs"
+      Tab(2).Control(4)=   "maxtiendas"
+      Tab(2).Control(5)=   "maxhechizos"
+      Tab(2).Control(6)=   "maxmapas"
+      Tab(2).Control(7)=   "maxobjetosenmapa"
+      Tab(2).Control(8)=   "maxclanes"
+      Tab(2).Control(9)=   "maxmiembrosclan"
+      Tab(2).Control(10)=   "maxemoticonos"
+      Tab(2).Control(11)=   "maxelementos"
+      Tab(2).Control(12)=   "maxnivel"
+      Tab(2).Control(13)=   "maxgrupos"
       Tab(2).Control(14)=   "maxscriptedhechizos"
-      Tab(2).Control(15)=   "maxgrupos"
-      Tab(2).Control(16)=   "maxnivel"
-      Tab(2).Control(17)=   "maxelementos"
-      Tab(2).Control(18)=   "maxemoticonos"
-      Tab(2).Control(19)=   "maxmiembrosclan"
-      Tab(2).Control(20)=   "maxclanes"
-      Tab(2).Control(21)=   "maxobjetosenmapa"
-      Tab(2).Control(22)=   "maxmapas"
-      Tab(2).Control(23)=   "maxhechizos"
-      Tab(2).Control(24)=   "maxtiendas"
-      Tab(2).Control(25)=   "maxnpcs"
-      Tab(2).Control(26)=   "maxobjetos"
-      Tab(2).Control(27)=   "maxjugadores"
-      Tab(2).Control(28)=   "Frame5"
+      Tab(2).Control(15)=   "Label42"
+      Tab(2).Control(16)=   "Label41"
+      Tab(2).Control(17)=   "Label40"
+      Tab(2).Control(18)=   "Label39"
+      Tab(2).Control(19)=   "Label38"
+      Tab(2).Control(20)=   "Label37"
+      Tab(2).Control(21)=   "Label36"
+      Tab(2).Control(22)=   "Label35"
+      Tab(2).Control(23)=   "Label34"
+      Tab(2).Control(24)=   "Label33"
+      Tab(2).Control(25)=   "Label32"
+      Tab(2).Control(26)=   "Label31"
+      Tab(2).Control(27)=   "Label30"
+      Tab(2).Control(28)=   "Label29"
       Tab(2).ControlCount=   29
       Begin VB.TextBox Text3 
          Appearance      =   0  'Flat
          Height          =   285
-         Left            =   -68640
+         Left            =   6360
          TabIndex        =   97
          Top             =   5400
          Visible         =   0   'False
@@ -123,7 +151,7 @@ Begin VB.Form frmConfiguracion
       Begin VB.TextBox Text2 
          Appearance      =   0  'Flat
          Height          =   285
-         Left            =   -68640
+         Left            =   6360
          TabIndex        =   96
          Top             =   6120
          Visible         =   0   'False
@@ -132,7 +160,7 @@ Begin VB.Form frmConfiguracion
       Begin VB.TextBox Text1 
          Appearance      =   0  'Flat
          Height          =   285
-         Left            =   -68640
+         Left            =   6360
          TabIndex        =   95
          Top             =   5760
          Visible         =   0   'False
@@ -176,7 +204,7 @@ Begin VB.Form frmConfiguracion
          EndProperty
          ForeColor       =   &H000000C0&
          Height          =   1335
-         Left            =   -73920
+         Left            =   1080
          TabIndex        =   72
          Top             =   600
          Width           =   5775
@@ -219,7 +247,7 @@ Begin VB.Form frmConfiguracion
          EndProperty
          ForeColor       =   &H000080FF&
          Height          =   1215
-         Left            =   720
+         Left            =   -74280
          TabIndex        =   54
          Top             =   2880
          Width           =   6375
@@ -330,7 +358,7 @@ Begin VB.Form frmConfiguracion
       End
       Begin Server.jcbutton jcbutton2 
          Height          =   375
-         Left            =   6720
+         Left            =   -68280
          TabIndex        =   53
          Top             =   1320
          Width           =   375
@@ -369,7 +397,7 @@ Begin VB.Form frmConfiguracion
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1455
-         Left            =   840
+         Left            =   -74160
          TabIndex        =   46
          Top             =   1320
          Width           =   6135
@@ -493,7 +521,7 @@ Begin VB.Form frmConfiguracion
          EndProperty
          ForeColor       =   &H0000C000&
          Height          =   2535
-         Left            =   240
+         Left            =   -74760
          TabIndex        =   27
          Top             =   4200
          Width           =   7575
@@ -712,7 +740,7 @@ Begin VB.Form frmConfiguracion
       Begin VB.TextBox puertojuego 
          Appearance      =   0  'Flat
          Height          =   285
-         Left            =   5880
+         Left            =   -69120
          TabIndex        =   26
          Top             =   840
          Width           =   1095
@@ -720,7 +748,7 @@ Begin VB.Form frmConfiguracion
       Begin VB.TextBox webjuego 
          Appearance      =   0  'Flat
          Height          =   285
-         Left            =   3240
+         Left            =   -71760
          TabIndex        =   25
          Top             =   840
          Width           =   1935
@@ -728,7 +756,7 @@ Begin VB.Form frmConfiguracion
       Begin VB.TextBox nombrejuego 
          Appearance      =   0  'Flat
          Height          =   285
-         Left            =   840
+         Left            =   -74160
          TabIndex        =   24
          Top             =   840
          Width           =   1935
@@ -736,7 +764,7 @@ Begin VB.Form frmConfiguracion
       Begin VB.TextBox clases 
          Appearance      =   0  'Flat
          Height          =   285
-         Left            =   -68640
+         Left            =   6360
          TabIndex        =   23
          Top             =   4920
          Width           =   375
@@ -744,7 +772,7 @@ Begin VB.Form frmConfiguracion
       Begin VB.TextBox mostrarnivel 
          Appearance      =   0  'Flat
          Height          =   285
-         Left            =   -68640
+         Left            =   6360
          TabIndex        =   22
          Top             =   4440
          Width           =   375
@@ -752,7 +780,7 @@ Begin VB.Form frmConfiguracion
       Begin VB.TextBox nivelminimopk 
          Appearance      =   0  'Flat
          Height          =   285
-         Left            =   -68640
+         Left            =   6360
          TabIndex        =   21
          Top             =   3960
          Width           =   375
@@ -760,7 +788,7 @@ Begin VB.Form frmConfiguracion
       Begin VB.TextBox customnpc 
          Appearance      =   0  'Flat
          Height          =   285
-         Left            =   -72240
+         Left            =   2760
          TabIndex        =   20
          Top             =   3480
          Width           =   375
@@ -768,7 +796,7 @@ Begin VB.Form frmConfiguracion
       Begin VB.TextBox sizedenpc 
          Appearance      =   0  'Flat
          Height          =   285
-         Left            =   -68640
+         Left            =   6360
          TabIndex        =   19
          Top             =   3480
          Width           =   375
@@ -776,7 +804,7 @@ Begin VB.Form frmConfiguracion
       Begin VB.TextBox guardartiempo 
          Appearance      =   0  'Flat
          Height          =   285
-         Left            =   -72240
+         Left            =   2760
          TabIndex        =   18
          Top             =   2880
          Width           =   375
@@ -784,7 +812,7 @@ Begin VB.Form frmConfiguracion
       Begin VB.TextBox paperdoll 
          Appearance      =   0  'Flat
          Height          =   285
-         Left            =   -68640
+         Left            =   6360
          TabIndex        =   17
          Top             =   2880
          Width           =   375
@@ -792,7 +820,7 @@ Begin VB.Form frmConfiguracion
       Begin VB.TextBox scripterrores 
          Appearance      =   0  'Flat
          Height          =   285
-         Left            =   -68640
+         Left            =   6360
          TabIndex        =   16
          Top             =   2400
          Width           =   375
@@ -800,7 +828,7 @@ Begin VB.Form frmConfiguracion
       Begin VB.TextBox scripting 
          Appearance      =   0  'Flat
          Height          =   285
-         Left            =   -72240
+         Left            =   2760
          TabIndex        =   15
          Top             =   2400
          Width           =   375
@@ -919,7 +947,7 @@ Begin VB.Form frmConfiguracion
       End
       Begin Server.jcbutton jcbutton3 
          Height          =   255
-         Left            =   -71760
+         Left            =   3240
          TabIndex        =   75
          Top             =   3480
          Width           =   255
@@ -948,7 +976,7 @@ Begin VB.Form frmConfiguracion
       End
       Begin Server.jcbutton jcbutton4 
          Height          =   255
-         Left            =   -68160
+         Left            =   6840
          TabIndex        =   76
          Top             =   3480
          Width           =   255
@@ -988,7 +1016,7 @@ Begin VB.Form frmConfiguracion
          EndProperty
          ForeColor       =   &H00FF8080&
          Height          =   255
-         Left            =   -69960
+         Left            =   5040
          TabIndex        =   100
          Top             =   5400
          Visible         =   0   'False
@@ -1007,7 +1035,7 @@ Begin VB.Form frmConfiguracion
          EndProperty
          ForeColor       =   &H00FF8080&
          Height          =   255
-         Left            =   -69960
+         Left            =   5040
          TabIndex        =   99
          Top             =   6120
          Visible         =   0   'False
@@ -1026,7 +1054,7 @@ Begin VB.Form frmConfiguracion
          EndProperty
          ForeColor       =   &H00FF8080&
          Height          =   255
-         Left            =   -69960
+         Left            =   5040
          TabIndex        =   98
          Top             =   5760
          Visible         =   0   'False
@@ -1297,7 +1325,7 @@ Begin VB.Form frmConfiguracion
          EndProperty
          ForeColor       =   &H00FF8080&
          Height          =   255
-         Left            =   -70680
+         Left            =   4320
          TabIndex        =   71
          Top             =   4920
          Width           =   1935
@@ -1315,7 +1343,7 @@ Begin VB.Form frmConfiguracion
          EndProperty
          ForeColor       =   &H00FF8080&
          Height          =   255
-         Left            =   -71520
+         Left            =   3480
          TabIndex        =   70
          Top             =   4440
          Width           =   2775
@@ -1332,11 +1360,11 @@ Begin VB.Form frmConfiguracion
             Strikethrough   =   0   'False
          EndProperty
          ForeColor       =   &H00FF8080&
-         Height          =   255
-         Left            =   -72360
+         Height          =   495
+         Left            =   3960
          TabIndex        =   69
          Top             =   3960
-         Width           =   3615
+         Width           =   2295
       End
       Begin VB.Label Label23 
          Caption         =   "Tipo de Sprite:"
@@ -1351,7 +1379,7 @@ Begin VB.Form frmConfiguracion
          EndProperty
          ForeColor       =   &H00FF8080&
          Height          =   255
-         Left            =   -73800
+         Left            =   1200
          TabIndex        =   68
          Top             =   3480
          Width           =   1935
@@ -1369,7 +1397,7 @@ Begin VB.Form frmConfiguracion
          EndProperty
          ForeColor       =   &H00FF8080&
          Height          =   255
-         Left            =   -70680
+         Left            =   4320
          TabIndex        =   67
          Top             =   3480
          Width           =   1935
@@ -1387,7 +1415,7 @@ Begin VB.Form frmConfiguracion
          EndProperty
          ForeColor       =   &H00FF8080&
          Height          =   255
-         Left            =   -73920
+         Left            =   1080
          TabIndex        =   66
          Top             =   2880
          Width           =   1815
@@ -1405,7 +1433,7 @@ Begin VB.Form frmConfiguracion
          EndProperty
          ForeColor       =   &H00FF8080&
          Height          =   255
-         Left            =   -69720
+         Left            =   5280
          TabIndex        =   65
          Top             =   2880
          Width           =   1215
@@ -1423,7 +1451,7 @@ Begin VB.Form frmConfiguracion
          EndProperty
          ForeColor       =   &H00FF8080&
          Height          =   255
-         Left            =   -70440
+         Left            =   4560
          TabIndex        =   64
          Top             =   2400
          Width           =   1815
@@ -1441,7 +1469,7 @@ Begin VB.Form frmConfiguracion
          EndProperty
          ForeColor       =   &H00FF8080&
          Height          =   255
-         Left            =   -74280
+         Left            =   720
          TabIndex        =   63
          Top             =   2400
          Width           =   2295
@@ -1459,7 +1487,7 @@ Begin VB.Form frmConfiguracion
          EndProperty
          ForeColor       =   &H00FF8080&
          Height          =   255
-         Left            =   840
+         Left            =   -74160
          TabIndex        =   45
          Top             =   600
          Width           =   1815
@@ -1477,7 +1505,7 @@ Begin VB.Form frmConfiguracion
          EndProperty
          ForeColor       =   &H00FF8080&
          Height          =   255
-         Left            =   3480
+         Left            =   -71520
          TabIndex        =   44
          Top             =   600
          Width           =   1575
@@ -1495,7 +1523,7 @@ Begin VB.Form frmConfiguracion
          EndProperty
          ForeColor       =   &H00FF8080&
          Height          =   255
-         Left            =   5520
+         Left            =   -69480
          TabIndex        =   43
          Top             =   600
          Width           =   1935
@@ -1694,9 +1722,9 @@ Call PutVar(App.Path & "\Configuracion.ini", "MAX", "MAX_GUILDS", maxclanes.Text
 Call PutVar(App.Path & "\Configuracion.ini", "MAX", "MAX_MAP_ITEMS", maxobjetosenmapa.Text)
 Call PutVar(App.Path & "\Configuracion.ini", "MAX", "MAX_GUILD_MEMBERS", maxmiembrosclan.Text)
 Call PutVar(App.Path & "\Configuracion.ini", "MAX", "MAX_SPELLS", maxhechizos.Text)
-Call PutVar(App.Path & "\Configuacion.ini", "MAX", "MAX_HEAD", Text1.Text)
-Call PutVar(App.Path & "\Configuacion.ini", "MAX", "MAX_BODY", Text2.Text)
-Call PutVar(App.Path & "\Configuacion.ini", "MAX", "MAX_LEGS", Text3.Text)
+Call PutVar(App.Path & "\Configuracion.ini", "MAX", "MAX_HEAD", Text1.Text)
+Call PutVar(App.Path & "\Configuracion.ini", "MAX", "MAX_BODY", Text2.Text)
+Call PutVar(App.Path & "\Configuracion.ini", "MAX", "MAX_LEGS", Text3.Text)
 If Text4.Text <> "" Then
 Call SaveSetting(App.EXEName, "Clave", "Clave", Text4.Text)
 Call SendDataToAll("SPASS2" & SEP_CHAR & Text4.Text & END_CHAR)

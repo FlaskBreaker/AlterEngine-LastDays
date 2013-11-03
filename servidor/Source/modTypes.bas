@@ -428,9 +428,9 @@ Type ItemRec
 
     Pic As Long
     Type As Byte
-    Data1 As Long
-    Data2 As Long
-    Data3 As Long
+    Data1 As String
+    Data2 As String
+    Data3 As String
     StrReq As Long
     DefReq As Long
     SpeedReq As Long

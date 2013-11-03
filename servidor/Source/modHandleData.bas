@@ -668,6 +668,10 @@ Sub HandleData(ByVal index As Long, ByVal Data As String)
         Exit Sub
 
     Case "savequest"
+    If GetPlayerAccess(index) < ADMIN_MONITER Then
+        Call HackingAttempt(index, "Hack")
+        Exit Sub
+        End If
         N = Val(Parse(1))
         If N < 0 Or N > MAX_QUESTS Then
             Call HackingAttempt(index, "Invalid Quests Index")
@@ -1051,11 +1055,6 @@ Public Sub Packet_AccountLogin(ByVal index As Long, ByVal Username As String, By
         '        Exit Sub
         '    End If
         'End If
-
-        If Major < CLIENT_MAJOR Or Minor < CLIENT_MINOR Or Revision < CLIENT_REVISION Then
-            Call PlainMsg(index, "Versión desactualizada, por favor visita " & Trim$(GetVar(App.Path & "\Configuracion.ini", "CONFIG", "WebSite")), 3)
-            Exit Sub
-        End If
 
         If Not IsAlphaNumeric(Username) Then
             Call PlainMsg(index, "Tu usuario debe contener caracteres alfa-numericos.", 3)
@@ -1567,6 +1566,7 @@ End Sub
 
 Public Sub Packet_UseItem(ByVal index As Long, ByVal InvNum As Long)
     Dim CharNum As Long
+    Dim LibroID As Long
     Dim SpellID As Long
     Dim MinLvl As Long
     Dim x As Long
@@ -1839,6 +1839,10 @@ Public Sub Packet_UseItem(ByVal index As Long, ByVal InvNum As Long)
             If scripting = 1 Then
                 MyScript.ExecuteStatement "Scripts\Main.txt", "ScriptedItem " & index & "," & Item(Player(index).Char(CharNum).Inv(InvNum).num).Data1
             End If
+        
+        Case ITEM_TYPE_BOOK
+        LibroID = Item(GetPlayerInvItemNum(index, InvNum)).Data1
+            Call SendBookData(index, LibroID)
         
         Case ITEM_TYPE_PET
             Dim PetSprite As Long

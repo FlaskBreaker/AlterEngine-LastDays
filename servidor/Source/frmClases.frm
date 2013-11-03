@@ -329,7 +329,7 @@ Begin VB.Form frmClases
    End
    Begin Server.jcbutton salvarclase 
       Height          =   495
-      Left            =   2280
+      Left            =   3240
       TabIndex        =   0
       Top             =   5280
       Width           =   2175
@@ -354,7 +354,7 @@ Begin VB.Form frmClases
    End
    Begin Server.jcbutton cmdCancel 
       Height          =   495
-      Left            =   4560
+      Left            =   6240
       TabIndex        =   1
       Top             =   5280
       Width           =   1935
@@ -379,7 +379,7 @@ Begin VB.Form frmClases
    End
    Begin Server.jcbutton salvarclase0 
       Height          =   495
-      Left            =   2280
+      Left            =   3240
       TabIndex        =   3
       Top             =   5280
       Visible         =   0   'False
@@ -582,7 +582,7 @@ Begin VB.Form frmClases
    End
    Begin Server.jcbutton salvarclase2 
       Height          =   495
-      Left            =   2280
+      Left            =   3240
       TabIndex        =   31
       Top             =   5280
       Visible         =   0   'False
@@ -608,7 +608,7 @@ Begin VB.Form frmClases
    End
    Begin Server.jcbutton salvarclase3 
       Height          =   495
-      Left            =   2280
+      Left            =   3240
       TabIndex        =   32
       Top             =   5280
       Visible         =   0   'False
@@ -634,7 +634,7 @@ Begin VB.Form frmClases
    End
    Begin Server.jcbutton salvarclase4 
       Height          =   495
-      Left            =   2280
+      Left            =   3240
       TabIndex        =   33
       Top             =   5280
       Visible         =   0   'False
@@ -660,7 +660,7 @@ Begin VB.Form frmClases
    End
    Begin Server.jcbutton salvarclase5 
       Height          =   495
-      Left            =   2280
+      Left            =   3240
       TabIndex        =   34
       Top             =   5280
       Visible         =   0   'False
@@ -686,7 +686,7 @@ Begin VB.Form frmClases
    End
    Begin Server.jcbutton salvarclase6 
       Height          =   495
-      Left            =   2280
+      Left            =   3240
       TabIndex        =   35
       Top             =   5280
       Visible         =   0   'False
@@ -712,7 +712,7 @@ Begin VB.Form frmClases
    End
    Begin Server.jcbutton salvarclase7 
       Height          =   495
-      Left            =   2280
+      Left            =   3240
       TabIndex        =   36
       Top             =   5280
       Visible         =   0   'False
@@ -733,6 +733,31 @@ Begin VB.Form frmClases
       Caption         =   "Guardar Clase 7"
       PictureNormal   =   "frmClases.frx":A7E8
       PictureHot      =   "frmClases.frx":B13C
+      CaptionEffects  =   4
+      ColorScheme     =   2
+   End
+   Begin Server.jcbutton recargarclase 
+      Height          =   495
+      Left            =   480
+      TabIndex        =   42
+      Top             =   5280
+      Width           =   2175
+      _ExtentX        =   3836
+      _ExtentY        =   873
+      ButtonStyle     =   3
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Tahoma"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      BackColor       =   14935011
+      Caption         =   "Recargar Clases"
+      PictureNormal   =   "frmClases.frx":BA90
+      PictureHot      =   "frmClases.frx":C3E4
       CaptionEffects  =   4
       ColorScheme     =   2
    End
@@ -791,6 +816,18 @@ Private Sub CP_Click()
     Else
         MsgBox "No se ha encontrado el archivo", vbInformation
     End If
+End Sub
+
+Private Sub recargarclase_Click()
+Dim i As Long
+    Call LoadClasses
+    Call TextAdd(frmServer.txtText(0), "Todas las Clases Fueron Recargadas.", True)
+    MsgBox ("Todas las Clases Fueron Recargadas.")
+    For i = 1 To MAX_PLAYERS
+        If IsPlaying(i) Then
+            SendClasses i
+        End If
+    Next
 End Sub
 
 Private Sub salvarclase_Click()

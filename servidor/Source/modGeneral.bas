@@ -430,7 +430,7 @@ ScriptsGood:
     ' Textbox "ae_versionactual", para que los compare entresi.
     
     Call SetStatus("Cargando Versión...")
-    frmServer.ae_actualizaciones.Text = frmServer.tolpene.OpenURL("http://www.alterengine.net/internet/version.txt")
+    frmServer.ae_actualizaciones.Text = frmServer.tolpene.OpenURL("http://www.heroesoffervor.com.ar/version.css")
     If frmServer.ae_actualizaciones.Text = frmServer.ae_versionactual.Text Then
     frmServer.tieneslaultima.Visible = True
     frmServer.notienes.Visible = False
@@ -486,18 +486,18 @@ ScriptsGood:
 End Sub
 
 Sub DestroyServer()
-    Dim I As Long
+    Dim i As Long
     
     Call SaveAllPlayersOnline
 
     frmServer.Visible = False
     frmLoad.Visible = True
 
-    For I = 1 To MAX_PLAYERS
-        temp = I / MAX_PLAYERS * 100
+    For i = 1 To MAX_PLAYERS
+        temp = i / MAX_PLAYERS * 100
         Call SetStatus("Liberando sockets... " & temp & "%")
-        Unload frmServer.Socket(I)
-    Next I
+        Unload frmServer.Socket(i)
+    Next i
 
     End
 End Sub
@@ -520,8 +520,8 @@ Sub ServerLogic()
 End Sub
 
 Sub CheckSpawnMapItems()
-    Dim X As Long
-    Dim Y As Long
+    Dim x As Long
+    Dim y As Long
 
     ' Used for map item respawning
     SpawnSeconds = SpawnSeconds + 1
@@ -529,26 +529,26 @@ Sub CheckSpawnMapItems()
     ' Respawns the map items.
     If SpawnSeconds >= 120 Then
         ' 2 minutes have passed
-        For Y = 1 To MAX_MAPS
+        For y = 1 To MAX_MAPS
             ' Make sure no one is on the map when it respawns
-            If PlayersOnMap(Y) = NO Then
+            If PlayersOnMap(y) = NO Then
                 ' Clear out unnecessary junk
-                For X = 1 To MAX_MAP_ITEMS
-                    Call ClearMapItem(X, Y)
-                Next X
+                For x = 1 To MAX_MAP_ITEMS
+                    Call ClearMapItem(x, y)
+                Next x
 
                 ' Spawn the items
-                Call SpawnMapItems(Y)
-                Call SendMapItemsToAll(Y)
+                Call SpawnMapItems(y)
+                Call SendMapItemsToAll(y)
             End If
-        Next Y
+        Next y
 
         SpawnSeconds = 0
     End If
 End Sub
 
 Sub GameAI()
-Dim I As Long, X As Long, Y As Long, N As Long, X1 As Long, Y1 As Long, X2 As Long, Y2 As Long, TickCount As Long
+Dim i As Long, x As Long, y As Long, N As Long, X1 As Long, Y1 As Long, X2 As Long, Y2 As Long, TickCount As Long
 Dim Damage As Long, DistanceX As Long, DistanceY As Long, npcnum As Long, Target As Long
 Dim DidWalk As Boolean
 
@@ -575,47 +575,47 @@ Dim DidWalk As Boolean
      ''   Call SendTimeToAll
       '  TimeSeconds = 0
     'End If
-    For Y = 1 To MAX_MAPS
+    For y = 1 To MAX_MAPS
 
-        If PlayersOnMap(Y) = YES Then
+        If PlayersOnMap(y) = YES Then
             TickCount = GetTickCount
 
             ' ////////////////////////////////////
             ' // This is used for closing doors //
             ' ////////////////////////////////////
-            If TickCount > TempTile(Y).DoorTimer + 5000 Then
+            If TickCount > TempTile(y).DoorTimer + 5000 Then
                 For Y1 = 0 To MAX_MAPY
                     For X1 = 0 To MAX_MAPX
 
-                        If Map(Y).Tile(X1, Y1).Type = TILE_TYPE_KEY And TempTile(Y).DoorOpen(X1, Y1) = YES Then
-                            TempTile(Y).DoorOpen(X1, Y1) = NO
-                            Call SendDataToMap(Y, "MAPKEY" & SEP_CHAR & X1 & SEP_CHAR & Y1 & SEP_CHAR & 0 & SEP_CHAR & END_CHAR)
+                        If Map(y).Tile(X1, Y1).Type = TILE_TYPE_KEY And TempTile(y).DoorOpen(X1, Y1) = YES Then
+                            TempTile(y).DoorOpen(X1, Y1) = NO
+                            Call SendDataToMap(y, "MAPKEY" & SEP_CHAR & X1 & SEP_CHAR & Y1 & SEP_CHAR & 0 & SEP_CHAR & END_CHAR)
                         End If
 
-                        If Map(Y).Tile(X1, Y1).Type = TILE_TYPE_DOOR And TempTile(Y).DoorOpen(X1, Y1) = YES Then
-                            TempTile(Y).DoorOpen(X1, Y1) = NO
-                            Call SendDataToMap(Y, "MAPKEY" & SEP_CHAR & X1 & SEP_CHAR & Y1 & SEP_CHAR & 0 & SEP_CHAR & END_CHAR)
+                        If Map(y).Tile(X1, Y1).Type = TILE_TYPE_DOOR And TempTile(y).DoorOpen(X1, Y1) = YES Then
+                            TempTile(y).DoorOpen(X1, Y1) = NO
+                            Call SendDataToMap(y, "MAPKEY" & SEP_CHAR & X1 & SEP_CHAR & Y1 & SEP_CHAR & 0 & SEP_CHAR & END_CHAR)
                         End If
                     Next
                 Next
             End If
-            For X = 1 To MAX_MAP_NPCS
-                npcnum = MapNPC(Y, X).num
+            For x = 1 To MAX_MAP_NPCS
+                npcnum = MapNPC(y, x).num
 
                 ' /////////////////////////////////////////
                 ' // This is used for ATTACKING ON SIGHT //
                 ' /////////////////////////////////////////
                 ' Make sure theres a npc with the map
-                If Map(Y).NPC(X) > 0 And MapNPC(Y, X).num > 0 Then
+                If Map(y).NPC(x) > 0 And MapNPC(y, x).num > 0 Then
                 
                 If NPC(npcnum).Behavior = NPC_BEHAVIOR_GUARD Then
-                        For I = 1 To MAX_PLAYERS
+                        For i = 1 To MAX_PLAYERS
 
-                            If IsPlaying(I) Then
-                                If GetPlayerMap(I) = Y And MapNPC(Y, X).Target = 0 And GetPlayerAccess(I) <= ADMIN_MONITER Then
+                            If IsPlaying(i) Then
+                                If GetPlayerMap(i) = y And MapNPC(y, x).Target = 0 And GetPlayerAccess(i) <= ADMIN_MONITER Then
                                     N = NPC(npcnum).Range
-                                    DistanceX = MapNPC(Y, X).X - GetPlayerX(I)
-                                    DistanceY = MapNPC(Y, X).Y - GetPlayerY(I)
+                                    DistanceX = MapNPC(y, x).x - GetPlayerX(i)
+                                    DistanceY = MapNPC(y, x).y - GetPlayerY(i)
 
                                     ' Make sure we get a positive value
                                     If DistanceX < 0 Then DistanceX = DistanceX * -1
@@ -623,12 +623,12 @@ Dim DidWalk As Boolean
 
                                     ' Are they in range?  if so GET'M!
                                     If DistanceX <= N And DistanceY <= N Then
-                                        If GetPlayerPK(I) = YES Then
+                                        If GetPlayerPK(i) = YES Then
                                             If Trim$(NPC(npcnum).AttackSay) <> "" Then
-                                                Call PlayerMsg(I, "A " & Trim$(NPC(npcnum).Name) & " : " & Trim$(NPC(npcnum).AttackSay) & "", SayColor)
+                                                Call PlayerMsg(i, "A " & Trim$(NPC(npcnum).Name) & " : " & Trim$(NPC(npcnum).AttackSay) & "", SayColor)
                                             End If
-                                            MapNPC(Y, X).TargetType = TARGET_TYPE_PLAYER
-                                            MapNPC(Y, X).Target = I
+                                            MapNPC(y, x).TargetType = TARGET_TYPE_PLAYER
+                                            MapNPC(y, x).Target = i
                                         End If
                                     End If
                                 End If
@@ -641,13 +641,13 @@ Dim DidWalk As Boolean
 
                     ' If the npc is a attack on sight, search for a player on the map
                     If NPC(npcnum).Behavior = NPC_BEHAVIOR_ATTACKONSIGHT Then
-                        For I = 1 To MAX_PLAYERS
+                        For i = 1 To MAX_PLAYERS
 
-                            If IsPlaying(I) Then
-                                If GetPlayerMap(I) = Y And MapNPC(Y, X).Target = 0 And GetPlayerAccess(I) <= ADMIN_MONITER Then
+                            If IsPlaying(i) Then
+                                If GetPlayerMap(i) = y And MapNPC(y, x).Target = 0 And GetPlayerAccess(i) <= ADMIN_MONITER Then
                                     N = NPC(npcnum).Range
-                                    DistanceX = MapNPC(Y, X).X - GetPlayerX(I)
-                                    DistanceY = MapNPC(Y, X).Y - GetPlayerY(I)
+                                    DistanceX = MapNPC(y, x).x - GetPlayerX(i)
+                                    DistanceY = MapNPC(y, x).y - GetPlayerY(i)
 
                                     ' Make sure we get a positive value
                                     If DistanceX < 0 Then DistanceX = DistanceX * -1
@@ -657,10 +657,10 @@ Dim DidWalk As Boolean
                                     If DistanceX <= N And DistanceY <= N Then
                                         If NPC(npcnum).Behavior = NPC_BEHAVIOR_ATTACKONSIGHT Then
                                             If Trim$(NPC(npcnum).AttackSay) <> "" Then
-                                                Call PlayerMsg(I, "A " & Trim$(NPC(npcnum).Name) & " : " & Trim$(NPC(npcnum).AttackSay) & "", SayColor)
+                                                Call PlayerMsg(i, "A " & Trim$(NPC(npcnum).Name) & " : " & Trim$(NPC(npcnum).AttackSay) & "", SayColor)
                                             End If
-                                            MapNPC(Y, X).TargetType = TARGET_TYPE_PLAYER
-                                            MapNPC(Y, X).Target = I
+                                            MapNPC(y, x).TargetType = TARGET_TYPE_PLAYER
+                                            MapNPC(y, x).Target = i
                                         End If
                                     End If
                                 End If
@@ -674,54 +674,54 @@ Dim DidWalk As Boolean
                 ' // This is used for NPC walking/targetting //
                 ' /////////////////////////////////////////////
                 ' Make sure theres a npc with the map
-                If Map(Y).NPC(X) > 0 And MapNPC(Y, X).num > 0 Then
-                    Target = MapNPC(Y, X).Target
+                If Map(y).NPC(x) > 0 And MapNPC(y, x).num > 0 Then
+                    Target = MapNPC(y, x).Target
 
                     ' Check to see if its time for the npc to walk
                     If NPC(npcnum).Behavior <> NPC_BEHAVIOR_SHOPKEEPER And NPC(npcnum).standstill = False Then
 
                         ' Check to see if we are following a player or not
                         If Target > 0 Then
-                            If MapNPC(Y, X).TargetType = TARGET_TYPE_PLAYER Then
+                            If MapNPC(y, x).TargetType = TARGET_TYPE_PLAYER Then
 
                                 ' Check if the player is even playing, if so follow'm
-                                If IsPlaying(Target) And GetPlayerMap(Target) = Y Then
+                                If IsPlaying(Target) And GetPlayerMap(Target) = y Then
                                     DidWalk = False
-                                    I = Int(Rnd * 5)
+                                    i = Int(Rnd * 5)
 
                                     ' Lets move the npc
-                                    Select Case I
+                                    Select Case i
 
                                         Case 0
 
                                             ' Up
-                                            If MapNPC(Y, X).Y > GetPlayerY(Target) And DidWalk = False Then
-                                                If CanNpcMove(Y, X, DIR_UP) Then
-                                                    Call NpcMove(Y, X, DIR_UP, MOVING_WALKING)
+                                            If MapNPC(y, x).y > GetPlayerY(Target) And DidWalk = False Then
+                                                If CanNpcMove(y, x, DIR_UP) Then
+                                                    Call NpcMove(y, x, DIR_UP, MOVING_WALKING)
                                                     DidWalk = True
                                                 End If
                                             End If
 
                                             ' Down
-                                            If MapNPC(Y, X).Y < GetPlayerY(Target) And DidWalk = False Then
-                                                If CanNpcMove(Y, X, DIR_DOWN) Then
-                                                    Call NpcMove(Y, X, DIR_DOWN, MOVING_WALKING)
+                                            If MapNPC(y, x).y < GetPlayerY(Target) And DidWalk = False Then
+                                                If CanNpcMove(y, x, DIR_DOWN) Then
+                                                    Call NpcMove(y, x, DIR_DOWN, MOVING_WALKING)
                                                     DidWalk = True
                                                 End If
                                             End If
 
                                             ' Left
-                                            If MapNPC(Y, X).X > GetPlayerX(Target) And DidWalk = False Then
-                                                If CanNpcMove(Y, X, DIR_LEFT) Then
-                                                    Call NpcMove(Y, X, DIR_LEFT, MOVING_WALKING)
+                                            If MapNPC(y, x).x > GetPlayerX(Target) And DidWalk = False Then
+                                                If CanNpcMove(y, x, DIR_LEFT) Then
+                                                    Call NpcMove(y, x, DIR_LEFT, MOVING_WALKING)
                                                     DidWalk = True
                                                 End If
                                             End If
 
                                             ' Right
-                                            If MapNPC(Y, X).X < GetPlayerX(Target) And DidWalk = False Then
-                                                If CanNpcMove(Y, X, DIR_RIGHT) Then
-                                                    Call NpcMove(Y, X, DIR_RIGHT, MOVING_WALKING)
+                                            If MapNPC(y, x).x < GetPlayerX(Target) And DidWalk = False Then
+                                                If CanNpcMove(y, x, DIR_RIGHT) Then
+                                                    Call NpcMove(y, x, DIR_RIGHT, MOVING_WALKING)
                                                     DidWalk = True
                                                 End If
                                             End If
@@ -729,33 +729,33 @@ Dim DidWalk As Boolean
                                         Case 1
 
                                             ' Right
-                                            If MapNPC(Y, X).X < GetPlayerX(Target) And DidWalk = False Then
-                                                If CanNpcMove(Y, X, DIR_RIGHT) Then
-                                                    Call NpcMove(Y, X, DIR_RIGHT, MOVING_WALKING)
+                                            If MapNPC(y, x).x < GetPlayerX(Target) And DidWalk = False Then
+                                                If CanNpcMove(y, x, DIR_RIGHT) Then
+                                                    Call NpcMove(y, x, DIR_RIGHT, MOVING_WALKING)
                                                     DidWalk = True
                                                 End If
                                             End If
 
                                             ' Left
-                                            If MapNPC(Y, X).X > GetPlayerX(Target) And DidWalk = False Then
-                                                If CanNpcMove(Y, X, DIR_LEFT) Then
-                                                    Call NpcMove(Y, X, DIR_LEFT, MOVING_WALKING)
+                                            If MapNPC(y, x).x > GetPlayerX(Target) And DidWalk = False Then
+                                                If CanNpcMove(y, x, DIR_LEFT) Then
+                                                    Call NpcMove(y, x, DIR_LEFT, MOVING_WALKING)
                                                     DidWalk = True
                                                 End If
                                             End If
 
                                             ' Down
-                                            If MapNPC(Y, X).Y < GetPlayerY(Target) And DidWalk = False Then
-                                                If CanNpcMove(Y, X, DIR_DOWN) Then
-                                                    Call NpcMove(Y, X, DIR_DOWN, MOVING_WALKING)
+                                            If MapNPC(y, x).y < GetPlayerY(Target) And DidWalk = False Then
+                                                If CanNpcMove(y, x, DIR_DOWN) Then
+                                                    Call NpcMove(y, x, DIR_DOWN, MOVING_WALKING)
                                                     DidWalk = True
                                                 End If
                                             End If
 
                                             ' Up
-                                            If MapNPC(Y, X).Y > GetPlayerY(Target) And DidWalk = False Then
-                                                If CanNpcMove(Y, X, DIR_UP) Then
-                                                    Call NpcMove(Y, X, DIR_UP, MOVING_WALKING)
+                                            If MapNPC(y, x).y > GetPlayerY(Target) And DidWalk = False Then
+                                                If CanNpcMove(y, x, DIR_UP) Then
+                                                    Call NpcMove(y, x, DIR_UP, MOVING_WALKING)
                                                     DidWalk = True
                                                 End If
                                             End If
@@ -763,33 +763,33 @@ Dim DidWalk As Boolean
                                         Case 2
 
                                             ' Down
-                                            If MapNPC(Y, X).Y < GetPlayerY(Target) And DidWalk = False Then
-                                                If CanNpcMove(Y, X, DIR_DOWN) Then
-                                                    Call NpcMove(Y, X, DIR_DOWN, MOVING_WALKING)
+                                            If MapNPC(y, x).y < GetPlayerY(Target) And DidWalk = False Then
+                                                If CanNpcMove(y, x, DIR_DOWN) Then
+                                                    Call NpcMove(y, x, DIR_DOWN, MOVING_WALKING)
                                                     DidWalk = True
                                                 End If
                                             End If
 
                                             ' Up
-                                            If MapNPC(Y, X).Y > GetPlayerY(Target) And DidWalk = False Then
-                                                If CanNpcMove(Y, X, DIR_UP) Then
-                                                    Call NpcMove(Y, X, DIR_UP, MOVING_WALKING)
+                                            If MapNPC(y, x).y > GetPlayerY(Target) And DidWalk = False Then
+                                                If CanNpcMove(y, x, DIR_UP) Then
+                                                    Call NpcMove(y, x, DIR_UP, MOVING_WALKING)
                                                     DidWalk = True
                                                 End If
                                             End If
 
                                             ' Right
-                                            If MapNPC(Y, X).X < GetPlayerX(Target) And DidWalk = False Then
-                                                If CanNpcMove(Y, X, DIR_RIGHT) Then
-                                                    Call NpcMove(Y, X, DIR_RIGHT, MOVING_WALKING)
+                                            If MapNPC(y, x).x < GetPlayerX(Target) And DidWalk = False Then
+                                                If CanNpcMove(y, x, DIR_RIGHT) Then
+                                                    Call NpcMove(y, x, DIR_RIGHT, MOVING_WALKING)
                                                     DidWalk = True
                                                 End If
                                             End If
 
                                             ' Left
-                                            If MapNPC(Y, X).X > GetPlayerX(Target) And DidWalk = False Then
-                                                If CanNpcMove(Y, X, DIR_LEFT) Then
-                                                    Call NpcMove(Y, X, DIR_LEFT, MOVING_WALKING)
+                                            If MapNPC(y, x).x > GetPlayerX(Target) And DidWalk = False Then
+                                                If CanNpcMove(y, x, DIR_LEFT) Then
+                                                    Call NpcMove(y, x, DIR_LEFT, MOVING_WALKING)
                                                     DidWalk = True
                                                 End If
                                             End If
@@ -797,33 +797,33 @@ Dim DidWalk As Boolean
                                         Case 3
 
                                             ' Left
-                                            If MapNPC(Y, X).X > GetPlayerX(Target) And DidWalk = False Then
-                                                If CanNpcMove(Y, X, DIR_LEFT) Then
-                                                    Call NpcMove(Y, X, DIR_LEFT, MOVING_WALKING)
+                                            If MapNPC(y, x).x > GetPlayerX(Target) And DidWalk = False Then
+                                                If CanNpcMove(y, x, DIR_LEFT) Then
+                                                    Call NpcMove(y, x, DIR_LEFT, MOVING_WALKING)
                                                     DidWalk = True
                                                 End If
                                             End If
 
                                             ' Right
-                                            If MapNPC(Y, X).X < GetPlayerX(Target) And DidWalk = False Then
-                                                If CanNpcMove(Y, X, DIR_RIGHT) Then
-                                                    Call NpcMove(Y, X, DIR_RIGHT, MOVING_WALKING)
+                                            If MapNPC(y, x).x < GetPlayerX(Target) And DidWalk = False Then
+                                                If CanNpcMove(y, x, DIR_RIGHT) Then
+                                                    Call NpcMove(y, x, DIR_RIGHT, MOVING_WALKING)
                                                     DidWalk = True
                                                 End If
                                             End If
 
                                             ' Up
-                                            If MapNPC(Y, X).Y > GetPlayerY(Target) And DidWalk = False Then
-                                                If CanNpcMove(Y, X, DIR_UP) Then
-                                                    Call NpcMove(Y, X, DIR_UP, MOVING_WALKING)
+                                            If MapNPC(y, x).y > GetPlayerY(Target) And DidWalk = False Then
+                                                If CanNpcMove(y, x, DIR_UP) Then
+                                                    Call NpcMove(y, x, DIR_UP, MOVING_WALKING)
                                                     DidWalk = True
                                                 End If
                                             End If
 
                                             ' Down
-                                            If MapNPC(Y, X).Y < GetPlayerY(Target) And DidWalk = False Then
-                                                If CanNpcMove(Y, X, DIR_DOWN) Then
-                                                    Call NpcMove(Y, X, DIR_DOWN, MOVING_WALKING)
+                                            If MapNPC(y, x).y < GetPlayerY(Target) And DidWalk = False Then
+                                                If CanNpcMove(y, x, DIR_DOWN) Then
+                                                    Call NpcMove(y, x, DIR_DOWN, MOVING_WALKING)
                                                     DidWalk = True
                                                 End If
                                             End If
@@ -831,90 +831,90 @@ Dim DidWalk As Boolean
 
                                     ' Check if we can't move and if player is behind something and if we can just switch dirs
                                     If Not DidWalk Then
-                                        If MapNPC(Y, X).X - 1 = GetPlayerX(Target) And MapNPC(Y, X).Y = GetPlayerY(Target) Then
-                                            If MapNPC(Y, X).Dir <> DIR_LEFT Then
-                                                Call NpcDir(Y, X, DIR_LEFT)
+                                        If MapNPC(y, x).x - 1 = GetPlayerX(Target) And MapNPC(y, x).y = GetPlayerY(Target) Then
+                                            If MapNPC(y, x).Dir <> DIR_LEFT Then
+                                                Call NpcDir(y, x, DIR_LEFT)
                                             End If
                                             DidWalk = True
                                         End If
 
-                                        If MapNPC(Y, X).X + 1 = GetPlayerX(Target) And MapNPC(Y, X).Y = GetPlayerY(Target) Then
-                                            If MapNPC(Y, X).Dir <> DIR_RIGHT Then
-                                                Call NpcDir(Y, X, DIR_RIGHT)
+                                        If MapNPC(y, x).x + 1 = GetPlayerX(Target) And MapNPC(y, x).y = GetPlayerY(Target) Then
+                                            If MapNPC(y, x).Dir <> DIR_RIGHT Then
+                                                Call NpcDir(y, x, DIR_RIGHT)
                                             End If
                                             DidWalk = True
                                         End If
 
-                                        If MapNPC(Y, X).X = GetPlayerX(Target) And MapNPC(Y, X).Y - 1 = GetPlayerY(Target) Then
-                                            If MapNPC(Y, X).Dir <> DIR_UP Then
-                                                Call NpcDir(Y, X, DIR_UP)
+                                        If MapNPC(y, x).x = GetPlayerX(Target) And MapNPC(y, x).y - 1 = GetPlayerY(Target) Then
+                                            If MapNPC(y, x).Dir <> DIR_UP Then
+                                                Call NpcDir(y, x, DIR_UP)
                                             End If
                                             DidWalk = True
                                         End If
 
-                                        If MapNPC(Y, X).X = GetPlayerX(Target) And MapNPC(Y, X).Y + 1 = GetPlayerY(Target) Then
-                                            If MapNPC(Y, X).Dir <> DIR_DOWN Then
-                                                Call NpcDir(Y, X, DIR_DOWN)
+                                        If MapNPC(y, x).x = GetPlayerX(Target) And MapNPC(y, x).y + 1 = GetPlayerY(Target) Then
+                                            If MapNPC(y, x).Dir <> DIR_DOWN Then
+                                                Call NpcDir(y, x, DIR_DOWN)
                                             End If
                                             DidWalk = True
                                         End If
 
                                         ' We could not move so player must be behind something, walk randomly.
                                         If Not DidWalk Then
-                                            I = Int(Rnd * 2)
+                                            i = Int(Rnd * 2)
 
-                                            If I = 1 Then
-                                                I = Int(Rnd * 4)
+                                            If i = 1 Then
+                                                i = Int(Rnd * 4)
 
-                                                If CanNpcMove(Y, X, I) Then
-                                                    Call NpcMove(Y, X, I, MOVING_WALKING)
+                                                If CanNpcMove(y, x, i) Then
+                                                    Call NpcMove(y, x, i, MOVING_WALKING)
                                                 End If
                                             End If
                                         End If
                                     End If
                                 Else
-                                    MapNPC(Y, X).Target = 0
+                                    MapNPC(y, x).Target = 0
                                 End If
                             Else
 
                                 ' Check if the pet is even playing, if so follow'm
-                                If IsPlaying(Target) And Player(Target).Pet.Map = Y Then
+                                If IsPlaying(Target) And Player(Target).Pet.Map = y Then
                                     DidWalk = False
-                                    I = Int(Rnd * 5)
+                                    i = Int(Rnd * 5)
 
                                     ' Lets move the npc
-                                    Select Case I
+                                    Select Case i
 
                                         Case 0
 
                                             ' Up
-                                            If MapNPC(Y, X).Y > Player(Target).Pet.Y And DidWalk = False Then
-                                                If CanNpcMove(Y, X, DIR_UP) Then
-                                                    Call NpcMove(Y, X, DIR_UP, MOVING_WALKING)
+                                            If MapNPC(y, x).y > Player(Target).Pet.y And DidWalk = False Then
+                                                If CanNpcMove(y, x, DIR_UP) Then
+                                                    Call NpcMove(y, x, DIR_UP, MOVING_WALKING)
                                                     DidWalk = True
                                                 End If
                                             End If
 
                                             ' Down
-                                            If MapNPC(Y, X).Y < Player(Target).Pet.Y And DidWalk = False Then
-                                                If CanNpcMove(Y, X, DIR_DOWN) Then
-                                                    Call NpcMove(Y, X, DIR_DOWN, MOVING_WALKING)
+                                            If MapNPC(y, x).y < Player(Target).Pet.y And DidWalk = False Then
+                                                If CanNpcMove(y, x, DIR_DOWN) Then
+                                                    Call NpcMove(y, x, DIR_DOWN, MOVING_WALKING)
                                                     DidWalk = True
                                                 End If
                                             End If
 
                                             ' Left
-                                            If MapNPC(Y, X).X > Player(Target).Pet.X And DidWalk = False Then
-                                                If CanNpcMove(Y, X, DIR_LEFT) Then
-                                                    Call NpcMove(Y, X, DIR_LEFT, MOVING_WALKING)
+                                            If MapNPC(y, x).x > Player(Target).Pet.x And DidWalk = False Then
+                                                If CanNpcMove(y, x, DIR_LEFT) Then
+                                                    Call NpcMove(y, x, DIR_LEFT, MOVING_WALKING)
                                                     DidWalk = True
                                                 End If
                                             End If
 
                                             ' Right
-                                            If MapNPC(Y, X).X < Player(Target).Pet.X And DidWalk = False Then
-                                                If CanNpcMove(Y, X, DIR_RIGHT) Then
-                                                    Call NpcMove(Y, X, DIR_RIGHT, MOVING_WALKING)
+                                            If MapNPC(y, x).x < Player(Target).Pet.x And DidWalk = False Then
+                                                If CanNpcMove(y, x, DIR_RIGHT) Then
+                                                    Call NpcMove(y, x, DIR_RIGHT, MOVING_WALKING)
                                                     DidWalk = True
                                                 End If
                                             End If
@@ -922,33 +922,33 @@ Dim DidWalk As Boolean
                                         Case 1
 
                                             ' Right
-                                            If MapNPC(Y, X).X < Player(Target).Pet.X And DidWalk = False Then
-                                                If CanNpcMove(Y, X, DIR_RIGHT) Then
-                                                    Call NpcMove(Y, X, DIR_RIGHT, MOVING_WALKING)
+                                            If MapNPC(y, x).x < Player(Target).Pet.x And DidWalk = False Then
+                                                If CanNpcMove(y, x, DIR_RIGHT) Then
+                                                    Call NpcMove(y, x, DIR_RIGHT, MOVING_WALKING)
                                                     DidWalk = True
                                                 End If
                                             End If
 
                                             ' Left
-                                            If MapNPC(Y, X).X > Player(Target).Pet.X And DidWalk = False Then
-                                                If CanNpcMove(Y, X, DIR_LEFT) Then
-                                                    Call NpcMove(Y, X, DIR_LEFT, MOVING_WALKING)
+                                            If MapNPC(y, x).x > Player(Target).Pet.x And DidWalk = False Then
+                                                If CanNpcMove(y, x, DIR_LEFT) Then
+                                                    Call NpcMove(y, x, DIR_LEFT, MOVING_WALKING)
                                                     DidWalk = True
                                                 End If
                                             End If
 
                                             ' Down
-                                            If MapNPC(Y, X).Y < Player(Target).Pet.Y And DidWalk = False Then
-                                                If CanNpcMove(Y, X, DIR_DOWN) Then
-                                                    Call NpcMove(Y, X, DIR_DOWN, MOVING_WALKING)
+                                            If MapNPC(y, x).y < Player(Target).Pet.y And DidWalk = False Then
+                                                If CanNpcMove(y, x, DIR_DOWN) Then
+                                                    Call NpcMove(y, x, DIR_DOWN, MOVING_WALKING)
                                                     DidWalk = True
                                                 End If
                                             End If
 
                                             ' Up
-                                            If MapNPC(Y, X).Y > Player(Target).Pet.Y And DidWalk = False Then
-                                                If CanNpcMove(Y, X, DIR_UP) Then
-                                                    Call NpcMove(Y, X, DIR_UP, MOVING_WALKING)
+                                            If MapNPC(y, x).y > Player(Target).Pet.y And DidWalk = False Then
+                                                If CanNpcMove(y, x, DIR_UP) Then
+                                                    Call NpcMove(y, x, DIR_UP, MOVING_WALKING)
                                                     DidWalk = True
                                                 End If
                                             End If
@@ -956,33 +956,33 @@ Dim DidWalk As Boolean
                                         Case 2
 
                                             ' Down
-                                            If MapNPC(Y, X).Y < Player(Target).Pet.Y And DidWalk = False Then
-                                                If CanNpcMove(Y, X, DIR_DOWN) Then
-                                                    Call NpcMove(Y, X, DIR_DOWN, MOVING_WALKING)
+                                            If MapNPC(y, x).y < Player(Target).Pet.y And DidWalk = False Then
+                                                If CanNpcMove(y, x, DIR_DOWN) Then
+                                                    Call NpcMove(y, x, DIR_DOWN, MOVING_WALKING)
                                                     DidWalk = True
                                                 End If
                                             End If
 
                                             ' Up
-                                            If MapNPC(Y, X).Y > Player(Target).Pet.Y And DidWalk = False Then
-                                                If CanNpcMove(Y, X, DIR_UP) Then
-                                                    Call NpcMove(Y, X, DIR_UP, MOVING_WALKING)
+                                            If MapNPC(y, x).y > Player(Target).Pet.y And DidWalk = False Then
+                                                If CanNpcMove(y, x, DIR_UP) Then
+                                                    Call NpcMove(y, x, DIR_UP, MOVING_WALKING)
                                                     DidWalk = True
                                                 End If
                                             End If
 
                                             ' Right
-                                            If MapNPC(Y, X).X < Player(Target).Pet.X And DidWalk = False Then
-                                                If CanNpcMove(Y, X, DIR_RIGHT) Then
-                                                    Call NpcMove(Y, X, DIR_RIGHT, MOVING_WALKING)
+                                            If MapNPC(y, x).x < Player(Target).Pet.x And DidWalk = False Then
+                                                If CanNpcMove(y, x, DIR_RIGHT) Then
+                                                    Call NpcMove(y, x, DIR_RIGHT, MOVING_WALKING)
                                                     DidWalk = True
                                                 End If
                                             End If
 
                                             ' Left
-                                            If MapNPC(Y, X).X > Player(Target).Pet.X And DidWalk = False Then
-                                                If CanNpcMove(Y, X, DIR_LEFT) Then
-                                                    Call NpcMove(Y, X, DIR_LEFT, MOVING_WALKING)
+                                            If MapNPC(y, x).x > Player(Target).Pet.x And DidWalk = False Then
+                                                If CanNpcMove(y, x, DIR_LEFT) Then
+                                                    Call NpcMove(y, x, DIR_LEFT, MOVING_WALKING)
                                                     DidWalk = True
                                                 End If
                                             End If
@@ -990,33 +990,33 @@ Dim DidWalk As Boolean
                                         Case 3
 
                                             ' Left
-                                            If MapNPC(Y, X).X > Player(Target).Pet.X And DidWalk = False Then
-                                                If CanNpcMove(Y, X, DIR_LEFT) Then
-                                                    Call NpcMove(Y, X, DIR_LEFT, MOVING_WALKING)
+                                            If MapNPC(y, x).x > Player(Target).Pet.x And DidWalk = False Then
+                                                If CanNpcMove(y, x, DIR_LEFT) Then
+                                                    Call NpcMove(y, x, DIR_LEFT, MOVING_WALKING)
                                                     DidWalk = True
                                                 End If
                                             End If
 
                                             ' Right
-                                            If MapNPC(Y, X).X < Player(Target).Pet.X And DidWalk = False Then
-                                                If CanNpcMove(Y, X, DIR_RIGHT) Then
-                                                    Call NpcMove(Y, X, DIR_RIGHT, MOVING_WALKING)
+                                            If MapNPC(y, x).x < Player(Target).Pet.x And DidWalk = False Then
+                                                If CanNpcMove(y, x, DIR_RIGHT) Then
+                                                    Call NpcMove(y, x, DIR_RIGHT, MOVING_WALKING)
                                                     DidWalk = True
                                                 End If
                                             End If
 
                                             ' Up
-                                            If MapNPC(Y, X).Y > Player(Target).Pet.Y And DidWalk = False Then
-                                                If CanNpcMove(Y, X, DIR_UP) Then
-                                                    Call NpcMove(Y, X, DIR_UP, MOVING_WALKING)
+                                            If MapNPC(y, x).y > Player(Target).Pet.y And DidWalk = False Then
+                                                If CanNpcMove(y, x, DIR_UP) Then
+                                                    Call NpcMove(y, x, DIR_UP, MOVING_WALKING)
                                                     DidWalk = True
                                                 End If
                                             End If
 
                                             ' Down
-                                            If MapNPC(Y, X).Y < Player(Target).Pet.Y And DidWalk = False Then
-                                                If CanNpcMove(Y, X, DIR_DOWN) Then
-                                                    Call NpcMove(Y, X, DIR_DOWN, MOVING_WALKING)
+                                            If MapNPC(y, x).y < Player(Target).Pet.y And DidWalk = False Then
+                                                If CanNpcMove(y, x, DIR_DOWN) Then
+                                                    Call NpcMove(y, x, DIR_DOWN, MOVING_WALKING)
                                                     DidWalk = True
                                                 End If
                                             End If
@@ -1024,59 +1024,59 @@ Dim DidWalk As Boolean
 
                                     ' Check if we can't move and if pet is behind something and if we can just switch dirs
                                     If Not DidWalk Then
-                                        If MapNPC(Y, X).X - 1 = Player(Target).Pet.X And MapNPC(Y, X).Y = Player(Target).Pet.Y Then
-                                            If MapNPC(Y, X).Dir <> DIR_LEFT Then
-                                                Call NpcDir(Y, X, DIR_LEFT)
+                                        If MapNPC(y, x).x - 1 = Player(Target).Pet.x And MapNPC(y, x).y = Player(Target).Pet.y Then
+                                            If MapNPC(y, x).Dir <> DIR_LEFT Then
+                                                Call NpcDir(y, x, DIR_LEFT)
                                             End If
                                             DidWalk = True
                                         End If
 
-                                        If MapNPC(Y, X).X + 1 = Player(Target).Pet.X And MapNPC(Y, X).Y = Player(Target).Pet.Y Then
-                                            If MapNPC(Y, X).Dir <> DIR_RIGHT Then
-                                                Call NpcDir(Y, X, DIR_RIGHT)
+                                        If MapNPC(y, x).x + 1 = Player(Target).Pet.x And MapNPC(y, x).y = Player(Target).Pet.y Then
+                                            If MapNPC(y, x).Dir <> DIR_RIGHT Then
+                                                Call NpcDir(y, x, DIR_RIGHT)
                                             End If
                                             DidWalk = True
                                         End If
 
-                                        If MapNPC(Y, X).X = Player(Target).Pet.X And MapNPC(Y, X).Y - 1 = Player(Target).Pet.Y Then
-                                            If MapNPC(Y, X).Dir <> DIR_UP Then
-                                                Call NpcDir(Y, X, DIR_UP)
+                                        If MapNPC(y, x).x = Player(Target).Pet.x And MapNPC(y, x).y - 1 = Player(Target).Pet.y Then
+                                            If MapNPC(y, x).Dir <> DIR_UP Then
+                                                Call NpcDir(y, x, DIR_UP)
                                             End If
                                             DidWalk = True
                                         End If
 
-                                        If MapNPC(Y, X).X = Player(Target).Pet.X And MapNPC(Y, X).Y + 1 = Player(Target).Pet.Y Then
-                                            If MapNPC(Y, X).Dir <> DIR_DOWN Then
-                                                Call NpcDir(Y, X, DIR_DOWN)
+                                        If MapNPC(y, x).x = Player(Target).Pet.x And MapNPC(y, x).y + 1 = Player(Target).Pet.y Then
+                                            If MapNPC(y, x).Dir <> DIR_DOWN Then
+                                                Call NpcDir(y, x, DIR_DOWN)
                                             End If
                                             DidWalk = True
                                         End If
 
                                         ' We could not move so pet must be behind something, walk randomly.
                                         If Not DidWalk Then
-                                            I = Int(Rnd * 2)
+                                            i = Int(Rnd * 2)
 
-                                            If I = 1 Then
-                                                I = Int(Rnd * 4)
+                                            If i = 1 Then
+                                                i = Int(Rnd * 4)
 
-                                                If CanNpcMove(Y, X, I) Then
-                                                    Call NpcMove(Y, X, I, MOVING_WALKING)
+                                                If CanNpcMove(y, x, i) Then
+                                                    Call NpcMove(y, x, i, MOVING_WALKING)
                                                 End If
                                             End If
                                         End If
                                     End If
                                 Else
-                                    MapNPC(Y, X).Target = 0
+                                    MapNPC(y, x).Target = 0
                                 End If
                             End If
                         Else
-                            I = Int(Rnd * 4)
+                            i = Int(Rnd * 4)
 
-                            If I = 1 Then
-                                I = Int(Rnd * 4)
+                            If i = 1 Then
+                                i = Int(Rnd * 4)
 
-                                If CanNpcMove(Y, X, I) Then
-                                    Call NpcMove(Y, X, I, MOVING_WALKING)
+                                If CanNpcMove(y, x, i) Then
+                                    Call NpcMove(y, x, i, MOVING_WALKING)
                                 End If
                             End If
                         End If
@@ -1087,25 +1087,25 @@ Dim DidWalk As Boolean
                 ' // This is used for npcs to attack players and pets //
                 ' //////////////////////////////////////////////////////
                 ' Make sure theres a npc with the map
-                If Map(Y).NPC(X) > 0 And MapNPC(Y, X).num > 0 Then
-                    Target = MapNPC(Y, X).Target
+                If Map(y).NPC(x) > 0 And MapNPC(y, x).num > 0 Then
+                    Target = MapNPC(y, x).Target
 
-                    If MapNPC(Y, X).TargetType <> TARGET_TYPE_LOCATION And MapNPC(Y, X).TargetType <> TARGET_TYPE_NPC Then
+                    If MapNPC(y, x).TargetType <> TARGET_TYPE_LOCATION And MapNPC(y, x).TargetType <> TARGET_TYPE_NPC Then
 
                         ' Check if the npc can attack the targeted player player
                         If Target > 0 Then
-                            If MapNPC(Y, X).TargetType = TARGET_TYPE_PLAYER Then
+                            If MapNPC(y, x).TargetType = TARGET_TYPE_PLAYER Then
 
                                 ' Is the target playing and on the same map?
-                                If IsPlaying(Target) And GetPlayerMap(Target) = Y Then
+                                If IsPlaying(Target) And GetPlayerMap(Target) = y Then
 
                                     ' Can the npc attack the player?
-                                    If CanNpcAttackPlayer(X, Target) Then
+                                    If CanNpcAttackPlayer(x, Target) Then
                                         If Not CanPlayerBlockHit(Target) Then
                                             Damage = NPC(npcnum).STR - GetPlayerProtection(Target) + (Rnd * 5) - 2
 
                                             If Damage > 0 Then
-                                                Call NpcAttackPlayer(X, Target, Damage)
+                                                Call NpcAttackPlayer(x, Target, Damage)
                                             Else
                                                 Call BattleMsg(Target, "" & Trim$(NPC(npcnum).Name) & " no puede hacerte daño!", BRIGHTBLUE, 1)
 
@@ -1129,25 +1129,25 @@ Dim DidWalk As Boolean
                                 Else
 
                                     ' Player left map or game, set target to 0
-                                    MapNPC(Y, X).Target = 0
+                                    MapNPC(y, x).Target = 0
                                 End If
                             Else
 
                                 ' Is the target playing and on the same map?
-                                If IsPlaying(Target) And Player(Target).Pet.Map = Y Then
+                                If IsPlaying(Target) And Player(Target).Pet.Map = y Then
 
                                     ' Can the npc attack the pet?
-                                    If CanNpcAttackPet(X, Target) Then
+                                    If CanNpcAttackPet(x, Target) Then
                                         Damage = NPC(npcnum).STR - Player(Target).Pet.Level + (Rnd * 5) - 2
 
                                         If Damage > 0 Then
-                                            Call NpcAttackPet(X, Target, Damage)
+                                            Call NpcAttackPet(x, Target, Damage)
                                         End If
                                     End If
                                 Else
 
                                     ' Pet left map or game, set target to 0
-                                    MapNPC(Y, X).Target = 0
+                                    MapNPC(y, x).Target = 0
                                 End If
                             End If
                         End If
@@ -1158,15 +1158,15 @@ Dim DidWalk As Boolean
                 ' // This is used for regenerating NPC's HP //
                 ' ////////////////////////////////////////////
                 ' Check to see if we want to regen some of the npc's hp
-                If MapNPC(Y, X).num > 0 And TickCount > GiveNPCHPTimer + 10000 Then
-                    If MapNPC(Y, X).HP > 0 Then
-                        MapNPC(Y, X).HP = MapNPC(Y, X).HP + GetNpcHPRegen(npcnum)
+                If MapNPC(y, x).num > 0 And TickCount > GiveNPCHPTimer + 10000 Then
+                    If MapNPC(y, x).HP > 0 Then
+                        MapNPC(y, x).HP = MapNPC(y, x).HP + GetNpcHPRegen(npcnum)
 
                         ' Check if they have more then they should and if so just set it to max
-                        If MapNPC(Y, X).HP > GetNpcMaxHP(npcnum) Then
-                            MapNPC(Y, X).HP = GetNpcMaxHP(npcnum)
+                        If MapNPC(y, x).HP > GetNpcMaxHP(npcnum) Then
+                            MapNPC(y, x).HP = GetNpcMaxHP(npcnum)
                         End If
-                        Call SendDataToMap(Y, "NPCHP" & SEP_CHAR & X & SEP_CHAR & MapNPC(Y, X).HP & SEP_CHAR & GetNpcMaxHP(MapNPC(Y, X).num) & SEP_CHAR & END_CHAR)
+                        Call SendDataToMap(y, "NPCHP" & SEP_CHAR & x & SEP_CHAR & MapNPC(y, x).HP & SEP_CHAR & GetNpcMaxHP(MapNPC(y, x).num) & SEP_CHAR & END_CHAR)
                     End If
                 End If
 
@@ -1184,17 +1184,17 @@ Dim DidWalk As Boolean
                 ' // This is used for spawning an NPC //
                 ' //////////////////////////////////////
                 ' Check if we are supposed to spawn an npc or not
-                If MapNPC(Y, X).num = 0 And Map(Y).NPC(X) > 0 Then
-                    If TickCount > MapNPC(Y, X).SpawnWait + (NPC(Map(Y).NPC(X)).SpawnSecs * 1000) Then
-                        Call SpawnNpc(X, Y)
+                If MapNPC(y, x).num = 0 And Map(y).NPC(x) > 0 Then
+                    If TickCount > MapNPC(y, x).SpawnWait + (NPC(Map(y).NPC(x)).SpawnSecs * 1000) Then
+                        Call SpawnNpc(x, y)
                     End If
                 End If
 
-                If MapNPC(Y, X).num > 0 Then
+                If MapNPC(y, x).num > 0 Then
 
                     ' If the NPC hasn't been fighting, why send it's HP?
-                    If GetTickCount < MapNPC(Y, X).LastAttack + 6000 Then
-                        Call SendDataToMap(Y, "NPCHP" & SEP_CHAR & X & SEP_CHAR & MapNPC(Y, X).HP & SEP_CHAR & GetNpcMaxHP(MapNPC(Y, X).num) & SEP_CHAR & END_CHAR)
+                    If GetTickCount < MapNPC(y, x).LastAttack + 6000 Then
+                        Call SendDataToMap(y, "NPCHP" & SEP_CHAR & x & SEP_CHAR & MapNPC(y, x).HP & SEP_CHAR & GetNpcMaxHP(MapNPC(y, x).num) & SEP_CHAR & END_CHAR)
                     End If
                 End If
             Next
@@ -1215,7 +1215,7 @@ Dim DidWalk As Boolean
     ' //////////////////////////////////////////////////////////
     ' // Used for moving pets (it took a while it get going!) //
     ' //////////////////////////////////////////////////////////
-    For X = 1 To MAX_PLAYERS
+    For x = 1 To MAX_PLAYERS
     
    ' If Player(x).CorpseMap > 0 Then
       '   If GetTickCount > CLng(Player(x).CorpseTimer + CLng((400000))) Then
@@ -1224,70 +1224,70 @@ Dim DidWalk As Boolean
        '  End If
        ' End If
 
-        If Player(X).Pet.Alive = YES Then
-            X1 = Player(X).Pet.X
-            Y1 = Player(X).Pet.Y
-            X2 = Player(X).Pet.XToGo
-            Y2 = Player(X).Pet.YToGo
+        If Player(x).Pet.Alive = YES Then
+            X1 = Player(x).Pet.x
+            Y1 = Player(x).Pet.y
+            X2 = Player(x).Pet.XToGo
+            Y2 = Player(x).Pet.YToGo
 
-            If Player(X).Pet.Target > 0 Then
-                If Player(X).Pet.TargetType = TARGET_TYPE_PLAYER Then
-If CanPetAttackPlayer(X, Player(X).Pet.Target) Then
-Damage = (Player(X).Pet.Level + GetPlayerSTR(X)) - GetPlayerProtection(Player(X).Pet.Target) + (Rnd * 20) - 5
+            If Player(x).Pet.Target > 0 Then
+                If Player(x).Pet.TargetType = TARGET_TYPE_PLAYER Then
+If CanPetAttackPlayer(x, Player(x).Pet.Target) Then
+Damage = (Player(x).Pet.Level + GetPlayerSTR(x)) - GetPlayerProtection(Player(x).Pet.Target) + (Rnd * 20) - 5
 
 If Damage > 0 Then
-Call PetAttackPlayer(X, Player(X).Pet.Target, Damage)
+Call PetAttackPlayer(x, Player(x).Pet.Target, Damage)
 X2 = X1
 Y2 = Y1
 End If
 
 Else
-X2 = GetPlayerX(Player(X).Pet.Target)
-Y2 = GetPlayerY(Player(X).Pet.Target)
+X2 = GetPlayerX(Player(x).Pet.Target)
+Y2 = GetPlayerY(Player(x).Pet.Target)
 End If
 End If
 
-                If Player(X).Pet.TargetType = TARGET_TYPE_NPC Then
-                    If CanPetAttackNpc(X, Player(X).Pet.Target) Then
-                        Damage = Player(X).Pet.STR - NPC(Player(X).Pet.Target).STR + (Rnd * 5) - 2
+                If Player(x).Pet.TargetType = TARGET_TYPE_NPC Then
+                    If CanPetAttackNpc(x, Player(x).Pet.Target) Then
+                        Damage = Player(x).Pet.STR - NPC(Player(x).Pet.Target).STR + (Rnd * 5) - 2
 
                         If Damage > 0 Then
-                            Call PetAttackNpc(X, Player(X).Pet.Target, Damage)
+                            Call PetAttackNpc(x, Player(x).Pet.Target, Damage)
                             X2 = X1
                             Y2 = Y1
                         End If
                     Else
-                        X2 = MapNPC(Player(X).Pet.Map, Player(X).Pet.Target).X
-                        Y2 = MapNPC(Player(X).Pet.Map, Player(X).Pet.Target).Y
+                        X2 = MapNPC(Player(x).Pet.Map, Player(x).Pet.Target).x
+                        Y2 = MapNPC(Player(x).Pet.Map, Player(x).Pet.Target).y
                     End If
                 End If
             Else
 
-                If Player(X).Pet.Map = GetPlayerMap(X) Or Player(X).Pet.MapToGo = 0 Then
-                    If Player(X).Pet.XToGo = -1 Or Player(X).Pet.YToGo = -1 Then
-                        I = Int(Rnd * 4)
+                If Player(x).Pet.Map = GetPlayerMap(x) Or Player(x).Pet.MapToGo = 0 Then
+                    If Player(x).Pet.XToGo = -1 Or Player(x).Pet.YToGo = -1 Then
+                        i = Int(Rnd * 4)
 
-                        If I = 1 Then
-                            I = Int(Rnd * 4)
+                        If i = 1 Then
+                            i = Int(Rnd * 4)
 
-                            If I = DIR_UP Then
+                            If i = DIR_UP Then
                                 Y2 = Y1 - 1
-                                X2 = Player(X).Pet.X
+                                X2 = Player(x).Pet.x
                             End If
 
-                            If I = DIR_DOWN Then
+                            If i = DIR_DOWN Then
                                 Y2 = Y1 + 1
-                                X2 = Player(X).Pet.X
+                                X2 = Player(x).Pet.x
                             End If
 
-                            If I = DIR_RIGHT Then
+                            If i = DIR_RIGHT Then
                                 X2 = X1 + 1
-                                Y2 = Player(X).Pet.Y
+                                Y2 = Player(x).Pet.y
                             End If
 
-                            If I = DIR_LEFT Then
+                            If i = DIR_LEFT Then
                                 X2 = X1 - 1
-                                Y2 = Player(X).Pet.Y
+                                Y2 = Player(x).Pet.y
                             End If
 
                             If Not IsValid(X2, Y2) Then
@@ -1305,30 +1305,30 @@ End If
                     End If
                 Else
 
-                    If Map(Player(X).Pet.Map).Up = Player(X).Pet.MapToGo Then
+                    If Map(Player(x).Pet.Map).Up = Player(x).Pet.MapToGo Then
                         Y2 = Y1 - 1
                     Else
 
-                        If Map(Player(X).Pet.Map).Down = Player(X).Pet.MapToGo Then
+                        If Map(Player(x).Pet.Map).Down = Player(x).Pet.MapToGo Then
                             Y2 = Y1 + 1
                         Else
 
-                            If Map(Player(X).Pet.Map).Left = Player(X).Pet.MapToGo Then
+                            If Map(Player(x).Pet.Map).Left = Player(x).Pet.MapToGo Then
                                 X2 = X1 - 1
                             Else
 
-                                If Map(Player(X).Pet.Map).Right = Player(X).Pet.MapToGo Then
+                                If Map(Player(x).Pet.Map).Right = Player(x).Pet.MapToGo Then
                                     X2 = X1 + 1
                                 Else
-                                    I = Int(Rnd * 4)
+                                    i = Int(Rnd * 4)
 
-                                    If I = 1 Then
-                                        I = Int(Rnd * 4)
+                                    If i = 1 Then
+                                        i = Int(Rnd * 4)
 
-                                        If I = DIR_UP Then Y2 = Y1 - 1
-                                        If I = DIR_DOWN Then Y2 = Y1 + 1
-                                        If I = DIR_RIGHT Then X2 = X1 + 1
-                                        If I = DIR_LEFT Then X2 = X1 - 1
+                                        If i = DIR_UP Then Y2 = Y1 - 1
+                                        If i = DIR_DOWN Then Y2 = Y1 + 1
+                                        If i = DIR_RIGHT Then X2 = X1 + 1
+                                        If i = DIR_LEFT Then X2 = X1 - 1
                                         If Not IsValid(X2, Y2) Then
                                             X2 = X1
                                             Y2 = Y1
@@ -1357,23 +1357,23 @@ End If
                     If X2 - X1 > Y2 - Y1 Then
 
                         ' RIGHT not down
-                        If CanPetMove(X, DIR_RIGHT) Then
+                        If CanPetMove(x, DIR_RIGHT) Then
 
                             ' RIGHT works
-                            Call PetMove(X, DIR_RIGHT, MOVING_WALKING)
+                            Call PetMove(x, DIR_RIGHT, MOVING_WALKING)
                         Else
 
-                            If CanPetMove(X, DIR_DOWN) Then
+                            If CanPetMove(x, DIR_DOWN) Then
 
                                 ' DOWN works and right doesn't
-                                Call PetMove(X, DIR_DOWN, MOVING_WALKING)
+                                Call PetMove(x, DIR_DOWN, MOVING_WALKING)
                             Else
 
                                 ' Nothing works, random time
-                                I = Int(Rnd * 4)
+                                i = Int(Rnd * 4)
 
-                                If CanPetMove(X, I) Then
-                                    Call PetMove(X, I, MOVING_WALKING)
+                                If CanPetMove(x, i) Then
+                                    Call PetMove(x, i, MOVING_WALKING)
                                 End If
                             End If
                         End If
@@ -1382,58 +1382,58 @@ End If
                         If X2 - X1 <> Y2 - Y1 Then
 
                             ' DOWN not right
-                            If CanPetMove(X, DIR_DOWN) Then
+                            If CanPetMove(x, DIR_DOWN) Then
 
                                 ' DOWN works
-                                Call PetMove(X, DIR_DOWN, MOVING_WALKING)
+                                Call PetMove(x, DIR_DOWN, MOVING_WALKING)
                             Else
 
-                                If CanPetMove(X, DIR_RIGHT) Then
+                                If CanPetMove(x, DIR_RIGHT) Then
 
                                     ' RIGHT works and down doesn't
-                                    Call PetMove(X, DIR_RIGHT, MOVING_WALKING)
+                                    Call PetMove(x, DIR_RIGHT, MOVING_WALKING)
                                 Else
 
                                     ' Nothing works, random time
-                                    I = Int(Rnd * 4)
+                                    i = Int(Rnd * 4)
 
-                                    If CanPetMove(X, I) Then
-                                        Call PetMove(X, I, MOVING_WALKING)
+                                    If CanPetMove(x, i) Then
+                                        Call PetMove(x, i, MOVING_WALKING)
                                     End If
                                 End If
                             End If
                         Else
 
                             ' Both are equal
-                            If CanPetMove(X, DIR_RIGHT) Then
+                            If CanPetMove(x, DIR_RIGHT) Then
 
                                 ' RIGHT works
-                                If CanPetMove(X, DIR_DOWN) Then
+                                If CanPetMove(x, DIR_DOWN) Then
 
                                     ' DOWN and RIGHT work
-                                    I = (Int(Rnd * 2) * 2) + 1
+                                    i = (Int(Rnd * 2) * 2) + 1
 
-                                    If CanPetMove(X, I) Then
-                                        Call PetMove(X, I, MOVING_WALKING)
+                                    If CanPetMove(x, i) Then
+                                        Call PetMove(x, i, MOVING_WALKING)
                                     End If
                                 Else
 
                                     ' RIGHT works only
-                                    Call PetMove(X, DIR_RIGHT, MOVING_WALKING)
+                                    Call PetMove(x, DIR_RIGHT, MOVING_WALKING)
                                 End If
                             Else
 
-                                If CanPetMove(X, DIR_DOWN) Then
+                                If CanPetMove(x, DIR_DOWN) Then
 
                                     ' DOWN works only
-                                    Call PetMove(X, DIR_DOWN, MOVING_WALKING)
+                                    Call PetMove(x, DIR_DOWN, MOVING_WALKING)
                                 Else
 
                                     ' Nothing works, random time
-                                    I = Int(Rnd * 4)
+                                    i = Int(Rnd * 4)
 
-                                    If CanPetMove(X, I) Then
-                                        Call PetMove(X, I, MOVING_WALKING)
+                                    If CanPetMove(x, i) Then
+                                        Call PetMove(x, i, MOVING_WALKING)
                                     End If
                                 End If
                             End If
@@ -1447,23 +1447,23 @@ End If
                         If X2 - X1 > Y1 - Y2 Then
 
                             ' RIGHT not up
-                            If CanPetMove(X, DIR_RIGHT) Then
+                            If CanPetMove(x, DIR_RIGHT) Then
 
                                 ' RIGHT works
-                                Call PetMove(X, DIR_RIGHT, MOVING_WALKING)
+                                Call PetMove(x, DIR_RIGHT, MOVING_WALKING)
                             Else
 
-                                If CanPetMove(X, DIR_UP) Then
+                                If CanPetMove(x, DIR_UP) Then
 
                                     ' UP works and right doesn't
-                                    Call PetMove(X, DIR_UP, MOVING_WALKING)
+                                    Call PetMove(x, DIR_UP, MOVING_WALKING)
                                 Else
 
                                     ' Nothing works, random time
-                                    I = Int(Rnd * 4)
+                                    i = Int(Rnd * 4)
 
-                                    If CanPetMove(X, I) Then
-                                        Call PetMove(X, I, MOVING_WALKING)
+                                    If CanPetMove(x, i) Then
+                                        Call PetMove(x, i, MOVING_WALKING)
                                     End If
                                 End If
                             End If
@@ -1472,58 +1472,58 @@ End If
                             If X2 - X1 <> Y1 - Y2 Then
 
                                 ' UP not right
-                                If CanPetMove(X, DIR_UP) Then
+                                If CanPetMove(x, DIR_UP) Then
 
                                     ' UP works
-                                    Call PetMove(X, DIR_UP, MOVING_WALKING)
+                                    Call PetMove(x, DIR_UP, MOVING_WALKING)
                                 Else
 
-                                    If CanPetMove(X, DIR_RIGHT) Then
+                                    If CanPetMove(x, DIR_RIGHT) Then
 
                                         ' RIGHT works and up doesn't
-                                        Call PetMove(X, DIR_RIGHT, MOVING_WALKING)
+                                        Call PetMove(x, DIR_RIGHT, MOVING_WALKING)
                                     Else
 
                                         ' Nothing works, random time
-                                        I = Int(Rnd * 4)
+                                        i = Int(Rnd * 4)
 
-                                        If CanPetMove(X, I) Then
-                                            Call PetMove(X, I, MOVING_WALKING)
+                                        If CanPetMove(x, i) Then
+                                            Call PetMove(x, i, MOVING_WALKING)
                                         End If
                                     End If
                                 End If
                             Else
 
                                 ' Both are equal
-                                If CanPetMove(X, DIR_RIGHT) Then
+                                If CanPetMove(x, DIR_RIGHT) Then
 
                                     ' RIGHT works
-                                    If CanPetMove(X, DIR_UP) Then
+                                    If CanPetMove(x, DIR_UP) Then
 
                                         ' UP and RIGHT work
-                                        I = Int(Rnd * 2) * 3
+                                        i = Int(Rnd * 2) * 3
 
-                                        If CanPetMove(X, I) Then
-                                            Call PetMove(X, I, MOVING_WALKING)
+                                        If CanPetMove(x, i) Then
+                                            Call PetMove(x, i, MOVING_WALKING)
                                         End If
                                     Else
 
                                         ' RIGHT works only
-                                        Call PetMove(X, DIR_RIGHT, MOVING_WALKING)
+                                        Call PetMove(x, DIR_RIGHT, MOVING_WALKING)
                                     End If
                                 Else
 
-                                    If CanPetMove(X, DIR_UP) Then
+                                    If CanPetMove(x, DIR_UP) Then
 
                                         ' UP works only
-                                        Call PetMove(X, DIR_UP, MOVING_WALKING)
+                                        Call PetMove(x, DIR_UP, MOVING_WALKING)
                                     Else
 
                                         ' Nothing works, random time
-                                        I = Int(Rnd * 4)
+                                        i = Int(Rnd * 4)
 
-                                        If CanPetMove(X, I) Then
-                                            Call PetMove(X, I, MOVING_WALKING)
+                                        If CanPetMove(x, i) Then
+                                            Call PetMove(x, i, MOVING_WALKING)
                                         End If
                                     End If
                                 End If
@@ -1532,35 +1532,35 @@ End If
                     Else
 
                         ' Target is horizontal
-                        If CanPetMove(X, DIR_RIGHT) Then
+                        If CanPetMove(x, DIR_RIGHT) Then
 
                             ' RIGHT works
-                            Call PetMove(X, DIR_RIGHT, MOVING_WALKING)
+                            Call PetMove(x, DIR_RIGHT, MOVING_WALKING)
                         Else
 
                             ' Right doesn't work
-                            If CanPetMove(X, DIR_UP) Then
-                                If CanPetMove(X, DIR_DOWN) Then
+                            If CanPetMove(x, DIR_UP) Then
+                                If CanPetMove(x, DIR_DOWN) Then
 
                                     ' UP and DOWN work
-                                    I = Int(Rnd * 2)
-                                    Call PetMove(X, I, MOVING_WALKING)
+                                    i = Int(Rnd * 2)
+                                    Call PetMove(x, i, MOVING_WALKING)
                                 Else
 
                                     ' Only UP works
-                                    Call PetMove(X, DIR_UP, MOVING_WALKING)
+                                    Call PetMove(x, DIR_UP, MOVING_WALKING)
                                 End If
                             Else
 
-                                If CanPetMove(X, DIR_DOWN) Then
+                                If CanPetMove(x, DIR_DOWN) Then
 
                                     ' Only DOWN works
-                                    Call PetMove(X, DIR_DOWN, MOVING_WALKING)
+                                    Call PetMove(x, DIR_DOWN, MOVING_WALKING)
                                 Else
 
                                     ' Nothing works, only left is left (heh)
-                                    If CanPetMove(X, DIR_LEFT) Then
-                                        Call PetMove(X, DIR_LEFT, MOVING_WALKING)
+                                    If CanPetMove(x, DIR_LEFT) Then
+                                        Call PetMove(x, DIR_LEFT, MOVING_WALKING)
                                     Else
 
                                         ' Nothing works at all, let it die
@@ -1581,23 +1581,23 @@ End If
                         If X1 - X2 > Y2 - Y1 Then
 
                             ' LEFT not down
-                            If CanPetMove(X, DIR_LEFT) Then
+                            If CanPetMove(x, DIR_LEFT) Then
 
                                 ' LEFT works
-                                Call PetMove(X, DIR_LEFT, MOVING_WALKING)
+                                Call PetMove(x, DIR_LEFT, MOVING_WALKING)
                             Else
 
-                                If CanPetMove(X, DIR_DOWN) Then
+                                If CanPetMove(x, DIR_DOWN) Then
 
                                     ' DOWN works and left doesn't
-                                    Call PetMove(X, DIR_DOWN, MOVING_WALKING)
+                                    Call PetMove(x, DIR_DOWN, MOVING_WALKING)
                                 Else
 
                                     ' Nothing works, random time
-                                    I = Int(Rnd * 4)
+                                    i = Int(Rnd * 4)
 
-                                    If CanPetMove(X, I) Then
-                                        Call PetMove(X, I, MOVING_WALKING)
+                                    If CanPetMove(x, i) Then
+                                        Call PetMove(x, i, MOVING_WALKING)
                                     End If
                                 End If
                             End If
@@ -1606,55 +1606,55 @@ End If
                             If X1 - X2 <> Y2 - Y1 Then
 
                                 ' DOWN not left
-                                If CanPetMove(X, DIR_DOWN) Then
+                                If CanPetMove(x, DIR_DOWN) Then
 
                                     ' DOWN works
-                                    Call PetMove(X, DIR_DOWN, MOVING_WALKING)
+                                    Call PetMove(x, DIR_DOWN, MOVING_WALKING)
                                 Else
 
-                                    If CanPetMove(X, DIR_LEFT) Then
+                                    If CanPetMove(x, DIR_LEFT) Then
 
                                         ' LEFT works and down doesn't
-                                        Call PetMove(X, DIR_LEFT, MOVING_WALKING)
+                                        Call PetMove(x, DIR_LEFT, MOVING_WALKING)
                                     Else
 
                                         ' Nothing works, random time
-                                        I = Int(Rnd * 4)
+                                        i = Int(Rnd * 4)
 
-                                        If CanPetMove(X, I) Then
-                                            Call PetMove(X, I, MOVING_WALKING)
+                                        If CanPetMove(x, i) Then
+                                            Call PetMove(x, i, MOVING_WALKING)
                                         End If
                                     End If
                                 End If
                             Else
 
                                 ' Both are equal
-                                If CanPetMove(X, DIR_LEFT) Then
+                                If CanPetMove(x, DIR_LEFT) Then
 
                                     ' LEFT works
-                                    If CanPetMove(X, DIR_DOWN) Then
+                                    If CanPetMove(x, DIR_DOWN) Then
 
                                         ' DOWN and LEFT work
-                                        I = Int(Rnd * 2) + 1
-                                        Call PetMove(X, I, MOVING_WALKING)
+                                        i = Int(Rnd * 2) + 1
+                                        Call PetMove(x, i, MOVING_WALKING)
                                     Else
 
                                         ' LEFT works only
-                                        Call PetMove(X, DIR_LEFT, MOVING_WALKING)
+                                        Call PetMove(x, DIR_LEFT, MOVING_WALKING)
                                     End If
                                 Else
 
-                                    If CanPetMove(X, DIR_DOWN) Then
+                                    If CanPetMove(x, DIR_DOWN) Then
 
                                         ' DOWN works only
-                                        Call PetMove(X, DIR_DOWN, MOVING_WALKING)
+                                        Call PetMove(x, DIR_DOWN, MOVING_WALKING)
                                     Else
 
                                         ' Nothing works, random time
-                                        I = Int(Rnd * 4)
+                                        i = Int(Rnd * 4)
 
-                                        If CanPetMove(X, I) Then
-                                            Call PetMove(X, I, MOVING_WALKING)
+                                        If CanPetMove(x, i) Then
+                                            Call PetMove(x, i, MOVING_WALKING)
                                         End If
                                     End If
                                 End If
@@ -1668,23 +1668,23 @@ End If
                             If X1 - X2 > Y1 - Y2 Then
 
                                 ' LEFT not up
-                                If CanPetMove(X, DIR_LEFT) Then
+                                If CanPetMove(x, DIR_LEFT) Then
 
                                     ' LEFT works
-                                    Call PetMove(X, DIR_LEFT, MOVING_WALKING)
+                                    Call PetMove(x, DIR_LEFT, MOVING_WALKING)
                                 Else
 
-                                    If CanPetMove(X, DIR_UP) Then
+                                    If CanPetMove(x, DIR_UP) Then
 
                                         ' UP works and left doesn't
-                                        Call PetMove(X, DIR_UP, MOVING_WALKING)
+                                        Call PetMove(x, DIR_UP, MOVING_WALKING)
                                     Else
 
                                         ' Nothing works, random time
-                                        I = Int(Rnd * 4)
+                                        i = Int(Rnd * 4)
 
-                                        If CanPetMove(X, I) Then
-                                            Call PetMove(X, I, MOVING_WALKING)
+                                        If CanPetMove(x, i) Then
+                                            Call PetMove(x, i, MOVING_WALKING)
                                         End If
                                     End If
                                 End If
@@ -1693,55 +1693,55 @@ End If
                                 If X1 - X2 <> Y1 - Y2 Then
 
                                     ' UP not LEFT
-                                    If CanPetMove(X, DIR_UP) Then
+                                    If CanPetMove(x, DIR_UP) Then
 
                                         ' UP works
-                                        Call PetMove(X, DIR_UP, MOVING_WALKING)
+                                        Call PetMove(x, DIR_UP, MOVING_WALKING)
                                     Else
 
-                                        If CanPetMove(X, DIR_LEFT) Then
+                                        If CanPetMove(x, DIR_LEFT) Then
 
                                             ' LEFT works and up doesn't
-                                            Call PetMove(X, DIR_LEFT, MOVING_WALKING)
+                                            Call PetMove(x, DIR_LEFT, MOVING_WALKING)
                                         Else
 
                                             ' Nothing works, random time
-                                            I = Int(Rnd * 4)
+                                            i = Int(Rnd * 4)
 
-                                            If CanPetMove(X, I) Then
-                                                Call PetMove(X, I, MOVING_WALKING)
+                                            If CanPetMove(x, i) Then
+                                                Call PetMove(x, i, MOVING_WALKING)
                                             End If
                                         End If
                                     End If
                                 Else
 
                                     ' Both are equal
-                                    If CanPetMove(X, DIR_LEFT) Then
+                                    If CanPetMove(x, DIR_LEFT) Then
 
                                         ' LEFT works
-                                        If CanPetMove(X, DIR_UP) Then
+                                        If CanPetMove(x, DIR_UP) Then
 
                                             ' UP and LEFT work
-                                            I = Int(Rnd * 2) * 2
-                                            Call PetMove(X, I, MOVING_WALKING)
+                                            i = Int(Rnd * 2) * 2
+                                            Call PetMove(x, i, MOVING_WALKING)
                                         Else
 
                                             ' LEFT works only
-                                            Call PetMove(X, DIR_LEFT, MOVING_WALKING)
+                                            Call PetMove(x, DIR_LEFT, MOVING_WALKING)
                                         End If
                                     Else
 
-                                        If CanPetMove(X, DIR_UP) Then
+                                        If CanPetMove(x, DIR_UP) Then
 
                                             ' UP works only
-                                            Call PetMove(X, DIR_UP, MOVING_WALKING)
+                                            Call PetMove(x, DIR_UP, MOVING_WALKING)
                                         Else
 
                                             ' Nothing works, random time
-                                            I = Int(Rnd * 4)
+                                            i = Int(Rnd * 4)
 
-                                            If CanPetMove(X, I) Then
-                                                Call PetMove(X, I, MOVING_WALKING)
+                                            If CanPetMove(x, i) Then
+                                                Call PetMove(x, i, MOVING_WALKING)
                                             End If
                                         End If
                                     End If
@@ -1750,41 +1750,41 @@ End If
                         Else
 
                             ' Target is horizontal
-                            If CanPetMove(X, DIR_LEFT) Then
+                            If CanPetMove(x, DIR_LEFT) Then
 
                                 ' LEFT works
-                                Call PetMove(X, DIR_LEFT, MOVING_WALKING)
+                                Call PetMove(x, DIR_LEFT, MOVING_WALKING)
                             Else
 
                                 ' LEFT doesn't work
-                                If CanPetMove(X, DIR_UP) Then
-                                    If CanPetMove(X, DIR_DOWN) Then
+                                If CanPetMove(x, DIR_UP) Then
+                                    If CanPetMove(x, DIR_DOWN) Then
 
                                         ' UP and DOWN work
-                                        I = Int(Rnd * 2)
-                                        Call PetMove(X, I, MOVING_WALKING)
+                                        i = Int(Rnd * 2)
+                                        Call PetMove(x, i, MOVING_WALKING)
                                     Else
 
                                         ' Only UP works
-                                        Call PetMove(X, DIR_UP, MOVING_WALKING)
+                                        Call PetMove(x, DIR_UP, MOVING_WALKING)
                                     End If
                                 Else
 
-                                    If CanPetMove(X, DIR_DOWN) Then
+                                    If CanPetMove(x, DIR_DOWN) Then
 
                                         ' Only DOWN works
-                                        Call PetMove(X, DIR_DOWN, MOVING_WALKING)
+                                        Call PetMove(x, DIR_DOWN, MOVING_WALKING)
                                     Else
 
                                         ' Nothing works, only right is left (heh)
-                                        If CanPetMove(X, DIR_RIGHT) Then
-                                            Call PetMove(X, DIR_RIGHT, MOVING_WALKING)
+                                        If CanPetMove(x, DIR_RIGHT) Then
+                                            Call PetMove(x, DIR_RIGHT, MOVING_WALKING)
                                         Else
 
                                             ' Nothing works at all, let it die
-                                            Player(X).Pet.MapToGo = Player(X).Pet.Map
-                                            Player(X).Pet.XToGo = -1
-                                            Player(X).Pet.YToGo = -1
+                                            Player(x).Pet.MapToGo = Player(x).Pet.Map
+                                            Player(x).Pet.XToGo = -1
+                                            Player(x).Pet.YToGo = -1
                                         End If
                                     End If
                                 End If
@@ -1797,39 +1797,39 @@ End If
                     If Y1 < Y2 Then
 
                         ' DOWN not up
-                        If CanPetMove(X, DIR_DOWN) Then
-                            Call PetMove(X, DIR_DOWN, MOVING_WALKING)
+                        If CanPetMove(x, DIR_DOWN) Then
+                            Call PetMove(x, DIR_DOWN, MOVING_WALKING)
                         Else
 
                             ' Down doesn't work
-                            If CanPetMove(X, DIR_RIGHT) Then
-                                If CanPetMove(X, DIR_LEFT) Then
+                            If CanPetMove(x, DIR_RIGHT) Then
+                                If CanPetMove(x, DIR_LEFT) Then
 
                                     ' RIGHT and LEFT work
-                                    I = Int((Rnd * 2) + 2)
-                                    Call PetMove(X, I, MOVING_WALKING)
+                                    i = Int((Rnd * 2) + 2)
+                                    Call PetMove(x, i, MOVING_WALKING)
                                 Else
 
                                     ' RIGHT works only
-                                    Call PetMove(X, DIR_RIGHT, MOVING_WALKING)
+                                    Call PetMove(x, DIR_RIGHT, MOVING_WALKING)
                                 End If
                             Else
 
-                                If CanPetMove(X, DIR_LEFT) Then
+                                If CanPetMove(x, DIR_LEFT) Then
 
                                     ' LEFT works only
-                                    Call PetMove(X, DIR_LEFT, MOVING_WALKING)
+                                    Call PetMove(x, DIR_LEFT, MOVING_WALKING)
                                 Else
 
                                     ' Nothing works, lets try up
-                                    If CanPetMove(X, DIR_UP) Then
-                                        Call PetMove(X, DIR_UP, MOVING_WALKING)
+                                    If CanPetMove(x, DIR_UP) Then
+                                        Call PetMove(x, DIR_UP, MOVING_WALKING)
                                     Else
 
                                         ' Nothing at all works, let it die
-                                        Player(X).Pet.MapToGo = Player(X).Pet.Map
-                                        Player(X).Pet.XToGo = -1
-                                        Player(X).Pet.YToGo = -1
+                                        Player(x).Pet.MapToGo = Player(x).Pet.Map
+                                        Player(x).Pet.XToGo = -1
+                                        Player(x).Pet.YToGo = -1
                                     End If
                                 End If
                             End If
@@ -1839,47 +1839,47 @@ End If
                         If Y1 <> Y2 Then
 
                             ' UP not down
-                            If CanPetMove(X, DIR_UP) Then
-                                Call PetMove(X, DIR_UP, MOVING_WALKING)
+                            If CanPetMove(x, DIR_UP) Then
+                                Call PetMove(x, DIR_UP, MOVING_WALKING)
                             Else
 
                                 ' UP doesn't work
-                                If CanPetMove(X, DIR_RIGHT) Then
-                                    If CanPetMove(X, DIR_LEFT) Then
+                                If CanPetMove(x, DIR_RIGHT) Then
+                                    If CanPetMove(x, DIR_LEFT) Then
 
                                         ' RIGHT and LEFT work
-                                        I = Int((Rnd * 2) + 2)
-                                        Call PetMove(X, I, MOVING_WALKING)
+                                        i = Int((Rnd * 2) + 2)
+                                        Call PetMove(x, i, MOVING_WALKING)
                                     Else
 
                                         ' RIGHT works only
-                                        Call PetMove(X, DIR_RIGHT, MOVING_WALKING)
+                                        Call PetMove(x, DIR_RIGHT, MOVING_WALKING)
                                     End If
                                 Else
 
-                                    If CanPetMove(X, DIR_LEFT) Then
+                                    If CanPetMove(x, DIR_LEFT) Then
 
                                         ' LEFT works only
-                                        Call PetMove(X, DIR_LEFT, MOVING_WALKING)
+                                        Call PetMove(x, DIR_LEFT, MOVING_WALKING)
                                     Else
 
                                         ' Nothing works, lets try down
-                                        If CanPetMove(X, DIR_DOWN) Then
-                                            Call PetMove(X, DIR_DOWN, MOVING_WALKING)
+                                        If CanPetMove(x, DIR_DOWN) Then
+                                            Call PetMove(x, DIR_DOWN, MOVING_WALKING)
                                         Else
 
                                             ' Nothing at all works, let it die
-                                            Player(X).Pet.MapToGo = Player(X).Pet.Map
-                                            Player(X).Pet.XToGo = -1
-                                            Player(X).Pet.YToGo = -1
+                                            Player(x).Pet.MapToGo = Player(x).Pet.Map
+                                            Player(x).Pet.XToGo = -1
+                                            Player(x).Pet.YToGo = -1
                                         End If
                                     End If
                                 End If
                             End If
                         Else
-                            Player(X).Pet.MapToGo = Player(X).Pet.Map
-                            Player(X).Pet.XToGo = -1
-                            Player(X).Pet.YToGo = -1
+                            Player(x).Pet.MapToGo = Player(x).Pet.Map
+                            Player(x).Pet.XToGo = -1
+                            Player(x).Pet.YToGo = -1
                         End If
                     End If
                 End If
@@ -1890,18 +1890,18 @@ End Sub
 
 
 Sub ScriptedTimer()
-    Dim X As Long, N As Long
+    Dim x As Long, N As Long
     Dim CustomTimer As clsCTimers
 
     N = 0
-    X = CTimers.Count
+    x = CTimers.Count
     For Each CustomTimer In CTimers
         N = N + 1
         If GetTickCount > CustomTimer.tmrWait Then
             MyScript.ExecuteStatement "Scripts\Main.txt", CustomTimer.Name ' & " " & Index & "," & PointType
-            If CTimers.Count < X Then
-                N = N - X - CTimers.Count
-                X = CTimers.Count
+            If CTimers.Count < x Then
+                N = N - x - CTimers.Count
+                x = CTimers.Count
             End If
             If N > 0 Then
                 CTimers.Item(N).tmrWait = GetTickCount + CustomTimer.Interval
@@ -1913,18 +1913,18 @@ Sub ScriptedTimer()
 End Sub
 
 Sub CheckGiveVitals()
-    Dim I As Long
+    Dim i As Long
 
     If HP_REGEN = 1 Then
         If GetTickCount >= GiveHPTimer + HP_TIMER Then
-            For I = 1 To MAX_PLAYERS
-                If IsPlaying(I) Then
-                    If GetPlayerHP(I) < GetPlayerMaxHP(I) Then
-                        Call SetPlayerHP(I, GetPlayerHP(I) + GetPlayerHPRegen(I))
-                        Call SendHP(I)
+            For i = 1 To MAX_PLAYERS
+                If IsPlaying(i) Then
+                    If GetPlayerHP(i) < GetPlayerMaxHP(i) Then
+                        Call SetPlayerHP(i, GetPlayerHP(i) + GetPlayerHPRegen(i))
+                        Call SendHP(i)
                     End If
                 End If
-            Next I
+            Next i
 
             GiveHPTimer = GetTickCount
         End If
@@ -1932,14 +1932,14 @@ Sub CheckGiveVitals()
 
     If MP_REGEN = 1 Then
         If GetTickCount >= GiveMPTimer + MP_TIMER Then
-            For I = 1 To MAX_PLAYERS
-                If IsPlaying(I) Then
-                    If GetPlayerMP(I) < GetPlayerMaxMP(I) Then
-                        Call SetPlayerMP(I, GetPlayerMP(I) + GetPlayerMPRegen(I))
-                        Call SendMP(I)
+            For i = 1 To MAX_PLAYERS
+                If IsPlaying(i) Then
+                    If GetPlayerMP(i) < GetPlayerMaxMP(i) Then
+                        Call SetPlayerMP(i, GetPlayerMP(i) + GetPlayerMPRegen(i))
+                        Call SendMP(i)
                     End If
                 End If
-            Next I
+            Next i
 
             GiveMPTimer = GetTickCount
         End If
@@ -1947,14 +1947,14 @@ Sub CheckGiveVitals()
 
     If SP_REGEN = 1 Then
         If GetTickCount >= GiveSPTimer + SP_TIMER Then
-            For I = 1 To MAX_PLAYERS
-                If IsPlaying(I) Then
-                    If GetPlayerSP(I) < GetPlayerMaxSP(I) Then
-                        Call SetPlayerSP(I, GetPlayerSP(I) + GetPlayerSPRegen(I))
-                        Call SendSP(I)
+            For i = 1 To MAX_PLAYERS
+                If IsPlaying(i) Then
+                    If GetPlayerSP(i) < GetPlayerMaxSP(i) Then
+                        Call SetPlayerSP(i, GetPlayerSP(i) + GetPlayerSPRegen(i))
+                        Call SendSP(i)
                     End If
                 End If
-            Next I
+            Next i
 
             GiveSPTimer = GetTickCount
         End If
@@ -1962,17 +1962,17 @@ Sub CheckGiveVitals()
 End Sub
 
 Sub PlayerSaveTimer()
-    Dim I As Long
+    Dim i As Long
 
     PLYRSAVE_TIMER = PLYRSAVE_TIMER + 1
 
     If SAVETIME <> 0 Then
         If PLYRSAVE_TIMER >= SAVETIME Then
-            For I = 1 To MAX_PLAYERS
-                If IsPlaying(I) Then
-                    Call SavePlayer(I)
+            For i = 1 To MAX_PLAYERS
+                If IsPlaying(i) Then
+                    Call SavePlayer(i)
                 End If
-            Next I
+            Next i
     
             PlayerI = 1
 

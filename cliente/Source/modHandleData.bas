@@ -3,11 +3,11 @@ Option Explicit
 
 Sub HandleData(ByVal data As String)
     Dim parse() As String
-    Dim name As String
+    Dim Name As String
     Dim Msg As String
     Dim Dir As Long
     Dim Level As Long
-    Dim I As Long, n As Long, X As Long, Y As Long, p As Long
+    Dim I As Long, n As Long, x As Long, y As Long, p As Long
     Dim shopNum As Long
     Dim z As Long
     Dim strfilename As String
@@ -73,8 +73,8 @@ Sub HandleData(ByVal data As String)
         
         Player(I).Pet.Alive = Val(parse(2))
         Player(I).Pet.Map = Val(parse(3))
-        Player(I).Pet.X = Val(parse(4))
-        Player(I).Pet.Y = Val(parse(5))
+        Player(I).Pet.x = Val(parse(4))
+        Player(I).Pet.y = Val(parse(5))
         Player(I).Pet.Dir = Val(parse(6))
         Player(I).Pet.Sprite = Val(parse(7))
         Player(I).Pet.HP = Val(parse(8))
@@ -92,7 +92,7 @@ Sub HandleData(ByVal data As String)
         Player(I).Pet.FP = Val(parse(20))
         Player(I).Pet.MaxFP = Val(parse(21))
         Player(I).Pet.Exp = Val(parse(22))
-        Player(I).Pet.name = parse(24)
+        Player(I).Pet.Name = parse(24)
         
         ' Make sure their pet isn't walking
         Player(I).Pet.Moving = 0
@@ -137,13 +137,13 @@ Sub HandleData(ByVal data As String)
     If casestring = "petmove" Then
     Dim Direction As Byte
         I = Val(parse(1))
-        X = Val(parse(2))
-        Y = Val(parse(3))
+        x = Val(parse(2))
+        y = Val(parse(3))
         Direction = Val(parse(4))
         n = Val(parse(5))
 
-        Player(I).Pet.X = X
-        Player(I).Pet.Y = Y
+        Player(I).Pet.x = x
+        Player(I).Pet.y = y
         Player(I).Pet.Dir = Direction
         Player(I).Pet.XOffset = 0
         Player(I).Pet.YOffset = 0
@@ -329,22 +329,22 @@ Sub HandleData(ByVal data As String)
 
             If SpriteSize = 1 Then
                 frmNewChar.iconn(0).Left = -Val(5 * PIC_X)
-                frmNewChar.iconn(0).top = -Val(PIC_Y - 15)
+                frmNewChar.iconn(0).Top = -Val(PIC_Y - 15)
 
                 frmNewChar.iconn(1).Left = -Val(5 * PIC_X)
-                frmNewChar.iconn(1).top = -Val(PIC_Y - 7)
+                frmNewChar.iconn(1).Top = -Val(PIC_Y - 7)
 
                 frmNewChar.iconn(2).Left = -Val(5 * PIC_X)
-                frmNewChar.iconn(2).top = -Val(PIC_Y + 3)
+                frmNewChar.iconn(2).Top = -Val(PIC_Y + 3)
             Else
                 frmNewChar.iconn(0).Left = -Val(5 * PIC_X)
-                frmNewChar.iconn(0).top = -Val(PIC_Y)
+                frmNewChar.iconn(0).Top = -Val(PIC_Y)
 
                 frmNewChar.iconn(1).Left = -Val(5 * PIC_X)
-                frmNewChar.iconn(1).top = -Val(PIC_Y)
+                frmNewChar.iconn(1).Top = -Val(PIC_Y)
 
                 frmNewChar.iconn(2).Left = -Val(5 * PIC_X)
-                frmNewChar.iconn(2).top = -Val(PIC_Y)
+                frmNewChar.iconn(2).Top = -Val(PIC_Y)
             End If
         End If
 
@@ -489,14 +489,14 @@ Sub HandleData(ByVal data As String)
         frmChars.lstChars.Clear
 
         For I = 1 To MAX_CHARS
-            name = parse(n)
+            Name = parse(n)
             Msg = parse(n + 1)
             Level = Val(parse(n + 2))
 
-            If Trim$(name) = vbNullString Then
+            If Trim$(Name) = vbNullString Then
                 frmChars.lstChars.addItem "Hueco Libre"
             Else
-                frmChars.lstChars.addItem name & " con nivel " & Level & " " & Msg
+                frmChars.lstChars.addItem Name & " con nivel " & Level & " " & Msg
             End If
 
             n = n + 3
@@ -552,7 +552,7 @@ Sub HandleData(ByVal data As String)
         n = n + 2
 
         For I = 0 To Max_Classes
-            Class(I).name = parse(n)
+            Class(I).Name = parse(n)
 
             Class(I).HP = Val(parse(n + 1))
             Class(I).MP = Val(parse(n + 2))
@@ -597,7 +597,7 @@ Sub HandleData(ByVal data As String)
         frmNewChar.cmbClass.Clear
         For I = 0 To Max_Classes
             If Class(I).Locked = 0 Then
-                frmNewChar.cmbClass.addItem Trim$(Class(I).name)
+                frmNewChar.cmbClass.addItem Trim$(Class(I).Name)
             End If
         Next I
         frmNewChar.cmbClass.ListIndex = 0
@@ -628,7 +628,7 @@ Sub HandleData(ByVal data As String)
 n = Val(parse(1))
 
 'Update the quest
-Quest(n).name = parse(2)
+Quest(n).Name = parse(2)
 Quest(n).After = parse(3)
 Quest(n).Before = parse(4)
 Quest(n).ClassIsReq = Val(parse(5))
@@ -729,7 +729,7 @@ End If
         n = n + 1
 
         For I = 0 To Max_Classes
-            Class(I).name = parse(n)
+            Class(I).Name = parse(n)
 
             Class(I).HP = Val(parse(n + 1))
             Class(I).MP = Val(parse(n + 2))
@@ -850,12 +850,12 @@ End If
         For I = 1 To MAX_INV
             If GetPlayerInvItemNum(MyIndex, I) > 0 Then
                 If Item(GetPlayerInvItemNum(MyIndex, I)).Type = ITEM_TYPE_CURRENCY Or Item(GetPlayerInvItemNum(MyIndex, I)).Stackable = 1 Then
-                    frmBank.lstInventory.addItem I & "> " & Trim$(Item(GetPlayerInvItemNum(MyIndex, I)).name) & " (" & GetPlayerInvItemValue(MyIndex, I) & ")"
+                    frmBank.lstInventory.addItem I & "> " & Trim$(Item(GetPlayerInvItemNum(MyIndex, I)).Name) & " (" & GetPlayerInvItemValue(MyIndex, I) & ")"
                 Else
                     If GetPlayerWeaponSlot(MyIndex) = I Or GetPlayerArmorSlot(MyIndex) = I Or GetPlayerHelmetSlot(MyIndex) = I Or GetPlayerShieldSlot(MyIndex) = I Or GetPlayerLegsSlot(MyIndex) = I Or GetPlayerRingSlot(MyIndex) = I Or GetPlayerNecklaceSlot(MyIndex) = I Then
-                        frmBank.lstInventory.addItem I & "> " & Trim$(Item(GetPlayerInvItemNum(MyIndex, I)).name) & " (equipado)"
+                        frmBank.lstInventory.addItem I & "> " & Trim$(Item(GetPlayerInvItemNum(MyIndex, I)).Name) & " (equipado)"
                     Else
-                        frmBank.lstInventory.addItem I & "> " & Trim$(Item(GetPlayerInvItemNum(MyIndex, I)).name)
+                        frmBank.lstInventory.addItem I & "> " & Trim$(Item(GetPlayerInvItemNum(MyIndex, I)).Name)
                     End If
                 End If
             Else
@@ -867,12 +867,12 @@ End If
         For I = 1 To MAX_BANK
             If GetPlayerBankItemNum(MyIndex, I) > 0 Then
                 If Item(GetPlayerBankItemNum(MyIndex, I)).Type = ITEM_TYPE_CURRENCY Or Item(GetPlayerBankItemNum(MyIndex, I)).Stackable = 1 Then
-                    frmBank.lstBank.addItem I & "> " & Trim$(Item(GetPlayerBankItemNum(MyIndex, I)).name) & " (" & GetPlayerBankItemValue(MyIndex, I) & ")"
+                    frmBank.lstBank.addItem I & "> " & Trim$(Item(GetPlayerBankItemNum(MyIndex, I)).Name) & " (" & GetPlayerBankItemValue(MyIndex, I) & ")"
                 Else
                     If GetPlayerWeaponSlot(MyIndex) = I Or GetPlayerArmorSlot(MyIndex) = I Or GetPlayerHelmetSlot(MyIndex) = I Or GetPlayerShieldSlot(MyIndex) = I Or GetPlayerLegsSlot(MyIndex) = I Or GetPlayerRingSlot(MyIndex) = I Or GetPlayerNecklaceSlot(MyIndex) = I Then
-                        frmBank.lstBank.addItem I & "> " & Trim$(Item(GetPlayerBankItemNum(MyIndex, I)).name) & " (equipado)"
+                        frmBank.lstBank.addItem I & "> " & Trim$(Item(GetPlayerBankItemNum(MyIndex, I)).Name) & " (equipado)"
                     Else
-                        frmBank.lstBank.addItem I & "> " & Trim$(Item(GetPlayerBankItemNum(MyIndex, I)).name)
+                        frmBank.lstBank.addItem I & "> " & Trim$(Item(GetPlayerBankItemNum(MyIndex, I)).Name)
                     End If
                 End If
             Else
@@ -992,8 +992,8 @@ End If
     If (casestring = "scriptbubble") Then
         ScriptBubble(Val(parse(1))).Text = Trim$(parse(2))
         ScriptBubble(Val(parse(1))).Map = Val(parse(3))
-        ScriptBubble(Val(parse(1))).X = Val(parse(4))
-        ScriptBubble(Val(parse(1))).Y = Val(parse(5))
+        ScriptBubble(Val(parse(1))).x = Val(parse(4))
+        ScriptBubble(Val(parse(1))).y = Val(parse(5))
         ScriptBubble(Val(parse(1))).Colour = Val(parse(6))
         ScriptBubble(Val(parse(1))).Created = GetTickCount()
         Exit Sub
@@ -1171,8 +1171,8 @@ End If
     ' ::::::::::::::::::::::::::::
     If (casestring = "playermove") Then
         I = Val(parse(1))
-        X = Val(parse(2))
-        Y = Val(parse(3))
+        x = Val(parse(2))
+        y = Val(parse(3))
         Dir = Val(parse(4))
         n = Val(parse(5))
 
@@ -1180,8 +1180,8 @@ End If
             Exit Sub
         End If
 
-        Call SetPlayerX(I, X)
-        Call SetPlayerY(I, Y)
+        Call SetPlayerX(I, x)
+        Call SetPlayerY(I, y)
         Call SetPlayerDir(I, Dir)
 
         Player(I).XOffset = 0
@@ -1208,13 +1208,13 @@ End If
     ' :::::::::::::::::::::::::
     If (casestring = "npcmove") Then
         I = Val(parse(1))
-        X = Val(parse(2))
-        Y = Val(parse(3))
+        x = Val(parse(2))
+        y = Val(parse(3))
         Dir = Val(parse(4))
         n = Val(parse(5))
 
-        MapNpc(I).X = X
-        MapNpc(I).Y = Y
+        MapNpc(I).x = x
+        MapNpc(I).y = y
         MapNpc(I).Dir = Dir
         MapNpc(I).XOffset = 0
         MapNpc(I).YOffset = 0
@@ -1287,11 +1287,11 @@ End If
     ' :::::::::::::::::::::::::::::::
     If (casestring = "playerxy") Then
         I = Val(parse(1))
-        X = Val(parse(2))
-        Y = Val(parse(3))
+        x = Val(parse(2))
+        y = Val(parse(3))
 
-        Call SetPlayerX(I, X)
-        Call SetPlayerY(I, Y)
+        Call SetPlayerX(I, x)
+        Call SetPlayerY(I, y)
 
         ' Make sure they aren't walking
         Player(I).Moving = 0
@@ -1344,10 +1344,10 @@ End If
         Call ClearTempTile
 
         ' Get map num
-        X = Val(parse(1))
+        x = Val(parse(1))
 
         ' Get revision
-        Y = Val(parse(2))
+        y = Val(parse(2))
         
         ' Close map editor if player leaves current map
         If InEditor Then
@@ -1361,13 +1361,13 @@ End If
         End If
         
 
-        If FileExists("mapas\map" & X & ".dat") Then
+        If FileExists("mapas\map" & x & ".dat") Then
             ' Check to see if the revisions match
-            If GetMapRevision(X) = Y Then
+            If GetMapRevision(x) = y Then
             ' We do so we dont need the map
 
                 ' Load the map
-                Call LoadMap(X)
+                Call LoadMap(x)
 
                 Call SendData("needmap" & SEP_CHAR & "no" & END_CHAR)
                 Exit Sub
@@ -1386,7 +1386,7 @@ End If
     If casestring = "mapdata" Then
         n = 1
 
-        Map(Val(parse(1))).name = parse(n + 1)
+        Map(Val(parse(1))).Name = parse(n + 1)
         Map(Val(parse(1))).Revision = Val(parse(n + 2))
         Map(Val(parse(1))).Moral = Val(parse(n + 3))
         Map(Val(parse(1))).Up = Val(parse(n + 4))
@@ -1402,44 +1402,44 @@ End If
 
         n = n + 14
 
-        For Y = 0 To MAX_MAPY
-            For X = 0 To MAX_MAPX
-                Map(Val(parse(1))).Tile(X, Y).Ground = Val(parse(n))
-                Map(Val(parse(1))).Tile(X, Y).mask = Val(parse(n + 1))
-                Map(Val(parse(1))).Tile(X, Y).Anim = Val(parse(n + 2))
-                Map(Val(parse(1))).Tile(X, Y).Mask2 = Val(parse(n + 3))
-                Map(Val(parse(1))).Tile(X, Y).M2Anim = Val(parse(n + 4))
-                Map(Val(parse(1))).Tile(X, Y).Fringe = Val(parse(n + 5))
-                Map(Val(parse(1))).Tile(X, Y).FAnim = Val(parse(n + 6))
-                Map(Val(parse(1))).Tile(X, Y).Fringe2 = Val(parse(n + 7))
-                Map(Val(parse(1))).Tile(X, Y).F2Anim = Val(parse(n + 8))
-                Map(Val(parse(1))).Tile(X, Y).Type = Val(parse(n + 9))
-                Map(Val(parse(1))).Tile(X, Y).Data1 = Val(parse(n + 10))
-                Map(Val(parse(1))).Tile(X, Y).Data2 = Val(parse(n + 11))
-                Map(Val(parse(1))).Tile(X, Y).Data3 = Val(parse(n + 12))
-                Map(Val(parse(1))).Tile(X, Y).String1 = parse(n + 13)
-                Map(Val(parse(1))).Tile(X, Y).String2 = parse(n + 14)
-                Map(Val(parse(1))).Tile(X, Y).String3 = parse(n + 15)
-                Map(Val(parse(1))).Tile(X, Y).Light = Val(parse(n + 16))
-                Map(Val(parse(1))).Tile(X, Y).GroundSet = Val(parse(n + 17))
-                Map(Val(parse(1))).Tile(X, Y).MaskSet = Val(parse(n + 18))
-                Map(Val(parse(1))).Tile(X, Y).AnimSet = Val(parse(n + 19))
-                Map(Val(parse(1))).Tile(X, Y).Mask2Set = Val(parse(n + 20))
-                Map(Val(parse(1))).Tile(X, Y).M2AnimSet = Val(parse(n + 21))
-                Map(Val(parse(1))).Tile(X, Y).FringeSet = Val(parse(n + 22))
-                Map(Val(parse(1))).Tile(X, Y).FAnimSet = Val(parse(n + 23))
-                Map(Val(parse(1))).Tile(X, Y).Fringe2Set = Val(parse(n + 24))
-                Map(Val(parse(1))).Tile(X, Y).F2AnimSet = Val(parse(n + 25))
+        For y = 0 To MAX_MAPY
+            For x = 0 To MAX_MAPX
+                Map(Val(parse(1))).Tile(x, y).Ground = Val(parse(n))
+                Map(Val(parse(1))).Tile(x, y).mask = Val(parse(n + 1))
+                Map(Val(parse(1))).Tile(x, y).Anim = Val(parse(n + 2))
+                Map(Val(parse(1))).Tile(x, y).Mask2 = Val(parse(n + 3))
+                Map(Val(parse(1))).Tile(x, y).M2Anim = Val(parse(n + 4))
+                Map(Val(parse(1))).Tile(x, y).Fringe = Val(parse(n + 5))
+                Map(Val(parse(1))).Tile(x, y).FAnim = Val(parse(n + 6))
+                Map(Val(parse(1))).Tile(x, y).Fringe2 = Val(parse(n + 7))
+                Map(Val(parse(1))).Tile(x, y).F2Anim = Val(parse(n + 8))
+                Map(Val(parse(1))).Tile(x, y).Type = Val(parse(n + 9))
+                Map(Val(parse(1))).Tile(x, y).Data1 = Val(parse(n + 10))
+                Map(Val(parse(1))).Tile(x, y).Data2 = Val(parse(n + 11))
+                Map(Val(parse(1))).Tile(x, y).Data3 = Val(parse(n + 12))
+                Map(Val(parse(1))).Tile(x, y).String1 = parse(n + 13)
+                Map(Val(parse(1))).Tile(x, y).String2 = parse(n + 14)
+                Map(Val(parse(1))).Tile(x, y).String3 = parse(n + 15)
+                Map(Val(parse(1))).Tile(x, y).Light = Val(parse(n + 16))
+                Map(Val(parse(1))).Tile(x, y).GroundSet = Val(parse(n + 17))
+                Map(Val(parse(1))).Tile(x, y).MaskSet = Val(parse(n + 18))
+                Map(Val(parse(1))).Tile(x, y).AnimSet = Val(parse(n + 19))
+                Map(Val(parse(1))).Tile(x, y).Mask2Set = Val(parse(n + 20))
+                Map(Val(parse(1))).Tile(x, y).M2AnimSet = Val(parse(n + 21))
+                Map(Val(parse(1))).Tile(x, y).FringeSet = Val(parse(n + 22))
+                Map(Val(parse(1))).Tile(x, y).FAnimSet = Val(parse(n + 23))
+                Map(Val(parse(1))).Tile(x, y).Fringe2Set = Val(parse(n + 24))
+                Map(Val(parse(1))).Tile(x, y).F2AnimSet = Val(parse(n + 25))
                 n = n + 26
-            Next X
-        Next Y
+            Next x
+        Next y
 
-        For X = 1 To 25
-            Map(Val(parse(1))).Npc(X) = Val(parse(n))
-            Map(Val(parse(1))).SpawnX(X) = Val(parse(n + 1))
-            Map(Val(parse(1))).SpawnY(X) = Val(parse(n + 2))
+        For x = 1 To 25
+            Map(Val(parse(1))).Npc(x) = Val(parse(n))
+            Map(Val(parse(1))).SpawnX(x) = Val(parse(n + 1))
+            Map(Val(parse(1))).SpawnY(x) = Val(parse(n + 2))
             n = n + 3
-        Next X
+        Next x
 
         ' Save the map
         Call SaveLocalMap(Val(parse(1)))
@@ -1466,53 +1466,53 @@ End If
 
     If casestring = "tilecheck" Then
         n = 5
-        X = Val(parse(2))
-        Y = Val(parse(3))
+        x = Val(parse(2))
+        y = Val(parse(3))
 
         Select Case Val(parse(4))
             Case 0
-                Map(Val(parse(1))).Tile(X, Y).Ground = Val(parse(n))
-                Map(Val(parse(1))).Tile(X, Y).GroundSet = Val(parse(n + 1))
+                Map(Val(parse(1))).Tile(x, y).Ground = Val(parse(n))
+                Map(Val(parse(1))).Tile(x, y).GroundSet = Val(parse(n + 1))
             Case 1
-                Map(Val(parse(1))).Tile(X, Y).mask = Val(parse(n))
-                Map(Val(parse(1))).Tile(X, Y).MaskSet = Val(parse(n + 1))
+                Map(Val(parse(1))).Tile(x, y).mask = Val(parse(n))
+                Map(Val(parse(1))).Tile(x, y).MaskSet = Val(parse(n + 1))
             Case 2
-                Map(Val(parse(1))).Tile(X, Y).Anim = Val(parse(n))
-                Map(Val(parse(1))).Tile(X, Y).AnimSet = Val(parse(n + 1))
+                Map(Val(parse(1))).Tile(x, y).Anim = Val(parse(n))
+                Map(Val(parse(1))).Tile(x, y).AnimSet = Val(parse(n + 1))
             Case 3
-                Map(Val(parse(1))).Tile(X, Y).Mask2 = Val(parse(n))
-                Map(Val(parse(1))).Tile(X, Y).Mask2Set = Val(parse(n + 1))
+                Map(Val(parse(1))).Tile(x, y).Mask2 = Val(parse(n))
+                Map(Val(parse(1))).Tile(x, y).Mask2Set = Val(parse(n + 1))
             Case 4
-                Map(Val(parse(1))).Tile(X, Y).M2Anim = Val(parse(n))
-                Map(Val(parse(1))).Tile(X, Y).M2AnimSet = Val(parse(n + 1))
+                Map(Val(parse(1))).Tile(x, y).M2Anim = Val(parse(n))
+                Map(Val(parse(1))).Tile(x, y).M2AnimSet = Val(parse(n + 1))
             Case 5
-                Map(Val(parse(1))).Tile(X, Y).Fringe = Val(parse(n))
-                Map(Val(parse(1))).Tile(X, Y).FringeSet = Val(parse(n + 1))
+                Map(Val(parse(1))).Tile(x, y).Fringe = Val(parse(n))
+                Map(Val(parse(1))).Tile(x, y).FringeSet = Val(parse(n + 1))
             Case 6
-                Map(Val(parse(1))).Tile(X, Y).FAnim = Val(parse(n))
-                Map(Val(parse(1))).Tile(X, Y).FAnimSet = Val(parse(n + 1))
+                Map(Val(parse(1))).Tile(x, y).FAnim = Val(parse(n))
+                Map(Val(parse(1))).Tile(x, y).FAnimSet = Val(parse(n + 1))
             Case 7
-                Map(Val(parse(1))).Tile(X, Y).Fringe2 = Val(parse(n))
-                Map(Val(parse(1))).Tile(X, Y).Fringe2Set = Val(parse(n + 1))
+                Map(Val(parse(1))).Tile(x, y).Fringe2 = Val(parse(n))
+                Map(Val(parse(1))).Tile(x, y).Fringe2Set = Val(parse(n + 1))
             Case 8
-                Map(Val(parse(1))).Tile(X, Y).F2Anim = Val(parse(n))
-                Map(Val(parse(1))).Tile(X, Y).F2AnimSet = Val(parse(n + 1))
+                Map(Val(parse(1))).Tile(x, y).F2Anim = Val(parse(n))
+                Map(Val(parse(1))).Tile(x, y).F2AnimSet = Val(parse(n + 1))
         End Select
         Call SaveLocalMap(Val(parse(1)))
     End If
 
     If casestring = "tilecheckattribute" Then
         n = 5
-        X = Val(parse(2))
-        Y = Val(parse(3))
+        x = Val(parse(2))
+        y = Val(parse(3))
 
-        Map(Val(parse(1))).Tile(X, Y).Type = Val(parse(n - 1))
-        Map(Val(parse(1))).Tile(X, Y).Data1 = Val(parse(n))
-        Map(Val(parse(1))).Tile(X, Y).Data2 = Val(parse(n + 1))
-        Map(Val(parse(1))).Tile(X, Y).Data3 = Val(parse(n + 2))
-        Map(Val(parse(1))).Tile(X, Y).String1 = parse(n + 3)
-        Map(Val(parse(1))).Tile(X, Y).String2 = parse(n + 4)
-        Map(Val(parse(1))).Tile(X, Y).String3 = parse(n + 5)
+        Map(Val(parse(1))).Tile(x, y).Type = Val(parse(n - 1))
+        Map(Val(parse(1))).Tile(x, y).Data1 = Val(parse(n))
+        Map(Val(parse(1))).Tile(x, y).Data2 = Val(parse(n + 1))
+        Map(Val(parse(1))).Tile(x, y).Data3 = Val(parse(n + 2))
+        Map(Val(parse(1))).Tile(x, y).String1 = parse(n + 3)
+        Map(Val(parse(1))).Tile(x, y).String2 = parse(n + 4)
+        Map(Val(parse(1))).Tile(x, y).String3 = parse(n + 5)
         Call SaveLocalMap(Val(parse(1)))
     End If
 
@@ -1524,10 +1524,10 @@ End If
 
         For I = 1 To MAX_MAP_ITEMS
             SaveMapItem(I).Num = Val(parse(n))
-            SaveMapItem(I).value = Val(parse(n + 1))
+            SaveMapItem(I).Value = Val(parse(n + 1))
             SaveMapItem(I).Dur = Val(parse(n + 2))
-            SaveMapItem(I).X = Val(parse(n + 3))
-            SaveMapItem(I).Y = Val(parse(n + 4))
+            SaveMapItem(I).x = Val(parse(n + 3))
+            SaveMapItem(I).y = Val(parse(n + 4))
 
             n = n + 5
         Next I
@@ -1543,8 +1543,8 @@ End If
 
         For I = 1 To 25
             SaveMapNpc(I).Num = Val(parse(n))
-            SaveMapNpc(I).X = Val(parse(n + 1))
-            SaveMapNpc(I).Y = Val(parse(n + 2))
+            SaveMapNpc(I).x = Val(parse(n + 1))
+            SaveMapNpc(I).y = Val(parse(n + 2))
             SaveMapNpc(I).Dir = Val(parse(n + 3))
 
             n = n + 4
@@ -1600,10 +1600,10 @@ End If
         n = Val(parse(1))
 
         MapItem(n).Num = Val(parse(2))
-        MapItem(n).value = Val(parse(3))
+        MapItem(n).Value = Val(parse(3))
         MapItem(n).Dur = Val(parse(4))
-        MapItem(n).X = Val(parse(5))
-        MapItem(n).Y = Val(parse(6))
+        MapItem(n).x = Val(parse(5))
+        MapItem(n).y = Val(parse(6))
         Exit Sub
     End If
 
@@ -1618,10 +1618,23 @@ End If
 
         ' Add the names
         For I = 1 To MAX_ITEMS
-            frmIndex.lstIndex.addItem I & ": " & Trim$(Item(I).name)
+            frmIndex.lstIndex.addItem I & ": " & Trim$(Item(I).Name)
         Next I
 
         frmIndex.lstIndex.ListIndex = 0
+        Exit Sub
+    End If
+    
+     ' ::::::::::::::::::::::::
+    ' :::Usar un libro/book:::
+    ' ::::::::::::::::::::::::
+    If (casestring = "BOOKDATA") Then
+        n = Val(parse(1))
+        Dim QueLeer As String
+
+        ' Que Lee El Usuario
+        QueLeer = Val(parse(2))
+        Call LeerLibro(n, QueLeer)
         Exit Sub
     End If
 
@@ -1632,7 +1645,7 @@ End If
         n = Val(parse(1))
 
         ' Update the item
-        Item(n).name = parse(2)
+        Item(n).Name = parse(2)
         Item(n).Pic = Val(parse(3))
         Item(n).Type = Val(parse(4))
         Item(n).Data1 = Val(parse(5))
@@ -1668,7 +1681,7 @@ End If
         n = Val(parse(1))
 
         ' Update the item
-        Item(n).name = parse(2)
+        Item(n).Name = parse(2)
         Item(n).Pic = Val(parse(3))
         Item(n).Type = Val(parse(4))
         Item(n).Data1 = Val(parse(5))
@@ -1731,8 +1744,8 @@ End If
         n = Val(parse(1))
 
         MapNpc(n).Num = Val(parse(2))
-        MapNpc(n).X = Val(parse(3))
-        MapNpc(n).Y = Val(parse(4))
+        MapNpc(n).x = Val(parse(3))
+        MapNpc(n).y = Val(parse(4))
         MapNpc(n).Dir = Val(parse(5))
         MapNpc(n).Big = Val(parse(6))
 
@@ -1772,7 +1785,7 @@ End If
 
         ' Add the names
         For I = 1 To MAX_NPCS
-            frmIndex.lstIndex.addItem I & ": " & Trim$(Npc(I).name)
+            frmIndex.lstIndex.addItem I & ": " & Trim$(Npc(I).Name)
         Next I
 
         frmIndex.lstIndex.ListIndex = 0
@@ -1786,7 +1799,7 @@ End If
         n = Val(parse(1))
 
         ' Update the item
-        Npc(n).name = parse(2)
+        Npc(n).Name = parse(2)
         Npc(n).AttackSay = vbNullString
         Npc(n).Sprite = Val(parse(3))
         Npc(n).SpriteSize = Val(parse(4))
@@ -1803,7 +1816,7 @@ End If
         n = Val(parse(1))
 
         ' Update the npc
-        Npc(n).name = parse(2)
+        Npc(n).Name = parse(2)
         Npc(n).AttackSay = parse(3)
         Npc(n).Sprite = Val(parse(4))
         Npc(n).SpawnSecs = Val(parse(5))
@@ -1842,11 +1855,11 @@ End If
     ' :: Map key packet ::
     ' ::::::::::::::::::::
     If (casestring = "mapkey") Then
-        X = Val(parse(1))
-        Y = Val(parse(2))
+        x = Val(parse(1))
+        y = Val(parse(2))
         n = Val(parse(3))
 
-        TempTile(X, Y).DoorOpen = n
+        TempTile(x, y).DoorOpen = n
 
         Exit Sub
     End If
@@ -1870,7 +1883,7 @@ End If
 
         ' Add the names
         For I = 1 To MAX_SHOPS
-            frmIndex.lstIndex.addItem I & ": " & Trim$(Shop(I).name)
+            frmIndex.lstIndex.addItem I & ": " & Trim$(Shop(I).Name)
         Next I
 
         frmIndex.lstIndex.ListIndex = 0
@@ -1884,7 +1897,7 @@ End If
         n = Val(parse(1))
 
         ' Update the shop name
-        Shop(n).name = parse(2)
+        Shop(n).Name = parse(2)
         Shop(n).FixesItems = Val(parse(3))
         Shop(n).BuysItems = Val(parse(4))
         Shop(n).ShowInfo = Val(parse(5))
@@ -1918,7 +1931,7 @@ End If
         shopNum = Val(parse(1))
 
         ' Update the shop
-        Shop(shopNum).name = parse(2)
+        Shop(shopNum).Name = parse(2)
         Shop(shopNum).FixesItems = Val(parse(3))
         Shop(shopNum).BuysItems = Val(parse(4))
         Shop(shopNum).ShowInfo = Val(parse(5))
@@ -1949,7 +1962,7 @@ End If
 
         ' Add the names
         For I = 1 To MAX_SPELLS
-            frmIndex.lstIndex.addItem I & ": " & Trim$(Spell(I).name)
+            frmIndex.lstIndex.addItem I & ": " & Trim$(Spell(I).Name)
         Next I
 
         frmIndex.lstIndex.ListIndex = 0
@@ -1963,7 +1976,7 @@ End If
         n = Val(parse(1))
 
         ' Update the spell name
-        Spell(n).name = parse(2)
+        Spell(n).Name = parse(2)
         Exit Sub
     End If
 
@@ -1974,7 +1987,7 @@ End If
         n = Val(parse(1))
 
         ' Update the spell
-        Spell(n).name = parse(2)
+        Spell(n).Name = parse(2)
         Spell(n).ClassReq = Val(parse(3))
         Spell(n).LevelReq = Val(parse(4))
         Spell(n).Type = Val(parse(5))
@@ -2021,7 +2034,7 @@ End If
         For I = 1 To MAX_PLAYER_SPELLS
             Player(MyIndex).Spell(I) = Val(parse(I))
             If Player(MyIndex).Spell(I) <> 0 Then
-                frmMirage.lstSpells.addItem I & ": " & Trim$(Spell(Player(MyIndex).Spell(I)).name)
+                frmMirage.lstSpells.addItem I & ": " & Trim$(Spell(Player(MyIndex).Spell(I)).Name)
             Else
                 frmMirage.lstSpells.addItem "-- Libre --"
             End If
@@ -2103,7 +2116,7 @@ End If
     ' :: image packet      ::
     ' :::::::::::::::::::::::
     If (LCase$(parse(0)) = "fog") Then
-        rec.top = Int(Val(parse(4)))
+        rec.Top = Int(Val(parse(4)))
         rec.Bottom = Int(Val(parse(5)))
         rec.Left = Int(Val(parse(6)))
         rec.Right = Int(Val(parse(7)))
@@ -2119,10 +2132,10 @@ End If
 
         n = 2
         z = Val(parse(1))
-        For X = n To (z + 1)
+        For x = n To (z + 1)
             frmMirage.lstOnline.addItem Trim$(parse(n))
             n = n + 2
-        Next X
+        Next x
         Exit Sub
     End If
 
@@ -2131,11 +2144,11 @@ End If
     ' ::::::::::::::::::::::::
     If casestring = "blitplayerdmg" Then
        
-        For X = 9 To 1 Step -1
-            iii(X) = iii(X - 1)
-            DmgDamage(X) = DmgDamage(X - 1)
-            NPCWho(X) = NPCWho(X - 1)
-            DmgTime(X) = DmgTime(X - 1)
+        For x = 9 To 1 Step -1
+            iii(x) = iii(x - 1)
+            DmgDamage(x) = DmgDamage(x - 1)
+            NPCWho(x) = NPCWho(x - 1)
+            DmgTime(x) = DmgTime(x - 1)
         Next
        
         DmgDamage(0) = Val(parse(1))
@@ -2150,10 +2163,10 @@ End If
     ' :::::::::::::::::::::
     If casestring = "blitnpcdmg" Then
        
-        For X = 9 To 1 Step -1
-            II(X) = II(X - 1)
-            NPCDmgDamage(X) = NPCDmgDamage(X - 1)
-            NPCDmgTime(X) = NPCDmgTime(X - 1)
+        For x = 9 To 1 Step -1
+            II(x) = II(x - 1)
+            NPCDmgDamage(x) = NPCDmgDamage(x - 1)
+            NPCDmgTime(x) = NPCDmgTime(x - 1)
         Next
        
         NPCDmgDamage(0) = Val(parse(1))
@@ -2255,7 +2268,7 @@ End If
     If casestring = "ppchatting" Then
         frmPlayerChat.txtChat.Text = vbNullString
         frmPlayerChat.txtSay.Text = vbNullString
-        frmPlayerChat.Label1.Caption = "" & Trim$(Player(Val(parse(1))).name)
+        frmPlayerChat.Label1.Caption = "" & Trim$(Player(Val(parse(1))).Name)
 
         frmPlayerChat.Show vbModeless, frmMirage
         Exit Sub
@@ -2434,7 +2447,7 @@ End If
         frmIndex.lstIndex.Clear
 
         For I = 0 To MAX_ELEMENTS
-            frmIndex.lstIndex.addItem I & ": " & Trim$(Element(I).name)
+            frmIndex.lstIndex.addItem I & ": " & Trim$(Element(I).Name)
         Next I
 
         frmIndex.lstIndex.ListIndex = 0
@@ -2444,7 +2457,7 @@ End If
     If (casestring = "editelement") Then
         n = Val(parse(1))
 
-        Element(n).name = parse(2)
+        Element(n).Name = parse(2)
         Element(n).Strong = Val(parse(3))
         Element(n).Weak = Val(parse(4))
 
@@ -2455,7 +2468,7 @@ End If
     If (casestring = "updateelement") Then
         n = Val(parse(1))
 
-        Element(n).name = parse(2)
+        Element(n).Name = parse(2)
         Element(n).Strong = Val(parse(3))
         Element(n).Weak = Val(parse(4))
         Exit Sub
@@ -2489,7 +2502,7 @@ End If
         frmIndex.lstIndex.Clear
 
         For I = 1 To MAX_ARROWS
-            frmIndex.lstIndex.addItem I & ": " & Trim$(Arrows(I).name)
+            frmIndex.lstIndex.addItem I & ": " & Trim$(Arrows(I).Name)
         Next I
 
         frmIndex.lstIndex.ListIndex = 0
@@ -2499,7 +2512,7 @@ End If
     If (casestring = "updatearrow") Then
         n = Val(parse(1))
 
-        Arrows(n).name = parse(2)
+        Arrows(n).Name = parse(2)
         Arrows(n).Pic = Val(parse(3))
         Arrows(n).Range = Val(parse(4))
         Arrows(n).Amount = Val(parse(5))
@@ -2509,7 +2522,7 @@ End If
     If (casestring = "editarrow") Then
         n = Val(parse(1))
 
-        Arrows(n).name = parse(2)
+        Arrows(n).Name = parse(2)
 
         Call ArrowEditorInit
         Exit Sub
@@ -2518,7 +2531,7 @@ End If
     If (casestring = "updatearrow") Then
         n = Val(parse(1))
 
-        Arrows(n).name = parse(2)
+        Arrows(n).Name = parse(2)
         Arrows(n).Pic = Val(parse(3))
         Arrows(n).Range = Val(parse(4))
         Arrows(n).Amount = Val(parse(5))
@@ -2572,7 +2585,7 @@ End If
             Player(n).HookShotX = GetPlayerX(n) - 1
             Player(n).HookShotY = GetPlayerY(n)
             If Player(n).HookShotX + 1 < 0 Then
-                Player(n).Arrow(X).Arrow = 0
+                Player(n).Arrow(x).Arrow = 0
                 Exit Sub
             End If
         End If
@@ -2584,53 +2597,53 @@ End If
         z = Val(parse(2))
         I = Val(parse(3))
 
-        For X = 1 To MAX_PLAYER_ARROWS
-            If Player(n).Arrow(X).Arrow = 0 Then
-                Player(n).Arrow(X).Arrow = 1
-                Player(n).Arrow(X).ArrowNum = z
-                Player(n).Arrow(X).ArrowAnim = Arrows(z).Pic
-                Player(n).Arrow(X).ArrowTime = GetTickCount
-                Player(n).Arrow(X).ArrowVarX = 0
-                Player(n).Arrow(X).ArrowVarY = 0
-                Player(n).Arrow(X).ArrowY = GetPlayerY(n)
-                Player(n).Arrow(X).ArrowX = GetPlayerX(n)
-                Player(n).Arrow(X).ArrowAmount = p
+        For x = 1 To MAX_PLAYER_ARROWS
+            If Player(n).Arrow(x).Arrow = 0 Then
+                Player(n).Arrow(x).Arrow = 1
+                Player(n).Arrow(x).ArrowNum = z
+                Player(n).Arrow(x).ArrowAnim = Arrows(z).Pic
+                Player(n).Arrow(x).ArrowTime = GetTickCount
+                Player(n).Arrow(x).ArrowVarX = 0
+                Player(n).Arrow(x).ArrowVarY = 0
+                Player(n).Arrow(x).ArrowY = GetPlayerY(n)
+                Player(n).Arrow(x).ArrowX = GetPlayerX(n)
+                Player(n).Arrow(x).ArrowAmount = p
 
                 If I = DIR_DOWN Then
-                    Player(n).Arrow(X).ArrowY = GetPlayerY(n) + 1
-                    Player(n).Arrow(X).ArrowPosition = 0
-                    If Player(n).Arrow(X).ArrowY - 1 > MAX_MAPY Then
-                        Player(n).Arrow(X).Arrow = 0
+                    Player(n).Arrow(x).ArrowY = GetPlayerY(n) + 1
+                    Player(n).Arrow(x).ArrowPosition = 0
+                    If Player(n).Arrow(x).ArrowY - 1 > MAX_MAPY Then
+                        Player(n).Arrow(x).Arrow = 0
                         Exit Sub
                     End If
                 End If
                 If I = DIR_UP Then
-                    Player(n).Arrow(X).ArrowY = GetPlayerY(n) - 1
-                    Player(n).Arrow(X).ArrowPosition = 1
-                    If Player(n).Arrow(X).ArrowY + 1 < 0 Then
-                        Player(n).Arrow(X).Arrow = 0
+                    Player(n).Arrow(x).ArrowY = GetPlayerY(n) - 1
+                    Player(n).Arrow(x).ArrowPosition = 1
+                    If Player(n).Arrow(x).ArrowY + 1 < 0 Then
+                        Player(n).Arrow(x).Arrow = 0
                         Exit Sub
                     End If
                 End If
                 If I = DIR_RIGHT Then
-                    Player(n).Arrow(X).ArrowX = GetPlayerX(n) + 1
-                    Player(n).Arrow(X).ArrowPosition = 2
-                    If Player(n).Arrow(X).ArrowX - 1 > MAX_MAPX Then
-                        Player(n).Arrow(X).Arrow = 0
+                    Player(n).Arrow(x).ArrowX = GetPlayerX(n) + 1
+                    Player(n).Arrow(x).ArrowPosition = 2
+                    If Player(n).Arrow(x).ArrowX - 1 > MAX_MAPX Then
+                        Player(n).Arrow(x).Arrow = 0
                         Exit Sub
                     End If
                 End If
                 If I = DIR_LEFT Then
-                    Player(n).Arrow(X).ArrowX = GetPlayerX(n) - 1
-                    Player(n).Arrow(X).ArrowPosition = 3
-                    If Player(n).Arrow(X).ArrowX + 1 < 0 Then
-                        Player(n).Arrow(X).Arrow = 0
+                    Player(n).Arrow(x).ArrowX = GetPlayerX(n) - 1
+                    Player(n).Arrow(x).ArrowPosition = 3
+                    If Player(n).Arrow(x).ArrowX + 1 < 0 Then
+                        Player(n).Arrow(x).Arrow = 0
                         Exit Sub
                     End If
                 End If
                 Exit For
             End If
-        Next X
+        Next x
         Exit Sub
     End If
 
@@ -2711,8 +2724,8 @@ End If
                 ScriptSpell(I).SpellDone = 0
                 ScriptSpell(I).SpellVar = 0
                 ScriptSpell(I).SpellTime = GetTickCount
-                ScriptSpell(I).X = Val(parse(5))
-                ScriptSpell(I).Y = Val(parse(6))
+                ScriptSpell(I).x = Val(parse(5))
+                ScriptSpell(I).y = Val(parse(6))
                 ScriptSpell(I).CastedSpell = YES
                 Exit For
             End If
@@ -2739,28 +2752,28 @@ End If
     If casestring = "damagedisplay" Then
         For I = 1 To MAX_BLT_LINE
             If Val(parse(1)) = 0 Then
-                If BattlePMsg(I).index <= 0 Then
-                    BattlePMsg(I).index = 1
+                If BattlePMsg(I).Index <= 0 Then
+                    BattlePMsg(I).Index = 1
                     BattlePMsg(I).Msg = parse(2)
                     BattlePMsg(I).color = Val(parse(3))
                     BattlePMsg(I).time = GetTickCount
                     BattlePMsg(I).Done = 1
-                    BattlePMsg(I).Y = 0
+                    BattlePMsg(I).y = 0
                     Exit Sub
                 Else
-                    BattlePMsg(I).Y = BattlePMsg(I).Y - 15
+                    BattlePMsg(I).y = BattlePMsg(I).y - 15
                 End If
             Else
-                If BattleMMsg(I).index <= 0 Then
-                    BattleMMsg(I).index = 1
+                If BattleMMsg(I).Index <= 0 Then
+                    BattleMMsg(I).Index = 1
                     BattleMMsg(I).Msg = parse(2)
                     BattleMMsg(I).color = Val(parse(3))
                     BattleMMsg(I).time = GetTickCount
                     BattleMMsg(I).Done = 1
-                    BattleMMsg(I).Y = 0
+                    BattleMMsg(I).y = 0
                     Exit Sub
                 Else
-                    BattleMMsg(I).Y = BattleMMsg(I).Y - 15
+                    BattleMMsg(I).y = BattleMMsg(I).y - 15
                 End If
             End If
         Next I
@@ -2769,41 +2782,41 @@ End If
         If Val(parse(1)) = 0 Then
             For I = 1 To MAX_BLT_LINE
                 If I < MAX_BLT_LINE Then
-                    If BattlePMsg(I).Y < BattlePMsg(I + 1).Y Then
+                    If BattlePMsg(I).y < BattlePMsg(I + 1).y Then
                         z = I
                     End If
                 Else
-                    If BattlePMsg(I).Y < BattlePMsg(1).Y Then
+                    If BattlePMsg(I).y < BattlePMsg(1).y Then
                         z = I
                     End If
                 End If
             Next I
 
-            BattlePMsg(z).index = 1
+            BattlePMsg(z).Index = 1
             BattlePMsg(z).Msg = parse(2)
             BattlePMsg(z).color = Val(parse(3))
             BattlePMsg(z).time = GetTickCount
             BattlePMsg(z).Done = 1
-            BattlePMsg(z).Y = 0
+            BattlePMsg(z).y = 0
         Else
             For I = 1 To MAX_BLT_LINE
                 If I < MAX_BLT_LINE Then
-                    If BattleMMsg(I).Y < BattleMMsg(I + 1).Y Then
+                    If BattleMMsg(I).y < BattleMMsg(I + 1).y Then
                         z = I
                     End If
                 Else
-                    If BattleMMsg(I).Y < BattleMMsg(1).Y Then
+                    If BattleMMsg(I).y < BattleMMsg(1).y Then
                         z = I
                     End If
                 End If
             Next I
 
-            BattleMMsg(z).index = 1
+            BattleMMsg(z).Index = 1
             BattleMMsg(z).Msg = parse(2)
             BattleMMsg(z).color = Val(parse(3))
             BattleMMsg(z).time = GetTickCount
             BattleMMsg(z).Done = 1
-            BattleMMsg(z).Y = 0
+            BattleMMsg(z).y = 0
         End If
         Exit Sub
     End If
@@ -2855,7 +2868,7 @@ End If
         CUSTOM_TITLE = parse(1)
         CUSTOM_IS_CLOSABLE = Val(parse(3))
 
-        frmCustom1.picBackground.top = 0
+        frmCustom1.picBackground.Top = 0
         frmCustom1.picBackground.Left = 0
         frmCustom1.picBackground = LoadPicture(App.Path & parse(2))
         frmCustom1.Height = PixelsToTwips(24 + frmCustom1.picBackground.Height, 1)
@@ -2890,7 +2903,7 @@ End If
 
         If FileExists(strfilename) = True Then
             frmCustom1.picCustom(CustomIndex) = LoadPicture(App.Path & strfilename)
-            frmCustom1.picCustom(CustomIndex).top = CustomY
+            frmCustom1.picCustom(CustomIndex).Top = CustomY
             frmCustom1.picCustom(CustomIndex).Left = CustomX
             frmCustom1.picCustom(CustomIndex).Visible = True
         Else
@@ -2915,7 +2928,7 @@ End If
         End If
 
         frmCustom1.BtnCustom(CustomIndex).Caption = strfilename
-        frmCustom1.BtnCustom(CustomIndex).top = CustomY
+        frmCustom1.BtnCustom(CustomIndex).Top = CustomY
         frmCustom1.BtnCustom(CustomIndex).Left = CustomX
         frmCustom1.BtnCustom(CustomIndex).Font.Bold = True
         frmCustom1.BtnCustom(CustomIndex).Font.Size = customsize
@@ -2948,10 +2961,10 @@ End If
         End If
 
         frmCustom1.txtCustom(CustomIndex).Text = customtext
-        frmCustom1.txtCustom(CustomIndex).top = CustomY
+        frmCustom1.txtCustom(CustomIndex).Top = CustomY
         frmCustom1.txtCustom(CustomIndex).Left = strfilename
         frmCustom1.txtCustom(CustomIndex).Width = CustomX - 32
-        frmCustom1.txtcustomOK(CustomIndex).top = CustomY
+        frmCustom1.txtcustomOK(CustomIndex).Top = CustomY
         frmCustom1.txtcustomOK(CustomIndex).Left = frmCustom1.txtCustom(CustomIndex).Left + frmCustom1.txtCustom(CustomIndex).Width
         frmCustom1.txtcustomOK(CustomIndex).Visible = True
         frmCustom1.txtCustom(CustomIndex).Visible = True
@@ -3021,7 +3034,7 @@ If (LCase(parse(0)) = "updatequest") Then
 n = Val(parse(1))
 
 'Update the quest
-Quest(n).name = parse(2)
+Quest(n).Name = parse(2)
 Quest(n).After = parse(3)
 Quest(n).Before = parse(4)
 Quest(n).ClassIsReq = Val(parse(5))
@@ -3044,7 +3057,7 @@ End If
 If (LCase(parse(0)) = "questprompt") Then
 Dim Awnser2 As Variant
         
-        Awnser2 = MsgBox(Quest(parse(1)).During, vbYesNo, Quest(parse(1)).name)
+        Awnser2 = MsgBox(Quest(parse(1)).During, vbYesNo, Quest(parse(1)).Name)
         
         If Awnser2 = 7 Then
             
@@ -3053,18 +3066,18 @@ Dim Awnser2 As Variant
             If HasItem(Quest(parse(1)).ItemReq, Quest(parse(1)).ItemVal) Then
                 Call SendData("questdone" & SEP_CHAR & parse(1) & SEP_CHAR & MyIndex & SEP_CHAR & parse(2) & SEP_CHAR & END_CHAR)
             Else
-                Call MsgBox(Quest(parse(1)).NotHasItem, vbInformation, Quest(parse(1)).name)
+                Call MsgBox(Quest(parse(1)).NotHasItem, vbInformation, Quest(parse(1)).Name)
             End If
         
         End If
 End If
 
     If (casestring = "playernewxy") Then
-        X = Val(parse(1))
-        Y = Val(parse(2))
+        x = Val(parse(1))
+        y = Val(parse(2))
 
-        If Not GetPlayerX(MyIndex) = X Then Call SetPlayerX(MyIndex, X)
-        If Not GetPlayerY(MyIndex) = Y Then Call SetPlayerY(MyIndex, Y)
+        If Not GetPlayerX(MyIndex) = x Then Call SetPlayerX(MyIndex, x)
+        If Not GetPlayerY(MyIndex) = y Then Call SetPlayerY(MyIndex, y)
 
         Exit Sub
     End If
@@ -3073,8 +3086,8 @@ End Sub
 Public Sub AddQuestText(ByVal Msg As String, ByVal color As Integer)
 Dim S As String
 Dim c As Long
-Dim filename As String
-filename = App.Path & "\Main\Config\config.ini"
+Dim FileName As String
+FileName = App.Path & "\Main\Config\config.ini"
   
     S = vbNewLine & Msg
     c = frmQuest.txtChat.SelStart

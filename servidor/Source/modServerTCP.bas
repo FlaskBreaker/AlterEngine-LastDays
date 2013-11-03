@@ -5,7 +5,7 @@ Sub SendPlayerNewXY(ByVal index As Long)
 End Sub
 
 Sub UpdateTitle()
-    frmServer.Caption = GAME_NAME & " - [AlterEngine | www.alterengine.net]"
+    frmServer.Caption = GAME_NAME & " - [AlterEngine | www.easee.es]"
 End Sub
 
 Sub UpdateTOP()
@@ -64,21 +64,21 @@ Function IsMultiAccounts(ByVal Login As String) As Boolean
 End Function
 
 Function IsBanned(ByVal IPAddr As String) As Boolean
-    Dim filename As String
+    Dim FileName As String
     Dim FileIP As String
     Dim FileID As Long
 
-    filename = App.Path & "\BanList.txt"
+    FileName = App.Path & "\BanList.txt"
 
     FileID = FreeFile
 
     ' Check if file exists
     If Not FileExists("BanList.txt") Then
-        Open filename For Output As #FileID
+        Open FileName For Output As #FileID
         Close #FileID
     End If
 
-    Open filename For Input As #FileID
+    Open FileName For Input As #FileID
         Do While Not EOF(FileID)
             Line Input #FileID, FileIP
     
@@ -589,6 +589,20 @@ Sub SendMapNpcsTo(ByVal index As Long, ByVal mapnum As Long)
     Packet = Packet & END_CHAR
 
     Call SendDataTo(index, Packet)
+End Sub
+
+Public Sub SendBookData(ByVal index, ByVal LibroID As Long)
+Dim Packet As String
+
+If index <= 0 Or index > MAX_PLAYERS Then
+    Exit Sub
+End If
+
+        Packet = "BOOKDATA" & SEP_CHAR
+        Packet = Packet & index & SEP_CHAR
+        Packet = Packet & LibroID & SEP_CHAR
+        Packet = Packet & END_CHAR
+        Call SendDataTo(index, Packet)
 End Sub
 
 Sub SendMapNpcsToMap(ByVal mapnum As Long)
