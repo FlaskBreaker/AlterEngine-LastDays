@@ -32,14 +32,14 @@ Public Const ADMIN_MAPPER = 2
 Public Const ADMIN_DEVELOPER = 3
 Public Const ADMIN_CREATOR = 4
 
-' AquÌ lo que se ejecuta cuando el servidor se inicia.
+' Aqu√≠ lo que se ejecuta cuando el servidor se inicia.
 Sub OnServerLoad()
 	GameName = GetVar("Configuracion.ini", "CONFIG", "GameName")
 	MAX_MAPS = GetVar("Configuracion.ini", "MAX", "MAX_MAPS")
 	MOTD = GetVar("MOTD.ini", "MOTD", "Msg")
 End Sub
 
-' AquÌ lo que se ejecuta cuando se recargan los scripts.
+' Aqu√≠ lo que se ejecuta cuando se recargan los scripts.
 Sub OnScriptReload()
 	GameName = GetVar("Configuracion.ini", "CONFIG", "GameName")
 	MAX_MAPS = GetVar("Configuracion.ini", "MAX", "MAX_MAPS")
@@ -51,7 +51,7 @@ Sub ChangeMOTD()
 	MOTD = GetVar("MOTD.ini", "MOTD", "Msg")
 End Sub
 
-' AquÌ lo que se ejecuta al crear un nuevo personaje.
+' Aqu√≠ lo que se ejecuta al crear un nuevo personaje.
 Sub OnNewChar(Index, CharNum)
 
 End Sub
@@ -65,7 +65,7 @@ Sub TimedEvent(Hours, Minutes, Seconds)
 	End If
 End Sub
 
-' AquÌ lo que se ejecuta cuando el jugador presiona la tecla CONTROL
+' Aqu√≠ lo que se ejecuta cuando el jugador presiona la tecla CONTROL
 Sub OnAttack(Index, Damage)
 	Dim Target
 
@@ -101,7 +101,7 @@ Sub PlayerHit(Index, NPCNum, Damage)
 	End If
 End Sub
 
-' AquÌ se ejecuta cuando el cliente presiona diferentes teclas.
+' Aqu√≠ se ejecuta cuando el cliente presiona diferentes teclas.
 Sub HotScript(Index, KeyID)
 	Select Case KeyID
 		' Tecla PaginaArriba
@@ -142,7 +142,7 @@ End If
 	End Select
 End Sub
 
-' AquÌ lo que se ejecuta cuando el jugador entra al juego.
+' Aqu√≠ lo que se ejecuta cuando el jugador entra al juego.
 Sub JoinGame(Index)
 	If GetPlayerAccess(Index) = 0 Then
 		Call GlobalMsg(GetPlayerName(Index) & " ha entrado en " & GameName & "!", GREY)
@@ -160,7 +160,7 @@ Sub JoinGame(Index)
 End Sub
 
 
-' AquÌ lo que se ejecuta cuando el jugador sale del juego.
+' Aqu√≠ lo que se ejecuta cuando el jugador sale del juego.
 Sub LeftGame(Index)
 	If GetPlayerAccess(Index) = 0 Then
 		Call GlobalMsg(GetPlayerName(Index) & " ha salido de " & GameName & "!", GREY)
@@ -169,7 +169,7 @@ Sub LeftGame(Index)
 	End If
 End Sub
 
-' AquÌ lo que se ejecuta cuando el jugador sube de nivel.
+' Aqu√≠ lo que se ejecuta cuando el jugador sube de nivel.
 Sub PlayerLevelUp(Index)
 	Dim TotalExp
 
@@ -184,7 +184,7 @@ Sub PlayerLevelUp(Index)
 	Call BattleMsg(Index, "Tienes " & GetPlayerPOINTS(Index) & " puntos de estado.", BRIGHTBLUE, 0)
 End Sub
 
-' AquÌ las funciones relativas a cuando el jugador usa los puntos de estado.
+' Aqu√≠ las funciones relativas a cuando el jugador usa los puntos de estado.
 Sub UsingStatPoints(Index, PointType)
 	Select Case PointType
 		Case 0
@@ -193,7 +193,7 @@ Sub UsingStatPoints(Index, PointType)
 				Exit Sub
 			End If
 			Call SetPlayerSTR(Index, GetPlayerSTR(Index) + 1)
-			Call BattleMsg(Index, "Has ganado m·s fuerza!", WHITE, 0)
+			Call BattleMsg(Index, "Has ganado m√°s fuerza!", WHITE, 0)
 
 		Case 1
 			If GetPlayerDEF(Index) + 1 > 1000 Then
@@ -201,7 +201,7 @@ Sub UsingStatPoints(Index, PointType)
 				Exit Sub
 			End If
 			Call SetPlayerDEF(Index, GetPlayerDEF(Index) + 1)
-			Call BattleMsg(Index, "Has ganado m·s defensa!", WHITE, 0)
+			Call BattleMsg(Index, "Has ganado m√°s defensa!", WHITE, 0)
 
 		Case 2
 			If GetPlayerMAGI(Index) + 1 > 1000 Then
@@ -209,7 +209,7 @@ Sub UsingStatPoints(Index, PointType)
 				Exit Sub
 			End If
 			Call SetPlayerMAGI(Index, GetPlayerMAGI(Index) + 1)
-			Call BattleMsg(Index, "Has ganado m·s magia!", WHITE, 0)
+			Call BattleMsg(Index, "Has ganado m√°s magia!", WHITE, 0)
 
 		Case 3
 			If GetPlayerSPEED(Index) + 1 > 1000 Then
@@ -217,14 +217,14 @@ Sub UsingStatPoints(Index, PointType)
 				Exit Sub
 			End If
 			Call SetPlayerSPEED(Index, GetPlayerSPEED(Index) + 1)
-			Call BattleMsg(Index, "Has ganado m·s velocidad!", WHITE, 0)
+			Call BattleMsg(Index, "Has ganado m√°s velocidad!", WHITE, 0)
 	End Select
 
 
 	Call SetPlayerPOINTS(Index, GetPlayerPOINTS(Index) - 1)
 End Sub
 
-' AquÌ lo relativo a cuando un jugador camina sobre un tile scripteado.
+' Aqu√≠ lo relativo a cuando un jugador camina sobre un tile scripteado.
 Sub ScriptedTile(Index, Script)
 	Select Case Script
 		Case 0
@@ -237,7 +237,7 @@ Sub ScriptedTile(Index, Script)
 	End Select
 End Sub
 
-' AquÌ lo relativo a cuando un jugador cliquea en una tile OnClick.
+' Aqu√≠ lo relativo a cuando un jugador cliquea en una tile OnClick.
 Sub OnClick(Index, Script)
 	Select Case Script
 		Case 0
@@ -273,7 +273,7 @@ Sub OnPVPDeath(Attacker, Victim)
 	Call GlobalMsg(GetPlayerName(Victim) & " ha sido asesinado por " & GetPlayerName(Attacker), BRIGHTRED)
 End Sub
 
-' AquÌ lo relativo a cuando otro jugador mata a otro en Arena.
+' Aqu√≠ lo relativo a cuando otro jugador mata a otro en Arena.
 Sub OnArenaDeath(Attacker, Victim)
 	Dim Map
 	Dim X
@@ -301,7 +301,7 @@ Sub OnArenaDeath(Attacker, Victim)
 	Call PlayerWarp(Victim, Data1, Data2, Data3)
 End Sub
 
-' AquÌ lo relativo a cuando un jugador ejecuta un hechizo scripteado.
+' Aqu√≠ lo relativo a cuando un jugador ejecuta un hechizo scripteado.
 Sub ScriptedSpell(Index, Script)
 	Select Case Script
 		Case 0
@@ -314,7 +314,7 @@ Sub ScriptedSpell(Index, Script)
 	End Select
 End Sub
 
-' Se ejecuta cuando un NPC hace una funciÛn scripteada.
+' Se ejecuta cuando un NPC hace una funci√≥n scripteada.
 Sub ScriptedNPC(Index, Script)
 	Select Case Script
 		Case 0			
@@ -322,7 +322,7 @@ Sub ScriptedNPC(Index, Script)
 	End Select
 End Sub
 
-' Se ejecuta cuando una acciÛn con barra (/) se lanza al servidor.
+' Se ejecuta cuando una acci√≥n con barra (/) se lanza al servidor.
 Sub Commands(Index)
 	Dim TextSay
 	Dim PlayerID
@@ -374,7 +374,7 @@ Sub Commands(Index)
 					Call PlayerWarp(Index, GetPlayerMap(PlayerID), GetPlayerX(PlayerID), GetPlayerY(PlayerID))
 					Call PlayerMsg(Index, "Has sido movido hasta " & GetPlayerName(PlayerID) & ".", BROWN)
 				Else
-					Call PlayerMsg(Index, "El jugador no est· conectado.", WHITE)
+					Call PlayerMsg(Index, "El jugador no est√° conectado.", WHITE)
 				End If
 			End If
 			Exit Sub
@@ -387,7 +387,7 @@ Sub Commands(Index)
 					Call PlayerWarp(PlayerID, GetPlayerMap(Index), GetPlayerX(Index), GetPlayerY(Index))
 					Call PlayerMsg(PlayerID, "Has sido movido hasta " & GetPlayerName(Index) & ".", BROWN)
 				Else
-					Call PlayerMsg(Index, "El jugador no est· conectado.", WHITE)
+					Call PlayerMsg(Index, "El jugador no est√° conectado.", WHITE)
 				End If
 			End If
 			Exit Sub
@@ -411,7 +411,7 @@ Sub Commands(Index)
 	Call PlayerMsg(Index, "Esto no es un comando valido.", BRIGHTRED)
 End Sub
 
-' AquÌ lo relativo a cuando un NPC muere y suelta los objetos.
+' Aqu√≠ lo relativo a cuando un NPC muere y suelta los objetos.
 Sub DropItems(Index)
 	' Elimina esto para activarlo
 	Exit Sub
@@ -466,7 +466,7 @@ Sub OnDeath(Index)
 	End If
 End Sub
 
-' AquÌ lo relativo al uso de objetos scripteados.
+' Aqu√≠ lo relativo al uso de objetos scripteados.
 Sub ScriptedItem(Index, Script)
 	Select Case Script
 		Case 0
@@ -562,7 +562,7 @@ Sub TestMain(Index)
 	Call PlayerMsg(Index, "Los scripts funcionan perfectamente.", BRIGHTGREEN)
 End Sub
 
-'En este sub se aÒadira todo lo relacionado a cuando clickeas encima de un jugador.
+'En este sub se a√±adira todo lo relacionado a cuando clickeas encima de un jugador.
 Sub OnClickPlayer(Index)
 
 End Sub
